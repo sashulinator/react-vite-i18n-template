@@ -4,7 +4,7 @@ export class InvalidRequestDataError extends InterruptedError {
   response: unknown
 
   constructor(originError: Error, data: unknown) {
-    super('Invalid Request Data', 'invalidServerResponse', originError)
+    super('Invalid Request Data', 'invalidRequestData', originError)
     this.response = data
   }
 }
