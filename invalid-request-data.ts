@@ -1,4 +1,4 @@
-import { InterruptedError } from '@/utils/interrupted-error'
+import { InterruptedError } from '@/utils/error/interrupted-error'
 
 export class InvalidRequestDataError extends InterruptedError {
   response: unknown
