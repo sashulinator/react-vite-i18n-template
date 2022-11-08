@@ -1,5 +1,5 @@
-import { Any } from '@/types/common'
 import { InterruptedError } from '@/utils/error/interrupted-error'
+import { Any } from '@/utils/types'
 
 export class InvalidServerResponseError extends InterruptedError {
   response: { url: string }

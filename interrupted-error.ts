@@ -1,6 +1,6 @@
 import { ErrorWithCode } from '@savchenko91/schema-validator'
 
-import { Any } from '@/types/common'
+import { Any } from '@/utils/types'
 
 export class InterruptedError extends ErrorWithCode {
   originError: Error
