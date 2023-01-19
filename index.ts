@@ -1,4 +1,5 @@
 export * from './assertions/error'
+export * from './base'
 export * from './is/causable'
 export * from './is/codable'
 export * from './is/error'
