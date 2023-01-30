@@ -1,28 +1,31 @@
-import React from 'react'
+import { FormEvent } from 'react'
+import { useNavigate } from 'react-router'
 
-// import { RequestData, useLogin } from '@/api/auth/login'
-// import history from '@/app/history'
-// import ROUTES from '@/constants/routes'
-// import tT from '@/constants/translation-schemas/t'
-// import toastRequestError from '@/lib/api/toast-request-error'
-// import { Button } from '@/shared/button'
-// import TextField from '@/shared/text-field'
+export default function LoginPage(): JSX.Element {
+  const navigate = useNavigate()
 
-export default function Login(): JSX.Element {
-  // const loginMutation = useLogin({
-  //   onError: (error) => toastRequestError(tT.errors.couldNotLogin, '', error),
-  //   onSuccess(response) {
-  //     localStorage.setItem('access_token', response.data.access_token)
-  //     localStorage.setItem('refresh_token', response.data.refresh_token)
-  //     history.push(ROUTES.main.path)
-  //   },
-  // })
+  return (
+    <main className='flex justify-center'>
+      <div style={{ backgroundColor: '#eee' }} className='flex items-center'>
+        <form onSubmit={onSubmit}>
+          <div className='w-20rem flex flex-col m-4'>
+            <label htmlFor='username'>Username</label>
+            <input id='username' name='username' />
+          </div>
+          <div className='w-20rem flex flex-col m-4'>
+            <label htmlFor='password'>Password</label>
+            <input id='password' name='password' />
+          </div>
+          <div className='w-20rem flex flex-col m-4'>
+            <button>Submit</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  )
 
-  // function onSubmit(data: RequestData) {
-  //   localStorage.removeItem('access_token')
-  //   localStorage.removeItem('refresh_token')
-  //   loginMutation.mutate(data)
-  // }
-
-  return <main>LoginPage</main>
+  function onSubmit(e: FormEvent) {
+    e.preventDefault()
+    navigate('/main')
+  }
 }
