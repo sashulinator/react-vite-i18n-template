@@ -1,5 +1,6 @@
 import react from '@vitejs/plugin-react-swc'
-
+import UnoCSS from 'unocss/vite'
+import presetWind from '@unocss/preset-wind'
 import path from 'path'
 import { defineConfig } from 'vite'
 import checker from 'vite-plugin-checker'
@@ -7,7 +8,15 @@ import checker from 'vite-plugin-checker'
 const vendors = [`react`, `react-dom`]
 
 export default defineConfig({
-  plugins: [react(), checker({ typescript: true })],
+  plugins: [
+    react(), 
+    checker({ typescript: true }),
+    UnoCSS({
+      presets: [
+        presetWind(),
+      ],
+    }),
+  ],
   build: {
     rollupOptions: {
       output: {
