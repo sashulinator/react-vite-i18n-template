@@ -17,25 +17,25 @@ describe(walk.name, () => {
     expect(iterations[0]).toEqual({
       value: 'aValue',
       key: 'a',
-      keyIndex: 0,
+      keys: ['a', 'b', 'c'],
       path: ['a'],
-      parent: dictionary,
+      parent: undefined,
       dictionary,
     })
     expect(iterations[1]).toEqual({
       value: 'bValue',
       key: 'b',
-      keyIndex: 1,
+      keys: ['a', 'b', 'c'],
       path: ['b'],
-      parent: dictionary,
+      parent: undefined,
       dictionary,
     })
     expect(iterations[2]).toEqual({
       value: 'cValue',
       key: 'c',
-      keyIndex: 2,
+      keys: ['a', 'b', 'c'],
       path: ['c'],
-      parent: dictionary,
+      parent: undefined,
       dictionary,
     })
   })
