@@ -6,8 +6,9 @@
   "author": "Savchenko Alexander",
   "license": "UNLICENSED",
   "scripts": {
-    "dev": "webpack serve --config webpack/webpack.config.js --env env=dev",
-    "build": "webpack --config webpack/webpack.config.js --env env=prod",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
     "lint": "eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
     "format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "test": "jest"
@@ -15,7 +16,8 @@
   "dependencies": {
     "@types/qs": "6.9.7",
     "@types/react-dom": "18.0.10",
-    "@types/react-router-dom": "^5.3.3",
+    "@types/react-router-dom": "5.3.3",
+    "@vitejs/plugin-react-swc": "3.0.1",
     "axios": "0.27.2",
     "clsx": "1.2.1",
     "color": "4.2.3",
@@ -28,8 +30,10 @@
     "react-dom": "18.2.0",
     "react-i18next": "11.15.3",
     "react-query": "3.39.3",
-    "react-router-dom": "^6.8.0",
-    "typescript": "4.9.4"
+    "react-router-dom": "6.8.0",
+    "typescript": "4.9.4",
+    "vite": "4.0.4",
+    "vite-plugin-checker": "^0.5.5"
   },
   "devDependencies": {
     "@babel/core": "7.12.16",
