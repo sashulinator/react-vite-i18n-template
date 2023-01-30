@@ -1,1 +1,1 @@
-export type Key = string | number
+export type Key = string | number | symbol
