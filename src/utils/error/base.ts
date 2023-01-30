@@ -1,7 +1,6 @@
-import { AnyRecord } from '../types'
-
 export class BaseError extends Error {
-  constructor(message: string, props?: AnyRecord) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  constructor(message: string, props?: Record<string, any>) {
     super(message)
 
     if (props) {
