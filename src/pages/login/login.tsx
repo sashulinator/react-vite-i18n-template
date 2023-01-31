@@ -1,6 +1,8 @@
 import { FormEvent } from 'react'
 import { useNavigate } from 'react-router'
 
+import Button from '@/ui/button'
+
 export default function LoginPage(): JSX.Element {
   const navigate = useNavigate()
 
@@ -17,7 +19,7 @@ export default function LoginPage(): JSX.Element {
             <input id='password' name='password' />
           </div>
           <div className='w-20rem flex flex-col m-4'>
-            <button>Submit</button>
+            <Button>Submit</Button>
           </div>
         </form>
       </div>

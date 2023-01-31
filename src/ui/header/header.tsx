@@ -1,3 +1,4 @@
+import Button from '../button'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -11,7 +12,7 @@ export default function Header(): JSX.Element {
     <header className='flex items-center justify-between mr-2rem ml-2rem'>
       <div>Logo</div>
       <div>Links in the center</div>
-      <button onClick={() => navigate('/login')}>Logout</button>
+      <Button onClick={() => navigate('/login')}>Logout</Button>
     </header>
   )
 }
