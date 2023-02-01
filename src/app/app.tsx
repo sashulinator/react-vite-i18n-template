@@ -14,6 +14,7 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { BrowserRouter } from 'react-router-dom'
 
 import { queryClient } from '@/shared/react-query'
+import { Toaster } from '@/ui/toast'
 
 export default function App() {
   return (
@@ -21,7 +22,13 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <Layout />
-          {createPortal(<ReactQueryDevtools />, document.body)}
+          {createPortal(
+            <>
+              <ReactQueryDevtools />
+              <Toaster />
+            </>,
+            document.body
+          )}
         </BrowserRouter>
       </QueryClientProvider>
     </Suspense>

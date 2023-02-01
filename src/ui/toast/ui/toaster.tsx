@@ -1,5 +1,6 @@
-import { addToaster, getToaster } from '../model/store'
+import { addToaster, getRenderingToastList, getToaster } from '../model/store'
 import { EventNames } from '../types/event-names'
+import ToastUI from './toast'
 import c from 'clsx'
 import { useMemo } from 'react'
 
@@ -10,7 +11,7 @@ export interface TosterProps {
   className?: string
 }
 
-export default function Toster(props: TosterProps): JSX.Element {
+export default function ToasterUI(props: TosterProps): JSX.Element {
   const id = useMemo(() => addToaster().id, [])
   const update = useForceUpdate()
 
@@ -24,5 +25,13 @@ export default function Toster(props: TosterProps): JSX.Element {
   })
   useOnUnmount(() => getToaster(id).emitter.emit(EventNames.onUnmount))
 
-  return <aside className={c('Toster', props.className)}>Toster</aside>
+  console.log('getRenderingToastList(id)', getRenderingToastList(id))
+
+  return (
+    <aside className={c('Toster', props.className)} style={{ position: 'fixed', zIndex: 500, bottom: 0 }}>
+      {getRenderingToastList(id).map((toast) => {
+        return <ToastUI key={toast.id} {...toast} />
+      })}
+    </aside>
+  )
 }
