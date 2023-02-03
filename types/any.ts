@@ -1,3 +1,3 @@
-import { Any } from "../../types";
+import { Any } from '../../any'
 
 export type AnyList = Any[]
