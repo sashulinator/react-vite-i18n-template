@@ -7,5 +7,7 @@ export interface Toast<D = unknown> {
   enteringAnimationMs: number
   exitingAnimationMs: number
   autocloseMs: number
+  exitTransitionMs: number
+  isTransitionCounterStopped: boolean
   type: string
 }

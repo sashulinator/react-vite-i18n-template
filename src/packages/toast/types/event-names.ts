@@ -1,8 +1,9 @@
 export enum EventNames {
-  onMount = 'onMount',
-  onUnmount = 'onUnmount',
+  mount = 'mount',
+  unmount = 'unmount',
   addToast = 'addToast',
   showToast = 'showToast',
   hideToast = 'hideToast',
   removeToast = 'removeToast',
+  updateToastTransition = 'updateToastTransition',
 }

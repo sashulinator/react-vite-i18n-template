@@ -1,26 +1,22 @@
 import { FormEvent, useEffect } from 'react'
 import { useNavigate } from 'react-router'
 
+import { toast } from '@/packages/toast'
 import Button from '@/ui/button'
-import { toast } from '@/ui/toast'
 
 export default function LoginPage(): JSX.Element {
   const navigate = useNavigate()
 
   useEffect(() => {
     setTimeout(() => {
-      toast({ data: 'hello!' })
       setTimeout(() => {
-        toast({ data: 'by!' })
-      }, 500)
-      setTimeout(() => {
-        toast({ data: 'by1111111!' })
+        toast({ data: 'by1111111!', type: 'success' })
       }, 1000)
       setTimeout(() => {
-        toast({ data: '22222222!' })
+        toast({ data: '22222222!', type: 'error' })
       }, 1500)
       setTimeout(() => {
-        toast({ data: '33333333333!' })
+        toast({ data: '33333333333!', type: 'warning' })
       }, 2000)
       setTimeout(() => {
         toast({ data: '44444444444!' })
@@ -31,7 +27,24 @@ export default function LoginPage(): JSX.Element {
       setTimeout(() => {
         toast({ data: '77777777!' })
       }, 3500)
-    }, 100)
+    }, 0)
+
+    // const list = Array(5_000).fill(1)
+
+    // chunk(
+    //   list.length,
+    //   10,
+    //   (acc: string[], chunkStart, chunkEnd) => {
+    //     if (chunkStart > 45) {
+    //       return true
+    //     }
+    //     const listChunk = list.slice(chunkStart, chunkEnd)
+    //     return [...acc, ...listChunk.map(() => `number: ${chunkStart}`)]
+    //   },
+    //   []
+    // ).then((ret) => {
+    //   console.log('ret', ret)
+    // })
   }, [])
 
   return (
