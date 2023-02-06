@@ -1,0 +1,13 @@
+@media (orientation: landscape) {
+  .Toast > div {
+    width: 456px;
+    padding-bottom: 24px;
+    padding-left: 24px;
+  }
+
+  .Toast .content {
+    padding: 1.3rem;
+    border-radius: 4px;
+    position: relative;
+  }
+}

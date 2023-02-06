@@ -1,7 +1,7 @@
 import { FormEvent, useEffect } from 'react'
 import { useNavigate } from 'react-router'
 
-import { toast } from '@/packages/toast'
+import { addToast } from '@/packages/toast'
 import Button from '@/ui/button'
 
 export default function LoginPage(): JSX.Element {
@@ -10,23 +10,23 @@ export default function LoginPage(): JSX.Element {
   useEffect(() => {
     setTimeout(() => {
       setTimeout(() => {
-        toast({ data: 'by1111111!', type: 'success' })
+        addToast({ data: 'by1111111!', type: 'success' })
       }, 1000)
-      setTimeout(() => {
-        toast({ data: '22222222!', type: 'error' })
-      }, 1500)
-      setTimeout(() => {
-        toast({ data: '33333333333!', type: 'warning' })
-      }, 2000)
-      setTimeout(() => {
-        toast({ data: '44444444444!' })
-      }, 2500)
-      setTimeout(() => {
-        toast({ data: '555555555!' })
-      }, 3000)
-      setTimeout(() => {
-        toast({ data: '77777777!' })
-      }, 3500)
+      // setTimeout(() => {
+      //   addToast({ data: '22222222!', type: 'error' })
+      // }, 3300)
+      // setTimeout(() => {
+      //   addToast({ data: '33333333333!', type: 'warning' })
+      // }, 6000)
+      // setTimeout(() => {
+      //   addToast({ data: '44444444444!' })
+      // }, 2500)
+      // setTimeout(() => {
+      //   addToast({ data: '555555555!' })
+      // }, 3000)
+      // setTimeout(() => {
+      //   addToast({ data: '77777777!' })
+      // }, 3500)
     }, 0)
 
     // const list = Array(5_000).fill(1)
@@ -49,7 +49,10 @@ export default function LoginPage(): JSX.Element {
 
   return (
     <main className='flex justify-center'>
-      <div style={{ backgroundColor: '#eee' }} className='flex items-center'>
+      <div
+        // style={{ backgroundColor: '#eee' }}
+        className='flex items-center'
+      >
         <form onSubmit={onSubmit}>
           <div className='w-20rem flex flex-col m-4'>
             <label htmlFor='username'>Username</label>

@@ -27,6 +27,7 @@
     "axios": "0.27.2",
     "clsx": "1.2.1",
     "color": "4.2.3",
+    "color-transitions": "^0.0.2",
     "dayjs": "1.11.6",
     "eslint": "8.32.0",
     "eslint-config-prettier": "7.2.0",

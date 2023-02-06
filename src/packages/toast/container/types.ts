@@ -1,4 +1,4 @@
-import { Toast } from './toast'
+import { Toast } from '../toast/types'
 import { Emitter } from 'mitt'
 
 import { Id } from '@/utils/any/id'
@@ -8,10 +8,7 @@ export interface Container {
   id: Id
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   emitter: Emitter<Dictionary<any>>
-  data: Dictionary<Toast>
-  order: Id[]
-  entering: Id[]
-  showing: Id[]
-  exiting: Id[]
+  toastIds: Id[]
   max: number
+  defaultToast: Omit<Toast<undefined>, 'id' | 'emitter'>
 }

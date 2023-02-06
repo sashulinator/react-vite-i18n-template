@@ -1,0 +1,4 @@
+/* не могу использовать hidden из unoCss так как часто устанавливаю через clsx */
+.hidden {
+  visibility: hidden;
+}

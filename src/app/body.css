@@ -1,0 +1,15 @@
+:root {
+  --bg: #dfdfc9;
+  --tabletMinWidthPx: 481px;
+}
+
+html,
+body {
+  background-color: var(--bg, --body-bg);
+}
+
+@media (orientation: portrait) {
+  /* :root {
+    font-size: 22px;
+  } */
+}
