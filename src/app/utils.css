@@ -1,4 +1,8 @@
-/* не могу использовать hidden из unoCss так как часто устанавливаю через clsx */
+/* не могу использовать эти классы из unoCss так как часто устанавливаю через clsx */
 .hidden {
   visibility: hidden;
+}
+
+.transparent {
+  opacity: 0;
 }

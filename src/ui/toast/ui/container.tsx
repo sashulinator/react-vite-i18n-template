@@ -1,10 +1,12 @@
-import './container.css'
+import './container.scss'
 
-import ToastLandscape from './toast.landscape'
-import ToastPortrait from './toast.portrait'
+import { backgroundColors } from '../constants/background-colors'
+import { getDefaultThemeColor } from '../lib/get-default-theme-color'
+import { useColorifyBrowser } from '../lib/use-colorify-browser'
+import Toast from './toast'
 import { useEffect, useMemo } from 'react'
 
-import { changeContainer } from '@/packages/toast'
+import { findToast } from '@/packages/toast'
 import { add, get } from '@/packages/toast/container/actions'
 import { ContainerEventNames } from '@/packages/toast/container/event-names'
 import { ToastEventNames } from '@/packages/toast/toast/event-names'
@@ -16,23 +18,24 @@ export default function ToastContainer(): JSX.Element {
   const isPortrait = useMediaQuery('(orientation: portrait)')
   const id = useMemo(() => add({ max: isPortrait ? 1 : 3 }).id, [])
   const container = get(id)
-  let toastIds = [...container.toastIds].reverse()
-  toastIds = isPortrait ? toastIds.slice(0, 1) : toastIds
+  const toastIds = [...container.toastIds].reverse()
   const update = useForceUpdate()
 
+  useColorifyBrowser(
+    backgroundColors[findToast(toastIds[0])?.type] || getDefaultThemeColor(),
+    backgroundColors[findToast(toastIds[1])?.type]
+  )
   useOnMount(() => {
     container.emitter.on(ContainerEventNames.addedToast, update)
     container.emitter.on(ContainerEventNames.removedToast, update)
   })
   useOnUnmount(() => container.emitter.emit(ToastEventNames.unmount))
 
-  useEffect(() => {
-    changeContainer({ id, max: isPortrait ? 1 : 3 })
-  }, [isPortrait])
+  useEffect(() => container.emitter.emit(ContainerEventNames.change, { id, max: isPortrait ? 1 : 3 }), [isPortrait])
 
   return (
     <aside
-      className='ToastContainer'
+      data-x='ToastContainer'
       style={{
         position: 'fixed',
         zIndex: 500,
@@ -41,7 +44,9 @@ export default function ToastContainer(): JSX.Element {
         width: '100%',
       }}
     >
-      {toastIds.map((id) => (isPortrait ? <ToastPortrait key={id} id={id} /> : <ToastLandscape key={id} id={id} />))}
+      {toastIds.map((id) => (
+        <Toast key={id} id={id} isPortrait={isPortrait} />
+      ))}
     </aside>
   )
 }

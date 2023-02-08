@@ -9,13 +9,17 @@ export interface Toast<D = unknown> {
   data: D
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   emitter: Emitter<Dictionary<any>>
-  enteringAnimationMs: number
-  exitingAnimationMs: number
   isEntering: boolean
   isShowing: boolean
   isExiting: boolean
-  autocloseMs: number
-  showingMs: number
-  isTransitionStopped: boolean
+  maxShowingTransition: number
+  maxEnteringTransition: number
+  maxExitingTransition: number
+  showingTransition: number
+  enteringTransition: number
+  exitingTransition: number
+  isEnteringTransitionStopped: boolean
+  isShowingTransitionStopped: boolean
+  isExitingTransitionStopped: boolean
   type: string
 }

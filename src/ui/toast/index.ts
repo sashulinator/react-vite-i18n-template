@@ -1,2 +1,2 @@
-export { default } from './ui/toast.landscape'
+export { default } from './ui/landscape-animation'
 export { default as Container } from './ui/container'

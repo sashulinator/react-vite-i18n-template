@@ -84,14 +84,19 @@ function generate(contaner?: Partial<Container>): Container {
     defaultToast: {
       containerId: store.containerSequenceId,
       data: undefined,
-      enteringAnimationMs: 300,
-      exitingAnimationMs: 300,
       isEntering: false,
       isShowing: false,
       isExiting: false,
       showingMs: 0,
-      isTransitionStopped: false,
-      autocloseMs: 5000,
+      showingTransition: 0,
+      enteringTransition: 0,
+      exitingTransition: 0,
+      isShowingTransitionStopped: false,
+      isEnteringTransitionStopped: false,
+      isExitingTransitionStopped: false,
+      maxEnteringTransition: 300,
+      maxExitingTransition: 700,
+      maxShowingTransition: 5000,
       exitTransitionMs: 0,
       type: 'default',
       ...contaner?.defaultToast,
@@ -105,4 +110,5 @@ function subscribe(container: Container) {
   container.emitter.on(ContainerEventNames.unmount, remove)
   container.emitter.on(ContainerEventNames.addToast, addToast)
   container.emitter.on(ContainerEventNames.removeToast, removeToast)
+  container.emitter.on(ContainerEventNames.change, change)
 }

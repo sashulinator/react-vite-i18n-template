@@ -37,9 +37,7 @@ export function setEntering(id: Id) {
   toast.isEntering = true
   toast.isExiting = false
   toast.isShowing = false
-  setTimeout(() => {
-    toast.emitter.emit(ToastEventNames.setShowing)
-  }, toast.enteringAnimationMs)
+  toast.emitter.emit(ToastEventNames.transitEntering)
 }
 
 export function setShowing(id: Id) {
@@ -50,31 +48,7 @@ export function setShowing(id: Id) {
   toast.isEntering = false
   toast.isExiting = false
   toast.isShowing = true
-  toast.emitter.emit(ToastEventNames.increaseShowingTransition)
-}
-
-export function increaseShowingTransition(id: Id) {
-  const toast = store.toasts[id]
-  if (toast === undefined) {
-    return
-  }
-  toast.isEntering = false
-  toast.isExiting = false
-  toast.isShowing = true
-
-  if (toast.isTransitionStopped) {
-    setTimeout(() => toast.emitter.emit(ToastEventNames.increaseShowingTransition), 100)
-    return
-  }
-
-  toast.showingMs = toast.showingMs + 100
-  const isTimeToExit = toast.showingMs >= toast.autocloseMs
-
-  if (isTimeToExit) {
-    toast.emitter.emit(ToastEventNames.setExiting, id)
-  } else {
-    setTimeout(() => toast.emitter.emit(ToastEventNames.increaseShowingTransition), 100)
-  }
+  toast.emitter.emit(ToastEventNames.transitShowing)
 }
 
 export function setExiting(id: Id) {
@@ -85,9 +59,36 @@ export function setExiting(id: Id) {
   toast.isEntering = false
   toast.isExiting = true
   toast.isShowing = false
-  setTimeout(() => {
-    toast.emitter.emit(ToastEventNames.remove)
-  }, toast.exitingAnimationMs)
+  toast.emitter.emit(ToastEventNames.transitExiting)
+}
+
+export function transitEntering(id: Id) {
+  transite(id, 'Entering', (toast) => toast.emitter.emit(ToastEventNames.setShowing))
+}
+export function transitShowing(id: Id) {
+  transite(id, 'Showing', (toast) => toast.emitter.emit(ToastEventNames.setExiting))
+}
+export function transitExiting(id: Id) {
+  transite(id, 'Exiting', (toast) => toast.emitter.emit(ToastEventNames.remove))
+}
+
+export function stopShowingTransition(id: Id) {
+  stopTransition(id, 'Showing')
+}
+export function stopEnteringTransition(id: Id) {
+  stopTransition(id, 'Entering')
+}
+export function stopExitingTransition(id: Id) {
+  stopTransition(id, 'Exiting')
+}
+export function continueShowingTransition(id: Id) {
+  continueTransition(id, 'Showing')
+}
+export function continueEnteringTransition(id: Id) {
+  continueTransition(id, 'Entering')
+}
+export function continueExitingTransition(id: Id) {
+  continueTransition(id, 'Exiting')
 }
 
 export function remove(id: Id) {
@@ -100,23 +101,6 @@ export function remove(id: Id) {
   delete store.toasts[id]
   toast.emitter.emit(ToastEventNames.removed)
 }
-
-export function stopTransition(id: Id) {
-  const toast = store.toasts[id]
-  if (toast === undefined) {
-    return
-  }
-  toast.isTransitionStopped = true
-}
-
-export function continueTransition(id: Id) {
-  const toast = store.toasts[id]
-  if (toast === undefined) {
-    return
-  }
-  toast.isTransitionStopped = false
-}
-
 // Private
 
 function generate(toast: Partial<Toast> | undefined, container: Container): Toast<unknown> {
@@ -134,7 +118,53 @@ function generate(toast: Partial<Toast> | undefined, container: Container): Toas
 function subscribe(toast: Toast<unknown>): void {
   toast.emitter.on(ToastEventNames.setEntering, () => setEntering(toast.id))
   toast.emitter.on(ToastEventNames.setShowing, () => setShowing(toast.id))
-  toast.emitter.on(ToastEventNames.increaseShowingTransition, () => increaseShowingTransition(toast.id))
   toast.emitter.on(ToastEventNames.setExiting, () => setExiting(toast.id))
+  toast.emitter.on(ToastEventNames.transitShowing, () => transitShowing(toast.id))
+  toast.emitter.on(ToastEventNames.transitEntering, () => transitEntering(toast.id))
+  toast.emitter.on(ToastEventNames.transitExiting, () => transitExiting(toast.id))
+  toast.emitter.on(ToastEventNames.continueEnteringTransition, () => continueEnteringTransition(toast.id))
+  toast.emitter.on(ToastEventNames.continueExitingTransition, () => continueExitingTransition(toast.id))
+  toast.emitter.on(ToastEventNames.continueShowingTransition, () => continueShowingTransition(toast.id))
+  toast.emitter.on(ToastEventNames.stopEnteringTransition, () => stopEnteringTransition(toast.id))
+  toast.emitter.on(ToastEventNames.stopExitingTransition, () => stopExitingTransition(toast.id))
+  toast.emitter.on(ToastEventNames.stopShowingTransition, () => stopShowingTransition(toast.id))
   toast.emitter.on(ToastEventNames.remove, () => remove(toast.id))
+}
+
+function transite(id: Id, type: 'Entering' | 'Exiting' | 'Showing', onExit: (toast: Toast) => void) {
+  const toast = store.toasts[id]
+  if (toast === undefined) {
+    return
+  }
+
+  if (toast[`is${type}TransitionStopped`]) {
+    setTimeout(() => toast.emitter.emit(`transit${type}`), 100)
+    return
+  }
+
+  const lowercasedType = type.toLowerCase()
+  toast[`${lowercasedType}Transition`] += 100
+  const isTimeToExit = toast[`${lowercasedType}Transition`] >= toast[`max${type}Transition`]
+
+  if (isTimeToExit) {
+    onExit(toast)
+  } else {
+    setTimeout(() => toast.emitter.emit(`transit${type}`), 100)
+  }
+}
+
+function stopTransition(id: Id, type: 'Showing' | 'Entering' | 'Exiting') {
+  const toast = store.toasts[id]
+  if (toast === undefined) {
+    return
+  }
+  toast[`is${type}TransitionStopped`] = true
+}
+
+function continueTransition(id: Id, type: 'Showing' | 'Entering' | 'Exiting') {
+  const toast = store.toasts[id]
+  if (toast === undefined) {
+    return
+  }
+  toast[`is${type}TransitionStopped`] = false
 }

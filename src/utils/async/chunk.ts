@@ -14,7 +14,7 @@ export function chunk<T>(
     const chunkStart = chunkHead
     const chunkEnd = chunkStart + chunkSize
 
-    /* Chain the chunk's promise on requestAnimationFrame */
+    /* Chain the chunk's promise on setTimeout */
     promise = promise.then(
       (resultAcc) =>
         new Promise((resolve) => {
