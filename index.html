@@ -4,15 +4,15 @@
     <style>
       html,
       body {
+        background-color: var(--bg);
         display: grid;
         grid-template-rows: 1fr;
         grid-template-columns: 1fr;
         height: 100%;
         width: 100%;
-        overscroll-behavior: none;
+        /* overscroll-behavior: none; */
       }
     </style>
-    <meta name="theme-color" content="#dfdfc9" />
     <meta charset="UTF-8" />
     <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -22,13 +22,40 @@
     />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
-
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <title>Template</title>
   </head>
-
   <body>
     <div id="root"></div>
     <script type="module" src="/src/app/index.tsx"></script>
+    <script>
+      // 🔴 CONSTANTS 🔴
+      const defaultBg = '#dfdfc9'
+      const defaultPrimary = 'rgb(255, 238, 87)'
+
+      const primary = localStorage.getItem('--primary') || defaultPrimary
+      const bg = localStorage.getItem('--bg') || defaultBg
+
+      localStorage.setItem('--bg', bg)
+      localStorage.setItem('--primary', primary)
+      localStorage.setItem('--defaultBg', defaultBg)
+      localStorage.setItem('--defaultPrimary', defaultPrimary)
+      setCSSVar('bg', bg)
+      setCSSVar('primary', primary)
+      setThemeColorMeta(bg)
+
+      // Private
+
+      function setCSSVar(name, value, element = document.documentElement) {
+        element.style.setProperty(`--${name}`, value.toString())
+      }
+
+      function setThemeColorMeta(color) {
+        const meta = document.createElement('meta')
+        meta.name = 'theme-color'
+        meta.content = color
+        document.querySelector('head')?.appendChild(meta)
+      }
+    </script>
   </body>
 </html>
