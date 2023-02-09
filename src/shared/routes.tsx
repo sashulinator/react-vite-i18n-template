@@ -1,9 +1,10 @@
 import React, { FC } from 'react'
 import { RouteProps } from 'react-router-dom'
 
-import LoginPage from '@/pages/login/login'
-import MainPage from '@/pages/main/main'
-import NotFound from '@/pages/not-found/not-found'
+import LoginPage from '@/pages/login'
+import MainPage from '@/pages/main'
+import NotFound from '@/pages/not-found'
+import SettingsPage from '@/pages/settings'
 import Header from '@/ui/header'
 import Nav from '@/ui/nav'
 
@@ -14,13 +15,20 @@ export type Route = Omit<RouteProps, 'path'> & {
   path: string
 }
 
-export const routes: Record<string, Route> = {
+export const routes = {
   main: {
     Header,
     Nav,
     getName: () => 'Main',
     path: '/main',
     element: <MainPage />,
+  },
+  settings: {
+    Header,
+    Nav,
+    getName: () => 'Settings',
+    path: '/settings',
+    element: <SettingsPage />,
   },
   login: {
     // Header,
@@ -36,6 +44,8 @@ export const routes: Record<string, Route> = {
     path: '*',
     element: <NotFound />,
   },
-}
+} as const
 
-export const routeList = Object.values(routes)
+export default routes as Record<string, Route>
+
+export const routeList: Route[] = Object.values(routes)

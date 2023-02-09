@@ -1,6 +1,5 @@
 import './layout.css'
 
-import React from 'react'
 import { Route, Routes, matchPath, useLocation } from 'react-router'
 
 import getRootElement from '@/lib/dom/get-root-element'

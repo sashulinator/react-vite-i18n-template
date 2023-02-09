@@ -1,6 +1,5 @@
 import './reset.css'
 
-import './body.css'
 import './utils.css'
 // 🟢 Отключаем eslint т.к. этот файл генерируется динамически
 // eslint-disable-next-line import/no-unresolved

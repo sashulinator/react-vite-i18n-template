@@ -5,11 +5,14 @@
       html,
       body {
         background-color: var(--bg);
+        color: var(--color);
         display: grid;
         grid-template-rows: 1fr;
         grid-template-columns: 1fr;
         height: 100%;
         width: 100%;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+          'Open Sans', 'Helvetica Neue', sans-serif;
         /* overscroll-behavior: none; */
       }
     </style>
@@ -31,16 +34,22 @@
     <script>
       // 🔴 CONSTANTS 🔴
       const defaultBg = '#dfdfc9'
+      const defaultColor = 'black'
       const defaultPrimary = 'rgb(255, 238, 87)'
 
-      const primary = localStorage.getItem('--primary') || defaultPrimary
       const bg = localStorage.getItem('--bg') || defaultBg
+      const color = localStorage.getItem('--color') || defaultColor
+      const primary = localStorage.getItem('--primary') || defaultPrimary
 
       localStorage.setItem('--bg', bg)
+      localStorage.setItem('--color', color)
       localStorage.setItem('--primary', primary)
       localStorage.setItem('--defaultBg', defaultBg)
+      localStorage.setItem('--defaultColor', defaultColor)
       localStorage.setItem('--defaultPrimary', defaultPrimary)
+
       setCSSVar('bg', bg)
+      setCSSVar('color', color)
       setCSSVar('primary', primary)
       setThemeColorMeta(bg)
 
