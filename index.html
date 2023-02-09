@@ -4,25 +4,67 @@
     <style>
       html,
       body {
+        background-color: var(--bg);
+        color: var(--color);
         display: grid;
         grid-template-rows: 1fr;
         grid-template-columns: 1fr;
         height: 100%;
         width: 100%;
-        overscroll-behavior: none;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+          'Open Sans', 'Helvetica Neue', sans-serif;
+        /* overscroll-behavior: none; */
       }
     </style>
     <meta charset="UTF-8" />
     <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=0.8" />
+    <meta
+      name="viewport"
+      content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <title>Template</title>
   </head>
-
   <body>
-    <noscript>Необходимо включить JavaScript в браузере для работы приложения.</noscript>
     <div id="root"></div>
     <script type="module" src="/src/app/index.tsx"></script>
+    <script>
+      // 🔴 CONSTANTS 🔴
+      const defaultBg = '#dfdfc9'
+      const defaultColor = 'black'
+      const defaultPrimary = 'rgb(255, 238, 87)'
+
+      const bg = localStorage.getItem('--bg') || defaultBg
+      const color = localStorage.getItem('--color') || defaultColor
+      const primary = localStorage.getItem('--primary') || defaultPrimary
+
+      localStorage.setItem('--bg', bg)
+      localStorage.setItem('--color', color)
+      localStorage.setItem('--primary', primary)
+      localStorage.setItem('--defaultBg', defaultBg)
+      localStorage.setItem('--defaultColor', defaultColor)
+      localStorage.setItem('--defaultPrimary', defaultPrimary)
+
+      setCSSVar('bg', bg)
+      setCSSVar('color', color)
+      setCSSVar('primary', primary)
+      setThemeColorMeta(bg)
+
+      // Private
+
+      function setCSSVar(name, value, element = document.documentElement) {
+        element.style.setProperty(`--${name}`, value.toString())
+      }
+
+      function setThemeColorMeta(color) {
+        const meta = document.createElement('meta')
+        meta.name = 'theme-color'
+        meta.content = color
+        document.querySelector('head')?.appendChild(meta)
+      }
+    </script>
   </body>
 </html>

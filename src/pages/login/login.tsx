@@ -1,6 +1,7 @@
 import { FormEvent } from 'react'
 import { useNavigate } from 'react-router'
 
+import { addToast } from '@/packages/toast'
 import Button from '@/ui/button'
 
 export default function LoginPage(): JSX.Element {
@@ -8,7 +9,10 @@ export default function LoginPage(): JSX.Element {
 
   return (
     <main className='flex justify-center'>
-      <div style={{ backgroundColor: '#eee' }} className='flex items-center'>
+      <div
+        // style={{ backgroundColor: '#eee' }}
+        className='flex items-center'
+      >
         <form onSubmit={onSubmit}>
           <div className='w-20rem flex flex-col m-4'>
             <label htmlFor='username'>Username</label>
@@ -29,5 +33,6 @@ export default function LoginPage(): JSX.Element {
   function onSubmit(e: FormEvent) {
     e.preventDefault()
     navigate('/main')
+    addToast({ data: 'Logged In', type: 'success' })
   }
 }

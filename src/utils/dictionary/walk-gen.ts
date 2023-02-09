@@ -12,7 +12,7 @@ export function* walk<T>(dictionary: Dictionary<T>): Generator<WalkResult<T>> {
   function* _walk(dictionary: Dictionary<T>) {
     const keys = Object.keys(dictionary)
     for (const key of keys) {
-      const value = dictionary[key] as T
+      const value = dictionary[key]
       yield { key, value, parent: undefined, dictionary, keys, path: [key] }
     }
   }

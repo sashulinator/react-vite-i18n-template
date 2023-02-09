@@ -26,19 +26,19 @@ main {
   grid-area: main;
   grid-template-rows: 1fr;
   grid-template-columns: 1fr;
-  background-color: rgb(255, 243, 243);
+  /* background-color: rgb(255, 243, 243); */
 }
 
 nav {
   grid-area: nav;
   z-index: 300;
-  background-color: rgb(244, 243, 255);
+  /* background-color: rgb(244, 243, 255); */
 }
 
 header {
   grid-area: header;
   z-index: 300;
-  background-color: rgb(254, 254, 243);
+  /* background-color: rgb(254, 254, 243); */
 }
 
 /* CENTERED */
