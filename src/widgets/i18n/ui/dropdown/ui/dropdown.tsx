@@ -1,11 +1,9 @@
 import { ChangeEvent } from 'react'
-import { useTranslation } from 'react-i18next'
 
+import { changeLanguage } from '@/widgets/i18n/lib/change-language'
 import { getCurrentLanguage } from '@/widgets/i18n/lib/get-current-language'
 
 export default function I18nDropdown(): JSX.Element {
-  const { i18n } = useTranslation()
-
   const options = ['ru', 'en']
 
   return (
@@ -22,7 +20,7 @@ export default function I18nDropdown(): JSX.Element {
   )
 
   function onChange(e: ChangeEvent<HTMLSelectElement>) {
-    i18n.changeLanguage(e.target.value)
+    changeLanguage(e.target.value)
   }
 }
 

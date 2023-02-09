@@ -1,6 +1,3 @@
-
-
-
 import { Dictionary } from './types/dictionary'
 import { Key } from './types/key'
 

@@ -32,7 +32,7 @@ export function add(toast?: Partial<Toast>) {
   generatedToast.emitter.emit(ToastEventNames.setEntering)
 }
 
-export function setEntering(id: Id) {
+function setEntering(id: Id) {
   const toast = get(id)
   toast.isEntering = true
   toast.isExiting = false
@@ -40,7 +40,7 @@ export function setEntering(id: Id) {
   toast.emitter.emit(ToastEventNames.transitEntering)
 }
 
-export function setShowing(id: Id) {
+function setShowing(id: Id) {
   const toast = store.toasts[id]
   if (toast === undefined) {
     return
@@ -51,7 +51,7 @@ export function setShowing(id: Id) {
   toast.emitter.emit(ToastEventNames.transitShowing)
 }
 
-export function setExiting(id: Id) {
+function setExiting(id: Id) {
   const toast = store.toasts[id]
   if (toast === undefined) {
     return
@@ -62,36 +62,36 @@ export function setExiting(id: Id) {
   toast.emitter.emit(ToastEventNames.transitExiting)
 }
 
-export function transitEntering(id: Id) {
+function transitEntering(id: Id) {
   transite(id, 'Entering', (toast) => toast.emitter.emit(ToastEventNames.setShowing))
 }
-export function transitShowing(id: Id) {
+function transitShowing(id: Id) {
   transite(id, 'Showing', (toast) => toast.emitter.emit(ToastEventNames.setExiting))
 }
-export function transitExiting(id: Id) {
+function transitExiting(id: Id) {
   transite(id, 'Exiting', (toast) => toast.emitter.emit(ToastEventNames.remove))
 }
 
-export function stopShowingTransition(id: Id) {
+function stopShowingTransition(id: Id) {
   stopTransition(id, 'Showing')
 }
-export function stopEnteringTransition(id: Id) {
+function stopEnteringTransition(id: Id) {
   stopTransition(id, 'Entering')
 }
-export function stopExitingTransition(id: Id) {
+function stopExitingTransition(id: Id) {
   stopTransition(id, 'Exiting')
 }
-export function continueShowingTransition(id: Id) {
+function continueShowingTransition(id: Id) {
   continueTransition(id, 'Showing')
 }
-export function continueEnteringTransition(id: Id) {
+function continueEnteringTransition(id: Id) {
   continueTransition(id, 'Entering')
 }
-export function continueExitingTransition(id: Id) {
+function continueExitingTransition(id: Id) {
   continueTransition(id, 'Exiting')
 }
 
-export function remove(id: Id) {
+function remove(id: Id) {
   const toast = store.toasts[id]
   if (toast === undefined) {
     return

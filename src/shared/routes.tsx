@@ -46,6 +46,7 @@ export const routes = {
   },
 } as const
 
+// eslint-disable-next-line import/no-unused-modules
 export default routes as Record<string, Route>
 
 export const routeList: Route[] = Object.values(routes)

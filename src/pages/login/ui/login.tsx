@@ -1,3 +1,4 @@
+import * as tT from '../model/translations'
 import { FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
@@ -24,7 +25,7 @@ export default function LoginPage(): JSX.Element {
             <input id='password' name='password' />
           </div>
           <div className='w-20rem flex flex-col m-4'>
-            <Button>{t('Login').toString()}</Button>
+            <Button>{t(tT.login || 'Login').toString()}</Button>
           </div>
         </form>
       </div>

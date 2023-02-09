@@ -4,7 +4,7 @@ import { backgroundColors } from '../constants/background-colors'
 import LandscapeAnimation from './landscape-animation'
 import PortraitAnimation from './portrait-animation'
 
-import { continueShowingTransition, get, stopShowingTransition } from '@/packages/toast/toast/actions'
+import { get } from '@/packages/toast/toast/actions'
 import { ToastEventNames } from '@/packages/toast/toast/event-names'
 import { Id } from '@/utils/any/id'
 import { useForceUpdate, useOnMount } from '@/utils/hooks'
@@ -23,8 +23,8 @@ export default function Toast(props: { id: Id; isPortrait: boolean }): JSX.Eleme
       <div
         data-x='Toast'
         style={{ backgroundColor }}
-        onMouseOver={() => stopShowingTransition(toast.id)}
-        onMouseLeave={() => continueShowingTransition(toast.id)}
+        onMouseOver={() => toast.emitter.emit(ToastEventNames.stopShowingTransition)}
+        onMouseLeave={() => toast.emitter.emit(ToastEventNames.continueShowingTransition)}
         onClick={() => toast.emitter.emit(ToastEventNames.setExiting)}
       >
         {toast.data as string}
