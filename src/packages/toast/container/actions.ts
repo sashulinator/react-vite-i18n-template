@@ -32,7 +32,7 @@ export function add(container?: Partial<Container>): Container {
   return generatedContainer
 }
 
-export function change(container?: Partial<Container>): Container {
+function change(container?: Partial<Container>): Container {
   const currentContainer = getContainer(container?.id)
   const newContainer = { ...currentContainer, ...container }
   store.containers[newContainer.id] = newContainer

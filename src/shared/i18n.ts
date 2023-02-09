@@ -2,7 +2,9 @@ import { createInstance } from 'i18next'
 import HttpApi from 'i18next-http-backend'
 import { initReactI18next } from 'react-i18next'
 
-const locale = 'ru'
+import { getCurrentLanguage } from '@/widgets/i18n/lib/get-current-language'
+
+const lng = getCurrentLanguage()
 export const i18n = createInstance()
 
 i18n
@@ -10,10 +12,10 @@ i18n
   .use(HttpApi)
   .init({
     backend: {
-      loadPath: '/locales/{{lng}}/{{ns}}.json',
+      loadPath: '/translations/{{lng}}/{{ns}}.json',
     },
-    lng: locale,
-    fallbackLng: locale,
+    lng,
+    fallbackLng: lng,
     ns: ['t'],
   })
   .catch(() => {

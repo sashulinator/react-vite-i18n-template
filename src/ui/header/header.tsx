@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import { routes } from '@/shared/routes'
 import { setCSSVar } from '@/utils/dom'
-import { ThemeDropdown } from '@/widgets/theme'
 
 export default function Header(): JSX.Element {
   const navigate = useNavigate()
@@ -15,7 +14,6 @@ export default function Header(): JSX.Element {
       <div>
         <Link to={routes.settings.path}>Settings</Link>
       </div>
-      <ThemeDropdown />
       <Button onClick={() => navigate('/login')}>Logout</Button>
     </header>
   )

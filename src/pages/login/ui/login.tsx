@@ -1,18 +1,20 @@
+import * as tT from '../model/translations'
 import { FormEvent } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
 import { addToast } from '@/packages/toast'
 import Button from '@/ui/button'
+import { I18nDropdown } from '@/widgets/i18n'
 
 export default function LoginPage(): JSX.Element {
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   return (
     <main className='flex justify-center'>
-      <div
-        // style={{ backgroundColor: '#eee' }}
-        className='flex items-center'
-      >
+      <div className='flex justify-center  items-center flex-col'>
+        <I18nDropdown />
         <form onSubmit={onSubmit}>
           <div className='w-20rem flex flex-col m-4'>
             <label htmlFor='username'>Username</label>
@@ -23,7 +25,7 @@ export default function LoginPage(): JSX.Element {
             <input id='password' name='password' />
           </div>
           <div className='w-20rem flex flex-col m-4'>
-            <Button>Submit</Button>
+            <Button>{t(tT.login || 'Login').toString()}</Button>
           </div>
         </form>
       </div>

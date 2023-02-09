@@ -1,4 +1,5 @@
 export type { Toast } from './toast/types'
+export * from './store'
 export type { Container } from './container/types'
 export * from './toast/event-names'
 export * from './container/event-names'
