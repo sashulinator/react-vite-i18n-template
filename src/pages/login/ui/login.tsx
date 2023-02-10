@@ -1,15 +1,14 @@
-import * as tT from '../model/translations'
+import * as translations from '../model/translations'
 import { FormEvent } from 'react'
-import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
 import { addToast } from '@/packages/toast'
 import Button from '@/ui/button'
-import { I18nDropdown } from '@/widgets/i18n'
+import { I18nDropdown, useT } from '@/widgets/i18n'
 
 export default function LoginPage(): JSX.Element {
   const navigate = useNavigate()
-  const { t } = useTranslation()
+  const t = useT(translations, 'login')
 
   return (
     <main className='flex justify-center'>
@@ -25,7 +24,7 @@ export default function LoginPage(): JSX.Element {
             <input id='password' name='password' />
           </div>
           <div className='w-20rem flex flex-col m-4'>
-            <Button>{t(tT.login || 'Login').toString()}</Button>
+            <Button>{t.Login()}</Button>
           </div>
         </form>
       </div>
