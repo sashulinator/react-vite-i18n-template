@@ -1,7 +1,8 @@
 [data-x='Button'] {
   outline: 0;
-  border: 0.2rem solid rgb(255, 238, 87);
-  background-color: rgb(255, 238, 87);
+  color: var(--color);
+  border: 0.2rem solid var(--border-button, var(--primary));
+  background-color: var(--bg-button, var(--primary));
   border-radius: 0.4rem;
 
   &:focus {

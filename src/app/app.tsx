@@ -19,19 +19,16 @@ import { Container } from '@/ui/toast'
 
 export default function App() {
   return (
-    <Suspense>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <Layout />
-          {createPortal(
-            <>
-              <ReactQueryDevtools />
-              <Container />
-            </>,
-            document.body
-          )}
-        </BrowserRouter>
-      </QueryClientProvider>
-    </Suspense>
+    <>
+      <Suspense>
+        <QueryClientProvider client={queryClient}>
+          <BrowserRouter>
+            <Layout />
+            {createPortal(<ReactQueryDevtools />, document.body)}
+          </BrowserRouter>
+        </QueryClientProvider>
+      </Suspense>
+      {createPortal(<Container />, document.body)}
+    </>
   )
 }
