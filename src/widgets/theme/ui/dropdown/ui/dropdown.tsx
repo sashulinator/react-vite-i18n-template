@@ -1,8 +1,7 @@
+import { getCurrentThemeName } from '../../../lib/get-current-theme-name'
+import { getThemeNames } from '../../../lib/get-theme-names'
+import { setTheme } from '../../../lib/set-theme'
 import { ChangeEvent } from 'react'
-
-import { getCurrentThemeName } from '@/widgets/theme/lib/get-current-theme-name'
-import { getThemeNames } from '@/widgets/theme/lib/get-theme-names'
-import { setTheme } from '@/widgets/theme/lib/set-theme'
 
 export default function ThemeDropdown(): JSX.Element {
   const options = getThemeNames()

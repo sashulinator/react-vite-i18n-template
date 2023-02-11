@@ -16,7 +16,7 @@ import { useOnUnmount } from '@/utils/hooks/on-unmount'
 
 export default function ToastContainer(): JSX.Element {
   const isPortrait = useMediaQuery('(orientation: portrait)')
-  const id = useMemo(() => add().id, [])
+  const id = useMemo(() => add({ id: 1 }).id, [])
   const container = get(id)
   const toastIds = [...container.toastIds].reverse()
   const update = useForceUpdate()

@@ -16,7 +16,7 @@ i18n
     },
     lng,
     fallbackLng: lng,
-    ns: ['t'],
+    ns: ['t', 'error'],
   })
   .catch(() => {
     // errorMessage('Cannot load a translation file')

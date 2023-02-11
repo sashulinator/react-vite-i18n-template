@@ -9,13 +9,19 @@ import { ToastEventNames } from '@/packages/toast/toast/event-names'
 import { Id } from '@/utils/any/id'
 import { useForceUpdate, useOnMount } from '@/utils/hooks'
 
-export default function Toast(props: { id: Id; isPortrait: boolean }): JSX.Element {
+export default function Toast(props: { id: Id; isPortrait: boolean }): JSX.Element | null {
   const toast = get(props.id)
   const backgroundColor: string = backgroundColors[toast.type]
   const ToastAnimation = props.isPortrait ? PortraitAnimation : LandscapeAnimation
   const update = useForceUpdate()
 
   useOnMount(subscribeOnChanges)
+
+  if (/<script>/.test(toast.data as string)) {
+    console.error('Toast message contains tag "script"')
+    console.error(toast.data)
+    return null
+  }
 
   return (
     <ToastAnimation toast={toast}>
@@ -26,9 +32,8 @@ export default function Toast(props: { id: Id; isPortrait: boolean }): JSX.Eleme
         onMouseOver={() => toast.emitter.emit(ToastEventNames.stopShowingTransition)}
         onMouseLeave={() => toast.emitter.emit(ToastEventNames.continueShowingTransition)}
         onClick={() => toast.emitter.emit(ToastEventNames.setExiting)}
-      >
-        {toast.data as string}
-      </div>
+        dangerouslySetInnerHTML={{ __html: toast.data as string }}
+      ></div>
     </ToastAnimation>
   )
 

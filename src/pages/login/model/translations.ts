@@ -1,3 +1,8 @@
-export const Login = ''
-export const Username = ''
-export const Password = ''
+export const translations = {
+  Login: '',
+  Password: '',
+  Username: '',
+  success: {
+    loggedIn: '',
+  },
+}

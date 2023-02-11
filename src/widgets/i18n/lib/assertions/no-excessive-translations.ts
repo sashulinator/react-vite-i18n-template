@@ -2,7 +2,10 @@ import { AnyDictionary, isDictionary, walk } from '@/utils/dictionary'
 import { getPathValue } from '@/utils/dictionary/get-path-value'
 import { BaseError } from '@/utils/error'
 
-export function assertBackendMatchFrontend(dictionary: AnyDictionary, currentTranslations: undefined | AnyDictionary) {
+export function assertNoExcessiveTranslation(
+  dictionary: AnyDictionary,
+  currentTranslations: undefined | AnyDictionary
+) {
   if (currentTranslations === undefined) {
     return
   }
@@ -11,7 +14,10 @@ export function assertBackendMatchFrontend(dictionary: AnyDictionary, currentTra
     if (!isDictionary(value)) {
       const value = getPathValue(dictionary, path)
       if (value === undefined) {
-        throw new BaseError('Received excessive Translation from backend, it does not exist on your front', { path })
+        throw new BaseError('Received excessive Translation from backend, it does not exist on your front', {
+          code: 'assertClientHasNoExcessiveTranslation',
+          path,
+        })
       }
     }
   })
@@ -19,7 +25,10 @@ export function assertBackendMatchFrontend(dictionary: AnyDictionary, currentTra
     if (!isDictionary(value)) {
       const value = getPathValue(currentTranslations, path)
       if (value === undefined) {
-        throw new BaseError('You have excessive Translation on your front, it does not exist on backend', { path })
+        throw new BaseError('You have excessive Translation on your front, it does not exist on backend', {
+          code: 'assertServerHasNoExcessiveTranslation',
+          path,
+        })
       }
     }
   })

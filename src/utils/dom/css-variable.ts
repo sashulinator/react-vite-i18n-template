@@ -10,8 +10,10 @@ export function removeCSSVar(name: string, element = document.documentElement) {
   element.style.removeProperty(`--${name}`)
 }
 
-export const setCSSVars = (theme: Record<string, string | number | undefined>): void => {
-  Object.entries(theme).forEach(([key, value]) => {
-    setCSSVar(key, value as string)
-  })
+export const setCSSVars = (theme: Record<string, string | number>): void => {
+  Object.entries(theme).forEach(([key, value]) => setCSSVar(key, value))
+}
+
+export const removeCSSVars = (theme: Record<string, string | number>): void => {
+  Object.keys(theme).forEach((key) => removeCSSVar(key))
 }

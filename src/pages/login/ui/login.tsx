@@ -1,10 +1,13 @@
-import * as translations from '../model/translations'
+import { translations } from '../model/translations'
 import { FormEvent } from 'react'
 import { useNavigate } from 'react-router'
 
 import { addToast } from '@/packages/toast'
 import Button from '@/ui/button'
 import { I18nDropdown, useT } from '@/widgets/i18n'
+
+const USERNAME = 'username'
+const PASSWORD = 'password'
 
 export default function LoginPage(): JSX.Element {
   const navigate = useNavigate()
@@ -16,12 +19,12 @@ export default function LoginPage(): JSX.Element {
         <I18nDropdown />
         <form onSubmit={onSubmit}>
           <div className='w-20rem flex flex-col m-4'>
-            <label htmlFor='username'>{t.Username()}</label>
-            <input id='username' name='username' />
+            <label htmlFor={USERNAME}>{t.Username()}</label>
+            <input id={USERNAME} name={USERNAME} />
           </div>
           <div className='w-20rem flex flex-col m-4'>
-            <label htmlFor='password'>{t.Password()}</label>
-            <input id='password' name='password' />
+            <label htmlFor={PASSWORD}>{t.Password()}</label>
+            <input id={PASSWORD} name={PASSWORD} />
           </div>
           <div className='w-20rem flex flex-col m-4'>
             <Button>{t.Login()}</Button>
@@ -34,6 +37,6 @@ export default function LoginPage(): JSX.Element {
   function onSubmit(e: FormEvent) {
     e.preventDefault()
     navigate('/main')
-    addToast({ data: 'Logged In', type: 'success' })
+    addToast({ data: t.success.loggedIn(), type: 'success' })
   }
 }

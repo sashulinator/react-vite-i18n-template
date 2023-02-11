@@ -15,8 +15,9 @@ if (color === null) {
   throw new Error('LocalStorage must contain "color" record')
 }
 
-export const defaultTheme: Theme = {
+export const light: Theme = {
   bg,
   primary,
   color,
+  linkColor: 'red',
 }

@@ -26,9 +26,16 @@ export function get(id?: Id): Container {
 }
 
 export function add(container?: Partial<Container>): Container {
+  const existedContainer = store.containers[container?.id || '']
+
+  if (existedContainer) {
+    return existedContainer
+  }
+
   const generatedContainer = generate(container)
   store.containers[generatedContainer.id] = generatedContainer
   subscribe(generatedContainer)
+
   return generatedContainer
 }
 
@@ -43,8 +50,6 @@ function remove(id: Id): void {
   store[id].emitter.all.clear()
   delete store[id]
 }
-
-// Private
 
 function addToast(toast: Toast) {
   const container = find(toast.containerId)
