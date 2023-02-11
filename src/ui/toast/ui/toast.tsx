@@ -6,7 +6,7 @@ import PortraitAnimation from './portrait-animation'
 
 import { get } from '@/packages/toast/toast/actions'
 import { ToastEventNames } from '@/packages/toast/toast/event-names'
-import { Id } from '@/utils/any/id'
+import { Id } from '@/utils/core'
 import { useForceUpdate, useOnMount } from '@/utils/hooks'
 
 export default function Toast(props: { id: Id; isPortrait: boolean }): JSX.Element | null {

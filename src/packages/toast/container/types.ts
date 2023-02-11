@@ -1,7 +1,7 @@
 import { Toast } from '../toast/types'
 import { Emitter } from 'mitt'
 
-import { Id } from '@/utils/any/id'
+import { Id } from '@/utils/core'
 import { Dictionary } from '@/utils/dictionary'
 
 export interface Container {

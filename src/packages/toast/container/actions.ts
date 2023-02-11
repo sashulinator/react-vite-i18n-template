@@ -7,7 +7,7 @@ import { ContainerEventNames } from './event-names'
 import { Container } from './types'
 import mitt from 'mitt'
 
-import { Id } from '@/utils/any/id'
+import { Id } from '@/utils/core'
 import { BaseError } from '@/utils/error'
 
 export function find(id?: Id): Container | undefined {

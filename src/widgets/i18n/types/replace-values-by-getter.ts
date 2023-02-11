@@ -1,5 +1,6 @@
-import { AnyDictionary } from '@/utils/dictionary'
+import { Any } from '@/utils/core'
+import { Dictionary } from '@/utils/dictionary'
 
-export type ReplaceValuesByGetter<T extends AnyDictionary> = {
-  [K in keyof T]: T[K] extends AnyDictionary ? ReplaceValuesByGetter<T[K]> : (p?: AnyDictionary) => string
+export type ReplaceValuesByGetter<T extends Dictionary<Any>> = {
+  [K in keyof T]: T[K] extends Dictionary<Any> ? ReplaceValuesByGetter<T[K]> : (p?: Dictionary<Any>) => string
 }

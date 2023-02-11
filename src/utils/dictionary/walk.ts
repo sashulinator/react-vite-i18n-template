@@ -2,22 +2,34 @@ import { isDictionary } from './is/dictionary'
 import { Dictionary } from './types/dictionary'
 import { Key } from './types/key'
 
-type Callback = (key: Key, value: unknown, path: string[], i: number, data: Dictionary<unknown>) => boolean | void
+export interface WalkResult<T> {
+  key: string
+  value: T
+  path: string[]
+  parent?: undefined | Dictionary<T>
+  dictionary: Dictionary<T>
+}
 
 // TODO сделать постороже типы и убрать i из Callback
-export function walk<T>(iterDictionary: Dictionary<T>, cb: Callback, path: string[] = [], dictionary?: Dictionary<T>) {
+export function walk<T>(
+  iterDictionary: Dictionary<T>,
+  cb: (ret: WalkResult<T>) => boolean | void,
+  path: string[] = [],
+  dictionary?: Dictionary<T>
+) {
   const valueList = Object.entries(iterDictionary)
+  dictionary = dictionary ?? iterDictionary
 
   for (let i = 0; i < valueList.length; i++) {
-    const [key, value] = valueList[i] as [string, unknown]
+    const [key, value] = valueList[i] as [string, T]
     const newPath = [...path, key]
 
-    if (cb(key, value, newPath, i, dictionary || iterDictionary)) {
+    if (cb({ key, value, path: newPath, parent: iterDictionary, dictionary })) {
       break
     }
 
     if (isDictionary(value)) {
-      walk(value, cb, newPath, dictionary)
+      walk(value as Dictionary<T>, cb, newPath, dictionary)
     }
   }
 }
