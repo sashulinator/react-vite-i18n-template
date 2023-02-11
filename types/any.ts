@@ -1,3 +1,3 @@
-import { Any } from '../../any'
+import { Any } from '../../core'
 
 export type AnyList = Any[]
