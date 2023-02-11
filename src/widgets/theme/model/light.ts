@@ -19,5 +19,6 @@ export const light: Theme = {
   bg,
   primary,
   color,
-  linkColor: 'red',
+  linkColor: '#e85a4f',
+  colorButton: '#272727',
 }

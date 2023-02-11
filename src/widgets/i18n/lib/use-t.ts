@@ -9,12 +9,15 @@ import { addToast } from '@/packages/toast'
 import { i18n } from '@/shared/i18n'
 import { AnyDictionary } from '@/utils/dictionary'
 import { tryCatch } from '@/utils/error/try-catch'
+import { isDev } from '@/utils/is/dev'
 
 export function useT<T extends AnyDictionary>(dictionary: T, ns: string): ReplaceValuesByGetter<T> {
   useTranslation([ns], { i18n })
   const currentTranslations = i18n.store.data[i18n.language]?.[ns] as AnyDictionary
 
   useEffect(() => {
+    if (!isDev()) return
+
     tryCatch(
       () => assertNoExcessiveTranslation(dictionary, currentTranslations),
       (e) => addToast({ type: 'warning', data: translateError(e) })

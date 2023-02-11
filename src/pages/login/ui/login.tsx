@@ -19,14 +19,18 @@ export default function LoginPage(): JSX.Element {
         <I18nDropdown />
         <form onSubmit={onSubmit}>
           <div className='w-20rem flex flex-col m-4'>
-            <label htmlFor={USERNAME}>{t.Username()}</label>
+            <label className='mb-0.5rem' htmlFor={USERNAME}>
+              {t.Username()}
+            </label>
             <input id={USERNAME} name={USERNAME} />
           </div>
           <div className='w-20rem flex flex-col m-4'>
-            <label htmlFor={PASSWORD}>{t.Password()}</label>
+            <label className='mb-0.5rem' htmlFor={PASSWORD}>
+              {t.Password()}
+            </label>
             <input id={PASSWORD} name={PASSWORD} />
           </div>
-          <div className='w-20rem flex flex-col m-4'>
+          <div className='w-20rem flex flex-col m-4 pt-0.5rem'>
             <Button>{t.Login()}</Button>
           </div>
         </form>
