@@ -1,7 +1,7 @@
 import { Dictionary } from './types/dictionary'
 import { Key } from './types/key'
 
-export function setPathValue(dictionary: Dictionary<unknown>, path: Key[], value: unknown): Dictionary<unknown> {
+export function setPath(dictionary: Dictionary<unknown>, path: Key[], value: unknown): Dictionary<unknown> {
   let current = dictionary
   let keys = [...path]
 
