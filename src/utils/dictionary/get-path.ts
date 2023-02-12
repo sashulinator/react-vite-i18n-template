@@ -1,8 +1,6 @@
-import { Any } from '../core'
-import { Key } from '../core/types/key'
-import { Dictionary } from './types/dictionary'
+import { Any, Key, List, Path } from '../core'
 
-export function getPath(dictionary: Dictionary<Any>, path: Key[]): Any {
+export function getPath<D, P extends List<Key>>(dictionary: D, path: P): Path<D, P> {
   const result = path.reduce((prevObj, key) => prevObj && prevObj[key], dictionary)
-  return result
+  return result as Any
 }
