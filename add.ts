@@ -1,5 +1,5 @@
+import { Key } from '../core/types/key'
 import { Dictionary } from './types/dictionary'
-import { Key } from './types/key'
 
 // TODO полностью переработать типы
 export function add<T>(key: Key, value: T, object: Dictionary<T>): Dictionary<T> {

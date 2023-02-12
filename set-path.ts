@@ -1,5 +1,5 @@
+import { Key } from '../core/types/key'
 import { Dictionary } from './types/dictionary'
-import { Key } from './types/key'
 
 export function setPath(dictionary: Dictionary<unknown>, path: Key[], value: unknown): Dictionary<unknown> {
   let current = dictionary

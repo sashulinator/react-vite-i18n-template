@@ -1,3 +1,5 @@
+export * from '../core/types/key'
+
 export * from './add'
 export * from './find'
 export * from './get'
@@ -6,5 +8,4 @@ export * from './is/has'
 export * from './remove'
 export * from './set-path'
 export * from './types/dictionary'
-export * from './types/key'
 export * from './walk'

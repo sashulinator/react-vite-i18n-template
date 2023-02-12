@@ -1,6 +1,6 @@
+import { Key } from '../core/types/key'
 import { isDictionary } from './is/dictionary'
 import { Dictionary } from './types/dictionary'
-import { Key } from './types/key'
 
 export interface WalkResult<T> {
   key: string
