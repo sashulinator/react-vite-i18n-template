@@ -1,9 +1,10 @@
-import { Key } from '../core/types/key'
-import { BaseError } from '../error/base'
+import { Key } from '../core'
+import { BaseError } from '../error'
+import { has } from './is/has'
 import { Dictionary } from './types/dictionary'
 
-export function get<T>(key?: Key, dictionary?: Dictionary<T>): T {
-  if (key === undefined || dictionary === undefined || !(key in dictionary)) {
+export function get<D extends Dictionary<K>, K extends Key>(dictionary?: D, key?: K): Required<D>[K] {
+  if (key === undefined || dictionary === undefined || !has(dictionary, key)) {
     throw new BaseError(`Cannot get a Dictionary item`, { key, dictionary })
   }
 
