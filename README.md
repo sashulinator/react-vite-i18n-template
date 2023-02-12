@@ -1,21 +1,21 @@
-# List
+# utils/list
+
 ## subtree
+
 ### pull/push
+
 ```bash
 # Push
-git subtree push --prefix=src/utils/number git@github.com:sashulinator/list.git master
+git subtree push --prefix=src/utils/list utils-list master
 # Pull
-git subtree pull --prefix=src/utils/number git@github.com:sashulinator/list.git master
+git subtree pull --prefix=src/utils/list utils-list master
 # Force
-git push ALIAS_NAME `git subtree split --prefix=src/utils/list @`:master --force
+git push utils-list `git subtree split --prefix=src/utils/list @`:master --force
 ```
-### Добавить новый
-1. Создать репозиторий
-2. Добавить алиас на репозиторий `git remote add ALIAS_NAME git@git.git:name/list.git`
-3. Посмотреть список алиасов `git remote -v`
-4. Убедиться что проекте НЕТ изменений
-```bash
-git subtree add --prefix=src/utils/list ALIAS_NAME master
-# Если вывод prefix `'src/utils/error' already exists.` то
-git subtree push --prefix=src/utils/list ALIAS_NAME master
-```
+
+### Add to your project
+
+1. Add a repository alias `git remote add utils-list git@github.com:sashulinator/utils-list.git`
+2. To check a list of aliases `git remote -v`, you must see `utils-list`
+3. Check that your project has no changes
+4. run `git subtree add --prefix=src/utils/list utils-list master`
