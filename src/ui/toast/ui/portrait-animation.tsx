@@ -1,8 +1,8 @@
-import { a, useSpring } from '@react-spring/web'
-
 import './portrait-animation.scss'
 
-import { Toast } from '@/packages/toast'
+import { a, useSpring } from '@react-spring/web'
+
+import { Toast } from '~/packages/toast'
 
 interface ToastPortraitProps {
   toast: Toast

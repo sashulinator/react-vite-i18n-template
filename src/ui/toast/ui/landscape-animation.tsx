@@ -1,11 +1,10 @@
-import { a, useSpring } from '@react-spring/web'
-
 import './landscape-animation.scss'
 
+import { a, useSpring } from '@react-spring/web'
 import c from 'clsx'
 import useMeasure from 'react-use-measure'
 
-import { Toast } from '@/packages/toast'
+import { Toast } from '~/packages/toast'
 
 interface LandscapeAnimationProps {
   toast: Toast

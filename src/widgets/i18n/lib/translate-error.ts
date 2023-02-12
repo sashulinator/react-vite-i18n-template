@@ -1,5 +1,5 @@
-import { i18n } from '@/shared/i18n'
-import { isCodable } from '@/utils/error'
+import { i18n } from '~/shared/i18n'
+import { isCodable } from '~/utils/error'
 
 export function translateError(e: Error) {
   if (isCodable(e)) {

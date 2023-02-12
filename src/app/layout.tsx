@@ -2,8 +2,8 @@ import './layout.css'
 
 import { Route, Routes, matchPath, useLocation } from 'react-router'
 
-import getRootElement from '@/lib/dom/get-root-element'
-import { routeList } from '@/shared/routes'
+import getRootElement from '~/lib/dom/get-root-element'
+import { routeList } from '~/shared/routes'
 
 export default function Layer(): null | JSX.Element {
   const location = useLocation()

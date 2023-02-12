@@ -1,8 +1,8 @@
-import { ReplaceValuesByGetter } from '../types/replace-values-by-getter'
+import { i18n } from '~/shared/i18n'
+import { Any } from '~/utils/core'
+import { Dictionary, isDictionary, setPath, walk } from '~/utils/dictionary'
 
-import { i18n } from '@/shared/i18n'
-import { Any } from '@/utils/core'
-import { Dictionary, isDictionary, setPath, walk } from '@/utils/dictionary'
+import { ReplaceValuesByGetter } from '../types/replace-values-by-getter'
 
 /**
  * Transforms data "{ a: { b: '', c: '' }, d: '' }" to

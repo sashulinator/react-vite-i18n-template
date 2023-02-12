@@ -1,7 +1,7 @@
-import { Any } from '@/utils/core'
-import { Dictionary, isDictionary, walk } from '@/utils/dictionary'
-import { getPath } from '@/utils/dictionary/get-path'
-import { BaseError } from '@/utils/error'
+import { Any } from '~/utils/core'
+import { Dictionary, isDictionary, walk } from '~/utils/dictionary'
+import { getPath } from '~/utils/dictionary/get-path'
+import { BaseError } from '~/utils/error'
 
 export function assertNoExcessiveTranslation(
   dictionary: Dictionary<Any>,

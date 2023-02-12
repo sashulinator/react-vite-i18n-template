@@ -1,9 +1,9 @@
 import Button from '../button'
 import { Link, useNavigate } from 'react-router-dom'
 
-import getRootElement from '@/lib/dom/get-root-element'
-import { routes } from '@/shared/routes'
-import { setCSSVar } from '@/utils/dom'
+import getRootElement from '~/lib/dom/get-root-element'
+import { routes } from '~/shared/routes'
+import { setCSSVar } from '~/utils/dom'
 
 export default function Header(): JSX.Element {
   const navigate = useNavigate()

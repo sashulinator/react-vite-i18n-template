@@ -2,9 +2,9 @@ import { translations } from '../model/translations'
 import { FormEvent } from 'react'
 import { useNavigate } from 'react-router'
 
-import { addToast } from '@/packages/toast'
-import Button from '@/ui/button'
-import { I18nDropdown, useT } from '@/widgets/i18n'
+import { addToast } from '~/packages/toast'
+import Button from '~/ui/button'
+import { I18nDropdown, useT } from '~/widgets/i18n'
 
 const USERNAME = 'username'
 const PASSWORD = 'password'

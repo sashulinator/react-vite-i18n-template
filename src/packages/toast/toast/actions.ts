@@ -6,8 +6,8 @@ import { ToastEventNames } from './event-names'
 import { Toast } from './types'
 import mitt from 'mitt'
 
-import { Id } from '@/utils/core'
-import { BaseError } from '@/utils/error'
+import { Id } from '~/utils/core'
+import { BaseError } from '~/utils/error'
 
 export function find(id: Id) {
   return store.toasts[id]

@@ -3,6 +3,6 @@ module.exports = {
   testEnvironment: 'jsdom',
   modulePaths: ['<rootDir>/src', 'node_modules'],
   moduleNameMapper: {
-    '@/(.*)': '<rootDir>/src/$1',
+    '~/(.*)': '<rootDir>/src/$1',
   },
 }

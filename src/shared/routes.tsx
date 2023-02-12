@@ -1,14 +1,14 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { RouteProps } from 'react-router-dom'
 
-import LoginPage from '@/pages/login'
-import MainPage from '@/pages/main'
-import NotFound from '@/pages/not-found'
-import SettingsPage from '@/pages/settings'
-import Header from '@/ui/header'
-import Nav from '@/ui/nav'
+import LoginPage from '~/pages/login'
+import MainPage from '~/pages/main'
+import NotFound from '~/pages/not-found'
+import SettingsPage from '~/pages/settings'
+import Header from '~/ui/header'
+import Nav from '~/ui/nav'
 
-export type Route = Omit<RouteProps, 'path'> & {
+type Route = Omit<RouteProps, 'path'> & {
   Header?: FC
   Nav?: FC
   getName: () => string

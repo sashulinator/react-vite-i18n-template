@@ -6,13 +6,13 @@ import { useColorifyBrowser } from '../lib/use-colorify-browser'
 import Toast from './toast'
 import { useEffect, useMemo } from 'react'
 
-import { findToast } from '@/packages/toast'
-import { add, get } from '@/packages/toast/container/actions'
-import { ContainerEventNames } from '@/packages/toast/container/event-names'
-import { ToastEventNames } from '@/packages/toast/toast/event-names'
-import { useForceUpdate, useOnMount } from '@/utils/hooks'
-import { useMediaQuery } from '@/utils/hooks/media-query'
-import { useOnUnmount } from '@/utils/hooks/on-unmount'
+import { findToast } from '~/packages/toast'
+import { add, get } from '~/packages/toast/container/actions'
+import { ContainerEventNames } from '~/packages/toast/container/event-names'
+import { ToastEventNames } from '~/packages/toast/toast/event-names'
+import { useForceUpdate, useOnMount } from '~/utils/hooks'
+import { useMediaQuery } from '~/utils/hooks/media-query'
+import { useOnUnmount } from '~/utils/hooks/on-unmount'
 
 export default function ToastContainer(): JSX.Element {
   const isPortrait = useMediaQuery('(orientation: portrait)')

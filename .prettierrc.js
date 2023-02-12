@@ -6,7 +6,7 @@ module.exports = {
   printWidth: 120,
   tabWidth: 2,
   endOfLine: 'auto',
-  importOrder: ['reset.css$', 'css$', '^[^@]', '^@/(.*)$'],
+  importOrder: ['reset.css$', 'css$' , '^@','^[a-z]',  '^~', '^\.'],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,
 }

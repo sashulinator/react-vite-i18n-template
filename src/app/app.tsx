@@ -6,17 +6,18 @@ import './utils.css'
 // eslint-disable-next-line import/no-unresolved
 import 'uno.css'
 
-import '../shared/dayjs'
-import Layout from './layout'
 import { Suspense } from 'react'
 import { createPortal } from 'react-dom'
 import { QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { BrowserRouter } from 'react-router-dom'
 
-import { queryClient } from '@/shared/react-query'
-import { Container } from '@/ui/toast'
-import { getCurrentThemeName, setTheme } from '@/widgets/theme'
+import { queryClient } from '~/shared/react-query'
+import { Container } from '~/ui/toast'
+import { getCurrentThemeName, setTheme } from '~/widgets/theme'
+
+import '../shared/dayjs'
+import Layout from './layout'
 
 export default function App() {
   setTheme(getCurrentThemeName())

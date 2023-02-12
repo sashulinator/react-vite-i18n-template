@@ -2,7 +2,7 @@ import { createInstance } from 'i18next'
 import HttpApi from 'i18next-http-backend'
 import { initReactI18next } from 'react-i18next'
 
-import { getCurrentLanguage } from '@/widgets/i18n/lib/get-current-language'
+import { getCurrentLanguage } from '~/widgets/i18n/lib/get-current-language'
 
 const lng = getCurrentLanguage()
 export const i18n = createInstance()

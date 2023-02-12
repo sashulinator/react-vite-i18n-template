@@ -1,7 +1,7 @@
 import { Emitter } from 'mitt'
 
-import { Id } from '@/utils/core'
-import { Dictionary } from '@/utils/dictionary'
+import { Id } from '~/utils/core'
+import { Dictionary } from '~/utils/dictionary'
 
 export interface Toast<D = unknown> {
   id: Id

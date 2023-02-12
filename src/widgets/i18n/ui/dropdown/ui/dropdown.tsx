@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react'
 
-import { changeLanguage } from '@/widgets/i18n/lib/change-language'
-import { getCurrentLanguage } from '@/widgets/i18n/lib/get-current-language'
+import { changeLanguage } from '~/widgets/i18n/lib/change-language'
+import { getCurrentLanguage } from '~/widgets/i18n/lib/get-current-language'
 
 export default function I18nDropdown(): JSX.Element {
   const options = ['ru', 'en']
