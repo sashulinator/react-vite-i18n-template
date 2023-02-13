@@ -1,8 +1,6 @@
-import { Any } from '../core'
 import { Dictionary } from './types/dictionary'
 
-export function remove<D extends Dictionary<Any>, K extends keyof D>(key: K, object: D): Omit<D, K> {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { [key]: removed, ...newObject } = object
+export function remove<D extends Dictionary<unknown>, K extends keyof D>(dictionary: D, key: K): Omit<D, K> {
+  const { [key]: removed, ...newObject } = dictionary
   return newObject
 }
