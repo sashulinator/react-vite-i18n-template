@@ -1,8 +1,9 @@
 [data-x='Button'] {
   outline: 0;
-  color: var(--colorButton, var(--color));
+  height: 40px;
+  color: var(--gr-button-color, var(--color));
   border: 0.2rem solid var(--border-button, var(--primary));
-  background-color: var(--bg-button, var(--primary));
+  background-color: var(--gr-button-bg-color, var(--primary));
   border-radius: 0.4rem;
   font-weight: bolder;
 

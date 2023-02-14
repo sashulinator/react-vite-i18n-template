@@ -20,5 +20,5 @@ export const light: Theme = {
   primary,
   color,
   linkColor: '#e85a4f',
-  colorButton: '#272727',
+  'gr-button-color': 'rgba(255, 255, 255, 0.9)',
 }

@@ -5,5 +5,5 @@ export const dark: Theme = {
   primary: '#ff652f',
   color: '#eee',
   linkColor: '#ffe400',
-  colorButton: '#272727',
+  'gr-button-color': '#272727',
 }

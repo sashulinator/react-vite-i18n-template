@@ -5,5 +5,5 @@ export interface Theme {
   // link
   linkColor?: string
   // button
-  colorButton?: string
+  'gr-button-color'?: string
 }
