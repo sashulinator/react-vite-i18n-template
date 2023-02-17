@@ -31,7 +31,7 @@
     <script type="module" src="/src/app/index.tsx"></script>
     <script>
       // 🔴 CONSTANTS 🔴
-      const defaultBg = 'rgb(237 237 239)'
+      const defaultBg = 'white'
       const defaultColor = '#8e8d8a'
       const defaultPrimary = '#0062ff'
 
@@ -42,9 +42,9 @@
       localStorage.setItem('--bg', bg)
       localStorage.setItem('--color', color)
       localStorage.setItem('--primary', primary)
-      localStorage.setItem('--defaultBg', defaultBg)
-      localStorage.setItem('--defaultColor', defaultColor)
-      localStorage.setItem('--defaultPrimary', defaultPrimary)
+      localStorage.setItem('--default-bg', defaultBg)
+      localStorage.setItem('--default-color', defaultColor)
+      localStorage.setItem('--default-primary', defaultPrimary)
 
       setCSSVar('bg', bg)
       setCSSVar('color', color)

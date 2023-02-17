@@ -1,4 +1,4 @@
-import { FormEvent } from 'react'
+import { FormEvent, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { addToast } from '~/packages/toast'
@@ -14,6 +14,7 @@ const PASSWORD = 'password'
 export default function LoginPage(): JSX.Element {
   const navigate = useNavigate()
   const t = useT(translations, 'login')
+  const [value, setValue] = useState('')
 
   return (
     <main className='flex justify-center'>
@@ -24,15 +25,24 @@ export default function LoginPage(): JSX.Element {
             <label className='mb-0.5rem' htmlFor={USERNAME}>
               {t.Username()}
             </label>
-            <TextInput id={USERNAME} name={USERNAME} />
+            <TextInput id={USERNAME} name={USERNAME} autoComplete='off' />
           </div>
           <div className='w-20rem flex flex-col m-4'>
             <label className='mb-0.5rem' htmlFor={PASSWORD}>
               {t.Password()}
             </label>
-            <TextInput id={PASSWORD} name={PASSWORD} left={<div>O</div>} right={<div>O</div>} />
+            <TextInput
+              autoComplete='off'
+              value={value}
+              isError={value.length < 3}
+              onChange={({ target }) => setValue(target.value)}
+              id={PASSWORD}
+              name={PASSWORD}
+              // left={<div>O</div>}
+              // right={<div>O</div>}
+            />
           </div>
-          <div className='w-20rem flex flex-col m-4 pt-0.5rem'>
+          <div className='w-20rem flex flex-col m-4 pt-3rem'>
             <Button>{t.Login()}</Button>
           </div>
         </form>

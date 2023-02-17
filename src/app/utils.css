@@ -6,3 +6,11 @@
 .transparent {
   opacity: 0;
 }
+
+.bg {
+  background-color: var(--bg);
+}
+
+.bg-secondary {
+  background-color: var(--bg-secondary);
+}

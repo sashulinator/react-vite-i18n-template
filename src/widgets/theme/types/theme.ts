@@ -1,9 +1,10 @@
+import { ToStringable } from '../../../utils/core/types/to-stringable'
+
 export interface Theme {
-  bg: string
-  color: string
-  primary: string
-  // link
-  linkColor?: string
-  // button
-  'gr-button-color'?: string
+  bg: ToStringable
+  'bg-secondary': ToStringable
+  color: ToStringable
+  'color-secondary': ToStringable
+  primary: ToStringable
+  'caret-color': ToStringable
 }
