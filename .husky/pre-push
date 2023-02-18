@@ -7,6 +7,13 @@ sync_util_module() {
   echo "[src/utils/$1] pulled!"
   echo "----------------------------------"
 }
+check_diff() {
+  echo "[src/utils/$1] diff"
+  git --no-pager diff utils-$1/master master:src/utils/$1
+  echo "----------------------------------"
+}
 
 echo "--------- SYNC SUBTREES ----------"
 sync_util_module dictionary && sync_util_module core && sync_util_module list && sync_util_module error
+check_diff dictionary && check_diff core && check_diff list && check_diff error
+ 
