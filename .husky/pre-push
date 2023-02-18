@@ -1,4 +1,11 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-git subtree pull --prefix=src/utils/dictionary utils-dictionary master
+sync_util_module() {
+  echo "[src/utils/$1] pulling..."
+  git subtree pull --prefix=src/utils/$1 utils-$1 master
+  echo "[src/utils/$1] pulled!"
+}
+
+echo '--- SYNC SUBTREES ---'
+sync_util_module dictionary && sync_util_module core && sync_util_module list
