@@ -1,8 +1,9 @@
-import { isAxiosError, isUnauthorized } from '../api'
-import { refreshAccessTokenFn } from './refresh-token'
 import { AxiosError } from 'axios'
 
 import api from '~/shared/axios'
+
+import { isAxiosError, isUnauthorized } from '../api'
+import { refreshAccessTokenFn } from './refresh-token'
 
 let refreshPromise: null | Promise<unknown> = null
 
