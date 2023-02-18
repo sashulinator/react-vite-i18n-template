@@ -13,6 +13,7 @@ git subtree pull --prefix=src/utils/dictionary utils-dictionary master
 git push utils-dictionary `git subtree split --prefix=src/utils/dictionary @`:master --force
 ```
 ### diff
+
 ```
 # diff
 git --no-pager diff utils-dictionary/master master:src/utils/dictionary
