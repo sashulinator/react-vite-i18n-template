@@ -1,5 +1,6 @@
 import './reset.css'
 
+import './app.css'
 import './tags.css'
 import './utils.css'
 // 🟢 Отключаем eslint т.к. этот файл генерируется динамически
