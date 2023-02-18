@@ -16,6 +16,7 @@ git push utils-dictionary `git subtree split --prefix=src/utils/dictionary @`:ma
 ### diff
 
 ```
+# diff
 git --no-pager diff utils-dictionary/master master:src/utils/dictionary
 ```
 
