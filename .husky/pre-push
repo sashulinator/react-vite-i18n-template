@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
-source "$(dirname -- "$0")/../scripts/diff-util-module.sh"
+source "$(dirname -- "$0")/../scripts/util/diff-util-module.sh"
 
 echo "--------- SYNC SUBTREES ----------"
 diff_util_module dictionary && diff_util_module core && diff_util_module list && diff_util_module error
