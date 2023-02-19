@@ -5,5 +5,5 @@ export interface RequiredCSSVars {
   color: string
   'color-secondary': string
   primary: string
-  'caret-color': string
+  caretColor: string
 }

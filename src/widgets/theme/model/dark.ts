@@ -6,6 +6,9 @@ import { ToStringable } from '~/utils/core/types/to-stringable'
 import { Theme } from '../types/theme'
 import { common } from './common'
 
+/* Main */
+const caret_color = 'white'
+
 const dcolor = '#b2bac2'
 const primary = color('#027ffe')
 const errorColor = color('#d2302f')
@@ -19,7 +22,7 @@ const textInput_color = color('#b2bac2')
 
 export const dark: Theme & TextInputCSSVars & Record<'input_border-color', ToStringable> = {
   ...common,
-  'caret-color': 'white',
+  caretColor: caret_color,
   bg: '#0a1929',
   'bg-secondary': '#011e3c',
   color: dcolor,

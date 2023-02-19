@@ -21,10 +21,11 @@ if (defaultColor === null) {
   throw new Error('LocalStorage must contain "--default-color" record')
 }
 
-primary = color(primary)
-
-// const bgSecondary = '#fdfefe'
+/* Main */
 const bgColor = color(bg)
+primary = color(primary)
+const caretColor = 'black'
+
 const errorColor = color('#d2302f')
 
 // Input
@@ -37,7 +38,7 @@ const textInput_borderColor = input_borderColor
 
 export const light: Theme & TextInputCSSVars & Record<'input_border-color', ToStringable> = {
   ...common,
-  'caret-color': 'black',
+  caretColor,
   bg: bgColor.toString(),
   color: defaultColor,
   'bg-secondary': 'white',

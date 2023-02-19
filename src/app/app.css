@@ -1,5 +1,5 @@
 #root {
-  caret-color: var(--caret-color);
+  caret-color: var(--caretColor);
 }
 
 #root *::selection {
