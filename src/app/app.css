@@ -4,5 +4,5 @@
 
 #root *::selection {
   color: var(--selectionColor);
-  background-color: var(--selection-bg);
+  background-color: var(--selectionBg);
 }

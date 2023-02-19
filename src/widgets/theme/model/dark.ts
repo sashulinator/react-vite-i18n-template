@@ -23,6 +23,27 @@ const textInput_color = clr('#b2bac2')
 const textInput_bg = clr('#122f4c')
 const textInput_borderColor = input_borderColor
 const textInput_outlineColor = primary
+// --hovered
+const textInput_bg__hovered = textInput_bg.lighten(0.05)
+const textInput_borderColor__hovered = primary.lighten(0.3)
+const textInput_transition__hovered = 'border-color 0.3s, background-color 0.3s, box-shadow 0.3s'
+// --focused
+const textInput_borderColor__focused = primary
+const textInput_outlineColor__focused = primary
+const textInput_transition__focused = 'border-color 0, background-color 0, box-shadow 0'
+// --error
+const textInput_bg__error = errorColor.darken(0.9)
+const textInput_outlineColor__error = errorColor
+const textInput_borderColor__error = errorColor
+// --disabled
+const textInput_bg__disabled = textInput_bg.darken(0.5)
+const textInput_borderColor__disabled = textInput_bg.darken(0.5)
+const textInput_color__disabled = textInput_color.darken(0.4)
+// --readonly
+const textInput_bg__readonly = '#ffffff0a'
+const textInput_borderColor__readonly = 'transparent'
+const textInput_outlineColor__readonly = 'transparent'
+const textInput_color__readonly = color
 
 export const dark: Theme & TextInputCSSVars = {
   ...common,
@@ -42,25 +63,20 @@ export const dark: Theme & TextInputCSSVars = {
   textInput_bg,
   textInput_borderColor,
   textInput_outlineColor,
-  // --hovered
-  textInput_bg__hovered: textInput_bg.lighten(0.05),
-  textInput_borderColor__hovered: primary.lighten(0.3),
-  textInput_transition__hovered: 'border-color 0.3s, background-color 0.3s, box-shadow 0.3s',
-  // --focused
-  textInput_borderColor__focused: primary,
-  textInput_outlineColor__focused: primary,
-  textInput_transition__focused: 'border-color 0, background-color 0, box-shadow 0',
-  // --error
-  textInput_bg__error: errorColor.darken(0.9),
-  textInput_outlineColor__error: errorColor,
-  textInput_borderColor__error: errorColor,
-  // --disabled
-  textInput_bg__disabled: textInput_bg.darken(0.5),
-  textInput_borderColor__disabled: textInput_bg.darken(0.5),
-  textInput_color__disabled: textInput_color.darken(0.4),
-  // --readonly
-  textInput_bg__readonly: '#ffffff0a',
-  textInput_borderColor__readonly: 'transparent',
-  textInput_outlineColor__readonly: 'transparent',
-  textInput_color__readonly: color,
+  textInput_bg__hovered,
+  textInput_borderColor__hovered,
+  textInput_transition__hovered,
+  textInput_borderColor__focused,
+  textInput_outlineColor__focused,
+  textInput_transition__focused,
+  textInput_bg__error,
+  textInput_outlineColor__error,
+  textInput_borderColor__error,
+  textInput_bg__disabled,
+  textInput_borderColor__disabled,
+  textInput_color__disabled,
+  textInput_bg__readonly,
+  textInput_borderColor__readonly,
+  textInput_outlineColor__readonly,
+  textInput_color__readonly,
 }

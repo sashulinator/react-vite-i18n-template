@@ -6,33 +6,51 @@ export default function Login(): JSX.Element {
     <main className='pt-5rem'>
       <ThemeDropdown />
       <div
-        className='w-20rem bg-secondary p-2em mt-3rem'
-        style={{ borderRadius: '20px', border: '1px solid var(--input_border-color)' }}
+        className='w-20rem bg-secondary p-2.5em mt-2.5rem'
+        style={{ borderRadius: '20px', border: '1px solid var(--input_borderColor)' }}
       >
         <h2 className='mb-2rem'>TextInput</h2>
         <div className='mt-0.5rem'>
-          <label htmlFor='default' className='ml-0.2rem'>
+          <label htmlFor='default' className='label ml-0.25rem'>
             Default
           </label>
-          <TextInput className='mt-0.5rem' id='default' autoComplete='off' defaultValue='Default' />
+          <TextInput rootProps={{ className: 'mt-0.5rem' }} id='default' autoComplete='off' defaultValue='Default' />
         </div>
         <div className='mt-1rem'>
-          <label htmlFor='error' className='ml-0.2rem'>
+          <label htmlFor='error' className='label ml-0.25rem'>
             Error
           </label>
-          <TextInput id='error' className='mt-0.5rem' isError={true} autoComplete='off' defaultValue='Error' />
+          <TextInput
+            rootProps={{ className: 'mt-0.5rem' }}
+            id='error'
+            isError={true}
+            autoComplete='off'
+            defaultValue='Error'
+          />
         </div>
         <div className='mt-1rem'>
-          <label htmlFor='disabled' className='ml-0.2rem'>
+          <label htmlFor='disabled' className='label ml-0.25rem'>
             Disabled
           </label>
-          <TextInput id='disabled' className='mt-0.5rem' disabled={true} autoComplete='off' value='Disabled' />
+          <TextInput
+            rootProps={{ className: 'mt-0.5rem' }}
+            id='disabled'
+            disabled={true}
+            autoComplete='off'
+            value='Disabled'
+          />
         </div>
         <div className='mt-1rem'>
-          <label htmlFor='readonly' className='ml-0.2rem'>
+          <label htmlFor='readonly' className='label ml-0.25rem'>
             Readonly
           </label>
-          <TextInput id='readonly' className='mt-0.3rem' readOnly={true} autoComplete='off' value='Readonly' />
+          <TextInput
+            rootProps={{ className: 'mt-0.5rem' }}
+            id='readonly'
+            readOnly={true}
+            autoComplete='off'
+            value='Readonly'
+          />
         </div>
       </div>
     </main>
