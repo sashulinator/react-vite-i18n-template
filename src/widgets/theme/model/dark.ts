@@ -8,7 +8,7 @@ import { common } from './common'
 
 /* Main */
 const caret_color = 'white'
-
+const bgSecondary = '#011e3c'
 const dcolor = '#b2bac2'
 const primary = color('#027ffe')
 const errorColor = color('#d2302f')
@@ -24,7 +24,7 @@ export const dark: Theme & TextInputCSSVars & Record<'input_border-color', ToStr
   ...common,
   caretColor: caret_color,
   bg: '#0a1929',
-  'bg-secondary': '#011e3c',
+  bgSecondary,
   color: dcolor,
   'color-secondary': '#b2bac2',
   primary,

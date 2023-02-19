@@ -24,6 +24,7 @@ if (defaultColor === null) {
 /* Main */
 const bgColor = color(bg)
 primary = color(primary)
+const bgSecondary = 'white'
 const caretColor = 'black'
 
 const errorColor = color('#d2302f')
@@ -41,7 +42,7 @@ export const light: Theme & TextInputCSSVars & Record<'input_border-color', ToSt
   caretColor,
   bg: bgColor.toString(),
   color: defaultColor,
-  'bg-secondary': 'white',
+  bgSecondary,
   'color-secondary': '#b2bac2',
   'selection-color': 'white',
   'selection-bg': primary,
