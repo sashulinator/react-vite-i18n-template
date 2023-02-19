@@ -13,10 +13,10 @@ export const common: TextInputCSSVars & { button__height: ToStringable } = {
   'text-input__line-height': '23px',
   'text-input__horizontal-padding': '12px',
   'text-input__border-radius': '8px',
-  'text-input__outline-width': `1px`,
-  'text-input__border-width': '1px',
+  textInput_outlineWidth: `1px`,
+  textInput_borderWidth: '1px',
   // --focused
-  'text-input__outline-style--focused': `solid`,
+  'textInput_outlineStyle--focused': `solid`,
   // Button
 
   button__height: input_height,
