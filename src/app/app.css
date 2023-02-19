@@ -3,6 +3,6 @@
 }
 
 #root *::selection {
-  color: var(--selection-color);
+  color: var(--selectionColor);
   background-color: var(--selection-bg);
 }

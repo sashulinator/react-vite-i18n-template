@@ -1,38 +1,40 @@
-import color from 'color'
+import clr from 'color'
 
 import { TextInputCSSVars } from '~/ui/text-input/types/css-vars'
-import { ToStringable } from '~/utils/core/types/to-stringable'
 
 import { Theme } from '../types/theme'
 import { common } from './common'
 
 /* Main */
-const caret_color = 'white'
-const bgSecondary = '#011e3c'
-const dcolor = '#b2bac2'
-const primary = color('#027ffe')
-const errorColor = color('#d2302f')
-// Input
-const input_borderColor = color('#265d97')
+const primary = clr('#027ffe')
+const color = clr('#b2bac2')
+const bg = clr('#0a1929')
+const bgSecondary = clr('#011e3c')
+const caretColor = clr('white')
+const selectionColor = color
+const selectionBg = clr('yellow')
 
-// TextInput
-const textInput_bg = color('#122f4c')
+/* Misc */
+const input_borderColor = clr('#265d97')
+const errorColor = clr('#d2302f')
+
+/* TextInput */
+const textInput_color = clr('#b2bac2')
+const textInput_bg = clr('#122f4c')
 const textInput_borderColor = input_borderColor
-const textInput_color = color('#b2bac2')
 
-export const dark: Theme & TextInputCSSVars & Record<'input_border-color', ToStringable> = {
+export const dark: Theme & TextInputCSSVars = {
   ...common,
-  caretColor: caret_color,
-  bg: '#0a1929',
-  bgSecondary,
-  color: dcolor,
-  'color-secondary': '#b2bac2',
   primary,
-  'selection-color': dcolor,
-  'selection-bg': 'yellow',
+  color: color,
+  bg,
+  bgSecondary,
+  caretColor,
+  selectionColor,
+  selectionBg,
 
-  // InputBorder
-  'input_border-color': input_borderColor,
+  errorColor,
+  input_borderColor,
 
   // TextInputCSSVars
   'text-input__bg': textInput_bg,
@@ -59,5 +61,5 @@ export const dark: Theme & TextInputCSSVars & Record<'input_border-color', ToStr
   'text-input__bg--readonly': '#ffffff0a',
   'text-input__border-color--readonly': 'transparent',
   'text-input__outline-color--readonly': 'transparent',
-  'text-input__color--readonly': dcolor,
+  'text-input__color--readonly': color,
 }
