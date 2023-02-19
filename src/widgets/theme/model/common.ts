@@ -16,7 +16,7 @@ export const common: TextInputCSSVars & { button__height: ToStringable } = {
   textInput_outlineWidth: `1px`,
   textInput_borderWidth: '1px',
   // --focused
-  'textInput_outlineStyle--focused': `solid`,
+  textInput_outlineStyle__focused: `solid`,
   // Button
 
   button__height: input_height,

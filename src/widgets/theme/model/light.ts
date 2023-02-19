@@ -58,20 +58,20 @@ export const light: Theme & TextInputCSSVars = {
   textInput_outlineColor,
   textInput_transition: 'border-color 0.3s, background-color 0.3s, box-shadow 0.3s',
   // --hovered
-  'textInput_bg--hovered': textInput_bg.lighten(0.01),
-  'textInput_borderColor--hovered': primary.lighten(0.5),
+  textInput_bg__hovered: textInput_bg.lighten(0.01),
+  textInput_borderColor__hovered: primary.lighten(0.5),
   // --focused
-  'textInput_borderColor--focused': defaultPrimary,
+  textInput_borderColor__focused: defaultPrimary,
   // --error
-  'textInput_bg--error': errorColor.lighten(0.9),
-  'textInput_outlineColor--error': errorColor,
-  'textInput_borderColor--error': errorColor,
+  textInput_bg__error: errorColor.lighten(0.9),
+  textInput_outlineColor__error: errorColor,
+  textInput_borderColor__error: errorColor,
   // --disabled
-  'textInput_bg--disabled': textInput_bg.lighten(0.01),
-  'textInput_borderColor--disabled': textInput_bg.lighten(0.01),
-  'textInput_color--disabled': textInput_color.lighten(1.5),
+  textInput_bg__disabled: textInput_bg.lighten(0.01),
+  textInput_borderColor__disabled: textInput_bg.lighten(0.01),
+  textInput_color__disabled: textInput_color.lighten(1.5),
   // --readonly
-  'textInput_borderColor--readonly': 'transparent',
-  'textInput_outlineColor--readonly': 'transparent',
+  textInput_borderColor__readonly: 'transparent',
+  textInput_outlineColor__readonly: 'transparent',
   // Button
 }
