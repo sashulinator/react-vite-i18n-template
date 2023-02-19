@@ -7,4 +7,6 @@ export interface Theme {
   'color-secondary': ToStringable
   primary: ToStringable
   'caret-color': ToStringable
+  'selection-color': ToStringable
+  'selection-bg': ToStringable
 }

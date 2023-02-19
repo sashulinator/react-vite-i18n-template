@@ -25,6 +25,8 @@ export const dark: Theme & TextInputCSSVars & Record<'input_border-color', ToStr
   color: dcolor,
   'color-secondary': '#b2bac2',
   primary,
+  'selection-color': dcolor,
+  'selection-bg': 'yellow',
 
   // InputBorder
   'input_border-color': input_borderColor,

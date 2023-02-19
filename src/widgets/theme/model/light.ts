@@ -37,11 +37,13 @@ const textInput_borderColor = input_borderColor
 
 export const light: Theme & TextInputCSSVars & Record<'input_border-color', ToStringable> = {
   ...common,
-  'caret-color': 'white',
+  'caret-color': 'black',
   bg: bgColor.toString(),
   color: defaultColor,
   'bg-secondary': 'white',
   'color-secondary': '#b2bac2',
+  'selection-color': 'white',
+  'selection-bg': primary,
   primary,
 
   // Input
