@@ -12,7 +12,7 @@ git subtree pull --prefix=src/utils/error utils-error master
 # Force
 git push utils-error `git subtree split --prefix=src/utils/error @`:master --force
 ```
-test
+
 ### Add to your project
 
 1. Add a repository alias `git remote add utils-error git@github.com:sashulinator/utils-error.git`
