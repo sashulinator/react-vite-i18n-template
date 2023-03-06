@@ -1,12 +1,11 @@
-export interface PositionProps {
+export interface PositionStrategyProps {
   relativeElement: Element
   rootElement: HTMLElement
   containerElement: HTMLElement
   containerRect: DOMRect
   relativeRect: DOMRect
   rootRect: DOMRect
-  scrollLeft: number
-  scrollTop: number
+  scrollableParents: (HTMLElement | Window)[]
 }
 
-export type Position = (props: PositionProps) => void
+export type PositionStrategy = (props: PositionStrategyProps) => void

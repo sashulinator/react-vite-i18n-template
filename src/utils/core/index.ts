@@ -1,3 +1,4 @@
+export * from './types/function/value-or-setter'
 export * from './types/list/list'
 export * from './types/any'
 export * from './types/at'
