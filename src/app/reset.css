@@ -87,15 +87,10 @@ video {
   vertical-align: baseline;
 }
 
-/* Universal Box Sizing */
-/* https://css-tricks.com/box-sizing/#aa-universal-box-sizing-with-inheritance */
-html {
-  box-sizing: border-box;
-}
 *,
-*:before,
-*:after {
-  box-sizing: inherit;
+*:after,
+*:before {
+  box-sizing: border-box;
 }
 
 h1 {

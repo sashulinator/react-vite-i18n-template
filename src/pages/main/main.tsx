@@ -1,3 +1,4 @@
+import Dropdown from '~/ui/dropdown'
 import TextInput from '~/ui/text-input'
 import { ThemeDropdown } from '~/widgets/theme'
 
@@ -15,6 +16,12 @@ export default function Login(): JSX.Element {
             Default
           </label>
           <TextInput rootProps={{ className: 'mt-0.5rem' }} id='default' autoComplete='off' defaultValue='Default' />
+        </div>
+        <div className='mt-1rem testd'>
+          <label htmlFor='readonly' className='label ml-0.25rem'>
+            Dropdown
+          </label>
+          <Dropdown rootProps={{ className: 'mt-0.5rem' }} id='readonly' autoComplete='off' />
         </div>
         <div className='mt-1rem'>
           <label htmlFor='error' className='label ml-0.25rem'>
