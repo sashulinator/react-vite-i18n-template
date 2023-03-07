@@ -1,8 +1,11 @@
 import Dropdown from '~/ui/dropdown'
+import Popover from '~/ui/popover'
 import TextInput from '~/ui/text-input'
+import { useBoolean } from '~/utils/hooks'
 import { ThemeDropdown } from '~/widgets/theme'
 
 export default function Login(): JSX.Element {
+  const [isOpen, open, close] = useBoolean(false)
   return (
     <main className='pt-5rem'>
       <ThemeDropdown />
@@ -36,9 +39,23 @@ export default function Login(): JSX.Element {
           />
         </div>
         <div className='mt-1rem'>
-          <label htmlFor='disabled' className='label ml-0.25rem'>
-            Disabled
-          </label>
+          <Popover isOpen={isOpen} onClose={close} content='Hello'>
+            {({ ref }) => {
+              return (
+                <label
+                  htmlFor='disabled'
+                  className='label ml-0.25rem'
+                  ref={ref}
+                  onClick={open}
+                  onKeyDown={open}
+                  // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
+                  role='button'
+                >
+                  Disabled
+                </label>
+              )
+            }}
+          </Popover>
           <TextInput
             rootProps={{ className: 'mt-0.5rem' }}
             id='disabled'

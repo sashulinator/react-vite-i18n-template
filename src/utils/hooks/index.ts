@@ -1,4 +1,5 @@
 export * from './boolean'
+export * from './click-outside'
 export * from './event-listener'
 export * from './force-update'
 export * from './isomorphic-layout-effect'

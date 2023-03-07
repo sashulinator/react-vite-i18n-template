@@ -28,7 +28,7 @@ const DropdownComponent: React.ForwardRefRenderFunction<HTMLInputElement, Dropdo
         <PositioningPortal
           {...portalProps}
           updatePositionDeps={[transform]}
-          relativeElement={inputRef.current}
+          targetRef={inputRef}
           positionStrategy={bottomPrefered}
           containerElement={document.body}
         >

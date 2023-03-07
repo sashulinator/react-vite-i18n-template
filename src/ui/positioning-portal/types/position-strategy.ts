@@ -1,10 +1,10 @@
 export interface PositionStrategyProps {
-  relativeElement: Element
+  targetElement: Element
+  targetRect: DOMRect
   rootElement: HTMLElement
+  rootRect: DOMRect
   containerElement: HTMLElement
   containerRect: DOMRect
-  relativeRect: DOMRect
-  rootRect: DOMRect
   scrollableParents: (HTMLElement | Window)[]
 }
 

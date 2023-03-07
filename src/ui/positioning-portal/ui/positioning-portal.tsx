@@ -11,17 +11,20 @@ import getScrollableParents from '../lib/get-scrollable-parents'
 import { bottom } from '../lib/position-strategies'
 import { PositionStrategy } from '../types/position-strategy'
 
-export interface PositioningProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface PositioningPortalProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
-  relativeElement: HTMLElement | null
+  targetRef: React.RefObject<HTMLElement>
   containerElement?: HTMLElement
   updatePositionDeps?: unknown[]
   positionStrategy?: PositionStrategy
 }
 
-const PositioningPortalComponent: React.ForwardRefRenderFunction<HTMLDivElement, PositioningProps> = (props, ref) => {
+const PositioningPortalComponent: React.ForwardRefRenderFunction<HTMLDivElement, PositioningPortalProps> = (
+  props,
+  ref
+) => {
   const {
-    relativeElement,
+    targetRef,
     containerElement = document.body,
     positionStrategy = bottom,
     updatePositionDeps = [],
@@ -29,30 +32,37 @@ const PositioningPortalComponent: React.ForwardRefRenderFunction<HTMLDivElement,
   } = props
   const rootRef = React.useRef<HTMLDivElement>(null)
   const windowSize = useWindowSize()
-  const scrollableParents = React.useMemo(() => getScrollableParents(relativeElement), [relativeElement])
+  const scrollableParents = React.useMemo(() => getScrollableParents(targetRef.current), [targetRef])
+  const style = { ...props.style, display: rootRef.current ? props.style?.display : 'none' }
 
   const updatePosition = React.useCallback(_updatePosition, [
     positionStrategy,
     scrollableParents,
-    relativeElement,
+    targetRef.current,
     containerElement,
     ...updatePositionDeps,
   ])
-  React.useLayoutEffect(listenScrollableParents, [updatePosition])
+  React.useLayoutEffect(listenScrollableParents, [updatePosition, targetRef])
   React.useLayoutEffect(updatePosition, [updatePosition, windowSize.width, windowSize.height])
 
   return createPortal(
-    <div ref={setRefs(rootRef, ref)} {...rootProps} className={cl('ui-PositioningPortal', props.className)} />,
+    <div
+      {...rootProps}
+      ref={setRefs(rootRef, ref)}
+      style={style}
+      className={cl('ui-PositioningPortal', props.className)}
+    />,
     containerElement
   )
 
   // Private
 
   function _updatePosition() {
-    if (!rootRef.current || !relativeElement) return
+    if (!rootRef.current || !targetRef.current) return
+    rootRef.current.style.display = props.style?.display ?? 'block'
     positionStrategy({
-      relativeElement: relativeElement,
-      relativeRect: relativeElement.getBoundingClientRect(),
+      targetElement: targetRef.current,
+      targetRect: targetRef.current.getBoundingClientRect(),
       rootElement: rootRef.current,
       rootRect: rootRef.current.getBoundingClientRect(),
       containerElement,
