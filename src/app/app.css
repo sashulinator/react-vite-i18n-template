@@ -1,8 +1,7 @@
-#root {
+* {
   caret-color: var(--caretColor);
 }
-
-#root *::selection {
+*::selection {
   color: var(--selectionColor);
   background-color: var(--selectionBg);
 }
