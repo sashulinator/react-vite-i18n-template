@@ -36,6 +36,7 @@ const errorColor = clr('#d2302f')
 const textInput_color = clr('#2d3843')
 const textInput_bg = clr('#f4f6f9')
 const textInput_borderColor = input_borderColor
+const textInput_outlineWidth = '4px'
 const textInput_outlineColor = primary
 const textInput_transition = 'border-color 0.3s, background-color 0.3s, box-shadow 0.3s'
 // --hovered
@@ -43,10 +44,11 @@ const textInput_bg__hovered = textInput_bg.lighten(0.01)
 const textInput_borderColor__hovered = primary.lighten(0.5)
 // --focused
 const textInput_borderColor__focused = defaultPrimary
+const textInput_outlineColor__focused = primary.alpha(0.5)
 // --error
 const textInput_bg__error = errorColor.lighten(0.9)
-const textInput_outlineColor__error = errorColor
 const textInput_borderColor__error = errorColor
+const textInput_outlineColor__error = errorColor.alpha(0.5)
 // --disabled
 const textInput_bg__disabled = textInput_bg.lighten(0.01)
 const textInput_borderColor__disabled = textInput_bg.lighten(0.01)
@@ -74,6 +76,8 @@ export const light: Theme & TextInputCSSVars = {
   textInput_borderColor,
   textInput_outlineColor,
   textInput_transition,
+  textInput_outlineColor__focused,
+  textInput_outlineWidth,
   textInput_bg__hovered,
   textInput_borderColor__hovered,
   textInput_borderColor__focused,

@@ -10,7 +10,7 @@ const primary = clr('#027ffe')
 const color = clr('#b2bac2')
 const bg = clr('#0a1929')
 const bgSecondary = clr('#011e3c')
-const caretColor = clr('white')
+const caretColor = clr('yellow')
 const selectionColor = color
 const selectionBg = clr('yellow')
 
@@ -22,25 +22,24 @@ const errorColor = clr('#d2302f')
 const textInput_color = clr('#b2bac2')
 const textInput_bg = clr('#122f4c')
 const textInput_borderColor = input_borderColor
-const textInput_outlineColor = primary
+const textInput_outlineWidth = '4px'
 // --hovered
 const textInput_bg__hovered = textInput_bg.lighten(0.05)
 const textInput_borderColor__hovered = primary.lighten(0.3)
 const textInput_transition__hovered = 'border-color 0.3s, background-color 0.3s, box-shadow 0.3s'
 // --focused
 const textInput_borderColor__focused = primary
-const textInput_outlineColor__focused = primary
+const textInput_outlineColor__focused = primary.alpha(0.5)
 const textInput_transition__focused = 'border-color 0, background-color 0, box-shadow 0'
 // --error
 const textInput_bg__error = errorColor.darken(0.9)
-const textInput_outlineColor__error = errorColor
+const textInput_outlineColor__error = errorColor.alpha(0.5)
 const textInput_borderColor__error = errorColor
 // --disabled
 const textInput_bg__disabled = textInput_bg.darken(0.5)
 const textInput_borderColor__disabled = textInput_bg.darken(0.5)
 const textInput_color__disabled = textInput_color.darken(0.4)
 // --readonly
-const textInput_bg__readonly = '#ffffff0a'
 const textInput_borderColor__readonly = 'transparent'
 const textInput_outlineColor__readonly = 'transparent'
 const textInput_color__readonly = color
@@ -62,7 +61,7 @@ export const dark: Theme & TextInputCSSVars = {
   textInput_color,
   textInput_bg,
   textInput_borderColor,
-  textInput_outlineColor,
+  textInput_outlineWidth,
   textInput_bg__hovered,
   textInput_borderColor__hovered,
   textInput_transition__hovered,
@@ -75,7 +74,6 @@ export const dark: Theme & TextInputCSSVars = {
   textInput_bg__disabled,
   textInput_borderColor__disabled,
   textInput_color__disabled,
-  textInput_bg__readonly,
   textInput_borderColor__readonly,
   textInput_outlineColor__readonly,
   textInput_color__readonly,
