@@ -39,13 +39,13 @@ export default function Login(): JSX.Element {
           />
         </div>
         <div className='mt-1rem'>
-          <Popover isOpen={isOpen} onClose={close} content='Hello'>
+          <Popover isOpen onClose={close} content='Hello'>
             {({ ref }) => {
               return (
                 <label
                   htmlFor='disabled'
                   className='label ml-0.25rem'
-                  ref={ref}
+                  ref={ref as React.RefObject<HTMLLabelElement>}
                   onClick={open}
                   onKeyDown={open}
                   // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role

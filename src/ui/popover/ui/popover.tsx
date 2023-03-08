@@ -9,7 +9,7 @@ import { setRefs } from '~/utils/react/set-refs'
 
 export interface TooltipProps extends Omit<PositioningPortalProps, 'targetRef' | 'children'> {
   children: // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ((props: { ref: React.ForwardedRef<HTMLElement & any> | undefined }) => React.ReactNode) | React.ReactNode
+  ((props: { ref: React.ForwardedRef<HTMLElement> | undefined }) => React.ReactNode) | React.ReactNode
   isOpen: boolean | undefined
   content: React.ReactNode
   wrapperProps?: React.HTMLAttributes<HTMLSpanElement> & { ref?: React.ForwardedRef<HTMLSpanElement> }
