@@ -1,4 +1,0 @@
-.ui-PositioningPortal {
-  position: fixed;
-  z-index: var(--z-index--popover, 500);
-}

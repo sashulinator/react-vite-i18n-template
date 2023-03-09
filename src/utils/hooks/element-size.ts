@@ -8,7 +8,7 @@ interface Size {
   height: number
 }
 
-function useElementSize<T extends HTMLElement = HTMLDivElement>(el: T | null): Size {
+export function useElementSize<T extends HTMLElement = HTMLDivElement>(el: T | null): Size {
   // Mutable values like 'ref.current' aren't valid dependencies
   // because mutating them doesn't re-render the component.
   // Instead, we use a state as a ref to be reactive.
@@ -36,5 +36,3 @@ function useElementSize<T extends HTMLElement = HTMLDivElement>(el: T | null): S
 
   return size
 }
-
-export default useElementSize

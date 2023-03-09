@@ -1,16 +1,17 @@
-.ui-Tooltip {
+.ui-Callout {
   --arrow-size: 10px;
 }
 
-.ui-Tooltip .content {
+.ui-Callout .ui-Callout_content_wrapper {
   position: relative;
   color: white;
   border-radius: 4px;
   background-color: #3b4258;
   padding: 6px 12px;
-  box-shadow: 0px 1.2px 18px rgba(0, 0, 0, 0.08), 0px 6.4px 29px rgba(0, 0, 0, 0.12);
+  /* box-shadow: 0px 1.2px 18px rgba(0, 0, 0, 0.08), 0px 6.4px 29px rgba(0, 0, 0, 0.12); */
 }
-.ui-Tooltip .arrow {
+.ui-Callout .ui-Callout_arrow {
+  /* transform: rotate(45deg); */
   background-color: #3b4258;
   position: absolute;
   width: var(--arrow-size);
@@ -19,21 +20,21 @@
 }
 
 /* Top */
-.ui-Tooltip.--top .content {
+/* .ui-Callout.--top .ui-Callout_content_wrapper {
   margin-bottom: var(--arrow-size);
 }
-.ui-Tooltip.--top .arrow {
+.ui-Callout.--top .ui-Callout_arrow {
   bottom: calc(var(--arrow-size) / 2);
   left: 50%;
   transform: translateX(-50%) rotate(45deg);
-}
+} */
 
 /* Botom */
-.ui-Tooltip.--bottom .content {
+/* .ui-Callout.--bottom .ui-Callout_content_wrapper {
   margin-top: var(--arrow-size);
 }
-.ui-Tooltip.--bottom .arrow {
+.ui-Callout.--bottom .ui-Callout_arrow  {
   top: calc(var(--arrow-size) / -2);
   left: 50%;
   transform: translateX(-50%) rotate(45deg);
-}
+} */
