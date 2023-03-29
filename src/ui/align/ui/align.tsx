@@ -1,122 +1,54 @@
-import addEventListener from 'rc-util/lib/Dom/addEventListener'
+import { Config, alignElement } from 'dom-align-ts'
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect'
-import isEqual from 'rc-util/lib/isEqual'
-import { composeRef } from 'rc-util/lib/ref'
-import React from 'react'
+import React, { useCallback } from 'react'
+import { createPortal } from 'react-dom'
 
-import useBuffer from '../hooks/use-buffer'
-import { DOMAlign } from '../types/dom-align'
-import { DOMAlignResult } from '../types/dom-align-result'
-import { Target, TargetPoint } from '../types/target'
-import { align } from '../utils/align'
-import { getElement } from '../utils/get-element'
-import { getPoint } from '../utils/get-point'
-import { isSamePoint } from '../utils/is-same-point'
-import { observeResize } from '../utils/observe-resize'
+import { listenParentScrolls } from '~/utils/dom/listen-parent-scrolls'
+import { observeResize } from '~/utils/dom/observe-resize'
+import useEventListener from '~/utils/hooks/event-listener'
+import { setRefs } from '~/utils/react/set-refs'
 
-export interface RefAlign {
-  forceAlign: () => void
+interface ChildProps {
+  ref?: React.Ref<HTMLElement> | undefined
 }
 
-export interface AlignProps {
-  align: DOMAlign
-  target: Target
-  updateAlignMs?: number
-  disableAlign?: boolean
-  children: React.ReactElement
-  onAlign?: (source: HTMLElement, result: DOMAlignResult) => void
+export interface AlignProps extends Omit<Config, 'source' | 'target'> {
+  target: HTMLElement
+  children: React.ReactElement<ChildProps>
+  portalToEl?: HTMLElement | null
+  deps?: unknown[] | undefined
+  onAligned?: (ret: ReturnType<typeof alignElement>) => void
 }
 
-const AlignComponent: React.ForwardRefRenderFunction<RefAlign, AlignProps> = (props, ref) => {
-  const [forceUpdateAlign, cancelAlignUpdating] = useBuffer(updateAlign, props.updateAlignMs || 0)
+export default function Align(props: AlignProps): JSX.Element {
+  const { target, children, portalToEl, deps = [], onAligned, ...config } = props
 
-  // We save the props here to avoid closure makes props old
-  const propsRef = React.useRef(props)
-  propsRef.current = props
-
-  const cacheEl = React.useRef<HTMLElement | null>(null)
-  const cacheAlign = React.useRef<DOMAlign | undefined>()
-  const cachePoint = React.useRef<TargetPoint | null>(null)
-
-  const childRef = React.useRef<HTMLElement | null>(null)
-  let childReactEl = React.Children.only(props.children)
-
-  const [targetElement, setElement] = React.useState<HTMLElement | null>(null)
-  const [point, setPoint] = React.useState<TargetPoint | null>(null)
-
-  // ? Maybe we should replace updateOnChange to forceUpdateAlign and element to cacheEl ?
-  React.useEffect(updateOnChange)
-  React.useEffect(onDisableAlignChange, [props.disableAlign])
-  React.useEffect(() => observeResize(childRef.current, () => forceUpdateAlign()), [childRef.current])
-  React.useEffect(() => observeResize(targetElement, () => forceUpdateAlign()), [targetElement])
-  React.useEffect(listenWindowResize, [])
-  React.useEffect(() => cancelAlignUpdating, [])
-  useLayoutEffect(() => {
-    setElement(getElement(props.target))
-    setPoint(getPoint(props.target))
-  })
-
-  React.useImperativeHandle(ref, () => ({
-    forceAlign: () => forceUpdateAlign(true),
-  }))
-
-  if (React.isValidElement(childReactEl)) {
-    childReactEl = React.cloneElement<any>(childReactEl, {
-      ref: composeRef((childReactEl as any).ref, childRef),
-    })
+  if (!React.isValidElement(children)) {
+    throw new Error('Must have one child')
   }
 
-  return childReactEl
+  const [sourceEl, setSourceEl] = React.useState<null | HTMLElement>(null)
+  const align = useCallback(_align, [target, sourceEl, ...deps])
+
+  useLayoutEffect(align, [align])
+  useEventListener('resize', align, undefined, { passive: true })
+  useLayoutEffect(() => listenParentScrolls(target, align, { passive: true }), [align])
+  useLayoutEffect(() => listenParentScrolls(sourceEl, align, { passive: true }), [align])
+  useLayoutEffect(() => observeResize(target, align), [align])
+  useLayoutEffect(() => observeResize(sourceEl, align), [align])
+
+  const clonedChildren = React.cloneElement(children, {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ref: setRefs((children as any).ref, setSourceEl),
+  })
+
+  return <>{createPortal(clonedChildren, portalToEl || document.body)}</>
 
   // Private
 
-  function listenWindowResize() {
-    const cb = () => forceUpdateAlign()
-    addEventListener('resize', cb)
-    return () => removeEventListener('resize', cb)
-  }
-
-  function onDisableAlignChange() {
-    if (props.disableAlign) {
-      cancelAlignUpdating()
-      return
-    }
-    forceUpdateAlign()
-  }
-
-  function updateOnChange() {
-    const isElementChanged = cacheEl.current !== targetElement
-    const isPointChanged = !isSamePoint(cachePoint.current, point)
-    const isAlignChanged = !isEqual(cacheAlign.current, props.align)
-
-    if (isElementChanged || isPointChanged || isAlignChanged) {
-      forceUpdateAlign()
-    }
-  }
-
-  function updateAlign() {
-    if (propsRef.current.disableAlign || !propsRef.current.target || !childRef.current) {
-      cancelAlignUpdating()
-      return
-    }
-
-    const element = getElement(propsRef.current.target)
-    const point = getPoint(propsRef.current.target)
-
-    cacheEl.current = element
-    cachePoint.current = point
-    cacheAlign.current = propsRef.current.align
-
-    const ret = align(childRef.current, element, point, propsRef.current.align)
-
-    if (propsRef.current.onAlign && ret) {
-      propsRef.current.onAlign(childRef.current, ret)
-    }
+  function _align() {
+    if (!target || !sourceEl) return
+    const ret = alignElement(sourceEl, target, config)
+    onAligned?.(ret)
   }
 }
-
-const Align = React.forwardRef(AlignComponent)
-
-Align.displayName = 'Align'
-
-export default Align
