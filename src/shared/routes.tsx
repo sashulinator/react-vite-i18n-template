@@ -1,13 +1,14 @@
 import { FC } from 'react'
 import { RouteProps } from 'react-router-dom'
 
-import Dropdown from '~/pages/dropdown'
+import CalloutPage from '~/pages/callout'
+import DropdownPage from '~/pages/dropdown'
 import LoginPage from '~/pages/login'
 import MainPage from '~/pages/main'
-import NotFound from '~/pages/not-found'
+import NotFoundPage from '~/pages/not-found'
 import PopoverPage from '~/pages/popover'
 import SettingsPage from '~/pages/settings'
-import TextInput from '~/pages/text-input'
+import TextInputPage from '~/pages/text-input'
 import Header from '~/ui/header'
 import Nav from '~/ui/nav'
 
@@ -31,14 +32,21 @@ export const routes = {
     Nav,
     getName: () => 'TextInput',
     path: '/text-input',
-    element: <TextInput />,
+    element: <TextInputPage />,
+  },
+  callout: {
+    Header,
+    Nav,
+    getName: () => 'Callout',
+    path: '/callout',
+    element: <CalloutPage />,
   },
   dropdown: {
     Header,
     Nav,
     getName: () => 'Dropdown',
     path: '/dropdown',
-    element: <Dropdown />,
+    element: <DropdownPage />,
   },
   popover: {
     Header,
@@ -66,7 +74,7 @@ export const routes = {
     Nav,
     getName: () => 'notFound',
     path: '*',
-    element: <NotFound />,
+    element: <NotFoundPage />,
   },
 } as const
 

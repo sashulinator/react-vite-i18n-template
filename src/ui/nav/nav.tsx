@@ -11,10 +11,13 @@ export default function Nav(): JSX.Element {
     <nav style={{ paddingTop: '5rem' }}>
       <ul>
         <ol>
-          <Link to={routes.textInput.path}>TextInput</Link>
+          <Link to={routes.callout.path}>Callout</Link>
         </ol>
         <ol>
           <Link to={routes.dropdown.path}>Dropdown</Link>
+        </ol>
+        <ol>
+          <Link to={routes.textInput.path}>TextInput</Link>
         </ol>
         <ol>
           <Link to={routes.popover.path}>Popover</Link>

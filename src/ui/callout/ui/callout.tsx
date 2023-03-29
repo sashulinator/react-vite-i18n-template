@@ -1,42 +1,98 @@
 import './callout.css'
 
 import { clsx } from 'clsx'
+import { Offset, Point, Points, flipPointHorizontally, flipPointVertically } from 'dom-align-ts'
 import * as React from 'react'
 
 import Popover, { PopoverProps } from '~/ui/popover'
 import { setRefs } from '~/utils/react/set-refs'
 
 // eslint-disable-next-line import/no-unused-modules
-export interface CalloutProps extends Omit<PopoverProps, 'targetRef' | 'align'> {
-  arrowProps?: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> }
+export interface CalloutProps extends Omit<PopoverProps, 'points'> {
   contentWrapperProps?: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> }
+  contentProps?: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> }
+  arrowProps?: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> }
 }
 
-const TooltipComponent: React.ForwardRefRenderFunction<HTMLDivElement, CalloutProps> = (props) => {
-  const { arrowProps, contentWrapperProps, content, ...popoverProps } = props
-  const arrowRef = React.useRef<HTMLDivElement | null>(null)
-  const contentWrapperRef = React.useRef<HTMLDivElement | null>(null)
+const CalloutComponent: React.ForwardRefRenderFunction<HTMLDivElement, CalloutProps> = (props) => {
+  const { arrowProps, contentWrapperProps, contentProps, content, placement = 'tc', ...popoverProps } = props
+
+  const [contentEl, setContentEl] = React.useState<HTMLDivElement | null>(null)
+
+  const [isXAdjusted, setXAdjusted] = React.useState(false)
+  const [isYAdjusted, setYAdjusted] = React.useState(false)
+  const adjustedPlacement = getAdjustedPlacement()
 
   return (
     <Popover
       {...popoverProps}
+      placement={placement}
+      onAligned={(ret) => {
+        setXAdjusted(ret.isXAdjusted)
+        setYAdjusted(ret.isYAdjusted)
+      }}
       content={
         <div
           {...contentWrapperProps}
-          className={clsx('ui-Callout_content_wrapper', contentWrapperProps?.className)}
-          ref={setRefs(contentWrapperRef, contentWrapperProps?.ref)}
+          className={clsx(
+            'ui-Callout_content-wrapper',
+            `--${adjustedPlacement.charAt(0)}`,
+            `--${adjustedPlacement.charAt(1)}`,
+            contentWrapperProps?.className
+          )}
         >
-          {content}
-          <div
-            {...arrowProps}
-            className={clsx('ui-Callout_arrow', arrowProps?.className)}
-            ref={setRefs(arrowRef, arrowProps?.ref)}
-          />
+          <Popover
+            portalToEl={contentEl}
+            isOpen={true}
+            points={toPoints(adjustedPlacement)}
+            offset={calcArrowOffset(adjustedPlacement)}
+            deps={[adjustedPlacement]}
+            content={<div {...arrowProps} className={clsx('ui-Callout_arrow', arrowProps?.className)} />}
+          >
+            <div
+              {...contentProps}
+              className={clsx('ui-Callout_content', contentProps?.className)}
+              ref={setRefs(setContentEl, contentProps?.ref)}
+            >
+              {content}
+            </div>
+          </Popover>
         </div>
       }
     />
   )
+
+  // Private
+
+  function calcArrowOffset(placement: Point): Offset {
+    if (!contentEl) return [0, 0]
+    const isLeft = placement.charAt(1) === 'l'
+    const isRight = placement.charAt(1) === 'r'
+    const isTop = placement.charAt(0) === 't'
+    const isBottom = placement.charAt(0) === 'b'
+
+    if (placement.charAt(0) === 'c') {
+      const offsetX = isLeft ? '-50%' : isRight ? '50%' : 0
+      return [offsetX, 0]
+    }
+
+    const offsetX = isLeft ? '50%' : isRight ? '-50%' : 0
+    const offsetY = isTop ? '-50%' : isBottom ? '50%' : 0
+    return [offsetX, offsetY]
+  }
+
+  function toPoints(placement: Point): Points {
+    if (placement.charAt(0) === 'c') {
+      return [placement, flipPointHorizontally(placement)]
+    }
+    return [placement, flipPointVertically(placement)]
+  }
+
+  function getAdjustedPlacement(): Point {
+    const horizontalPlacement = isXAdjusted ? flipPointHorizontally(placement) : placement
+    return isYAdjusted ? flipPointVertically(horizontalPlacement) : horizontalPlacement
+  }
 }
 
-const Tooltip = React.forwardRef(TooltipComponent)
-export default Tooltip
+const Callout = React.forwardRef(CalloutComponent)
+export default Callout

@@ -15,18 +15,20 @@ interface ChildProps {
 export interface AlignProps extends Omit<Config, 'source' | 'target'> {
   target: HTMLElement
   children: React.ReactElement<ChildProps>
-  portalToEl?: HTMLElement
+  portalToEl?: HTMLElement | null
+  deps?: unknown[] | undefined
+  onAligned?: (ret: ReturnType<typeof alignElement>) => void
 }
 
 export default function Align(props: AlignProps): JSX.Element {
-  const { target, children, portalToEl, ...config } = props
+  const { target, children, portalToEl, deps = [], onAligned, ...config } = props
 
   if (!React.isValidElement(children)) {
     throw new Error('Must have one child')
   }
 
   const [sourceEl, setSourceEl] = React.useState<null | HTMLElement>(null)
-  const align = useCallback(_align, [target, sourceEl])
+  const align = useCallback(_align, [target, sourceEl, ...deps])
 
   useLayoutEffect(align, [align])
   useEventListener('resize', align, undefined, { passive: true })
@@ -46,6 +48,7 @@ export default function Align(props: AlignProps): JSX.Element {
 
   function _align() {
     if (!target || !sourceEl) return
-    alignElement(sourceEl, target, config)
+    const ret = alignElement(sourceEl, target, config)
+    onAligned?.(ret)
   }
 }
