@@ -15,10 +15,11 @@ interface ChildProps {
 export interface AlignProps extends Omit<Config, 'source' | 'target'> {
   target: HTMLElement
   children: React.ReactElement<ChildProps>
+  portalToEl?: HTMLElement
 }
 
 export default function Align(props: AlignProps): JSX.Element {
-  const { target, children, ...config } = props
+  const { target, children, portalToEl, ...config } = props
 
   if (!React.isValidElement(children)) {
     throw new Error('Must have one child')
@@ -39,7 +40,7 @@ export default function Align(props: AlignProps): JSX.Element {
     ref: setRefs((children as any).ref, setSourceEl),
   })
 
-  return <>{createPortal(clonedChildren, document.body)}</>
+  return <>{createPortal(clonedChildren, portalToEl || document.body)}</>
 
   // Private
 

@@ -13,7 +13,7 @@ export default function MainPage(): JSX.Element {
     <main className='pt-5rem flex flex-col'>
       <Link to={routes.textInput.path}>TextInput</Link>
       <Link to={routes.dropdown.path}>Dropdown</Link>
-      <Link to={routes.callout.path}>Callout</Link>
+      <Link to={routes.popover.path}>Popover</Link>
     </main>
   )
 }
