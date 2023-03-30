@@ -1,11 +1,9 @@
 import { Config, alignElement } from 'dom-align-ts'
-import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect'
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useLayoutEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 
-import { listenParentScrolls } from '~/utils/dom/listen-parent-scrolls'
-import { observeResize } from '~/utils/dom/observe-resize'
-import useEventListener from '~/utils/hooks/event-listener'
+import { listenParentScrolls, observeResize } from '~/utils/dom'
+import { useEventListener } from '~/utils/hooks'
 import { setRefs } from '~/utils/react/set-refs'
 
 interface ChildProps {

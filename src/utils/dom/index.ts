@@ -1,1 +1,5 @@
+export * from './is/element'
 export * from './css-variable'
+export * from './get-window'
+export * from './listen-parent-scrolls'
+export * from './observe-resize'

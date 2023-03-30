@@ -4,10 +4,6 @@ import { useBoolean } from '~/utils/hooks'
 
 export default function CalloutPage(): JSX.Element {
   const [isDefaultOpen, , , toggleDefault] = useBoolean(false)
-  // const [isTCPontsOpen, , , toggleTCPoints] = useBoolean(false)
-  // const [isTCPlacementOpen, , , toggleTCPlacement] = useBoolean(false)
-  // const [isParentPopupContainerOpen, , , toggleParentPopupContaner] = useBoolean(false)
-  // const [containerEl, setContainerEl] = useState<HTMLDivElement | null>(null)
 
   return (
     <main className='pt-5rem'>

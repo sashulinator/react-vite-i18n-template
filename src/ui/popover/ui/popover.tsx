@@ -1,11 +1,10 @@
 import { Point, Points } from 'dom-align-ts'
-import { composeRef } from 'rc-util/lib/ref'
 import * as React from 'react'
 
 import Align, { AlignProps } from '~/ui/align'
 import { Any } from '~/utils/core'
-import { useOnClickOutside } from '~/utils/hooks/click-outside'
-import useEventListener from '~/utils/hooks/event-listener'
+import { useEventListener, useOnClickOutside } from '~/utils/hooks'
+import { setRefs } from '~/utils/react'
 
 import { toPoints } from '../lib/to-points'
 
@@ -24,7 +23,7 @@ const PopoverComponent: React.ForwardRefRenderFunction<HTMLDivElement, PopoverPr
   const { isOpen, content, placement = 'bc', onClose, onClickOutside, onEscKeyDown, ...alignProps } = props
   const points = props.placement ? toPoints(placement) : props.points ?? ['tc', 'bc']
   const sourceRef = React.useRef<null | HTMLDivElement>(null)
-  const [childrenEl, setChildrenEl] = React.useState<null | HTMLDivElement>(null)
+  const [childrenEl, setChildrenEl] = React.useState<null | HTMLElement>(null)
 
   const handleClickOutside = React.useCallback(_handleClickOutside, [onClickOutside, onClose])
   const handleEscKeyDown = React.useCallback(_handleEscKeyDown, [onEscKeyDown, onClose])
@@ -40,10 +39,10 @@ const PopoverComponent: React.ForwardRefRenderFunction<HTMLDivElement, PopoverPr
   }
 
   const clonedChildren = React.cloneElement<Any>(props.children, {
-    ref: composeRef((props.children as Any).ref, setChildrenEl),
+    ref: setRefs((props.children as Any).ref, setChildrenEl),
   })
   const clonedContent = React.cloneElement<Any>(content, {
-    ref: composeRef((content as Any).ref, sourceRef),
+    ref: setRefs((content as Any).ref, sourceRef),
   })
 
   return (
