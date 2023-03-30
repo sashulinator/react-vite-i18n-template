@@ -7,7 +7,6 @@ import * as React from 'react'
 import Popover, { PopoverProps } from '~/ui/popover'
 import { setRefs } from '~/utils/react/set-refs'
 
-// eslint-disable-next-line import/no-unused-modules
 export interface CalloutProps extends Omit<PopoverProps, 'points'> {
   contentWrapperProps?: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> }
   contentProps?: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> }
@@ -42,12 +41,12 @@ const CalloutComponent: React.ForwardRefRenderFunction<HTMLDivElement, CalloutPr
           )}
         >
           <Popover
-            portalToEl={contentEl}
+            content={<div {...arrowProps} className={clsx('ui-Callout_arrow', arrowProps?.className)} />}
+            portalTo={contentEl}
             isOpen={true}
             points={toPoints(adjustedPlacement)}
             offset={calcArrowOffset(adjustedPlacement)}
             deps={[adjustedPlacement]}
-            content={<div {...arrowProps} className={clsx('ui-Callout_arrow', arrowProps?.className)} />}
           >
             <div
               {...contentProps}

@@ -10,7 +10,7 @@ export default function CalloutPage(): JSX.Element {
   // const [containerEl, setContainerEl] = useState<HTMLDivElement | null>(null)
 
   return (
-    <main className='pt-30rem pb-30rem'>
+    <main className='pt-5rem'>
       <div
         // ref={setContainerEl}
         className='w-20rem bg-secondary p-2.5em mt-2.5rem'

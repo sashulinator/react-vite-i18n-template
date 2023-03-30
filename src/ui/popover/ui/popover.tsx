@@ -2,7 +2,7 @@ import { Point, Points } from 'dom-align-ts'
 import { composeRef } from 'rc-util/lib/ref'
 import * as React from 'react'
 
-import Align, { AlignProps } from '~/ui/align-ts'
+import Align, { AlignProps } from '~/ui/align'
 import { Any } from '~/utils/core'
 import { useOnClickOutside } from '~/utils/hooks/click-outside'
 import useEventListener from '~/utils/hooks/event-listener'
@@ -13,8 +13,8 @@ export interface PopoverProps extends Omit<AlignProps, 'target' | 'children' | '
   children: React.ReactElement
   isOpen: boolean | undefined
   content: React.ReactElement
-  points?: Points
-  placement?: Point
+  points?: Points | undefined
+  placement?: Point | undefined
   onClose?: (() => void) | undefined
   onClickOutside?: ((e: MouseEvent) => void) | undefined
   onEscKeyDown?: ((e: KeyboardEvent) => void) | undefined
