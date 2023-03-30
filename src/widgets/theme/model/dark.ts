@@ -26,11 +26,11 @@ const textInput_outlineWidth = '4px'
 // --hovered
 const textInput_bg__hovered = textInput_bg.lighten(0.05)
 const textInput_borderColor__hovered = primary.lighten(0.3)
-const textInput_transition__hovered = 'border-color 0.3s, background-color 0.3s, box-shadow 0.3s'
+
 // --focused
 const textInput_borderColor__focused = primary
 const textInput_outlineColor__focused = primary.alpha(0.5)
-const textInput_transition__focused = 'border-color 0, background-color 0, box-shadow 0'
+
 // --error
 const textInput_bg__error = errorColor.darken(0.9)
 const textInput_outlineColor__error = errorColor.alpha(0.5)
@@ -64,10 +64,8 @@ export const dark: Theme & TextInputCSSVars = {
   textInput_outlineWidth,
   textInput_bg__hovered,
   textInput_borderColor__hovered,
-  textInput_transition__hovered,
   textInput_borderColor__focused,
   textInput_outlineColor__focused,
-  textInput_transition__focused,
   textInput_bg__error,
   textInput_outlineColor__error,
   textInput_borderColor__error,

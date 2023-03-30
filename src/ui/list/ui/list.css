@@ -1,0 +1,16 @@
+.ui-List {
+  width: 100%;
+}
+
+.ui-List .ui-List_item {
+  width: 100%;
+}
+.ui-List .ui-List_item:hover {
+  background-color: var(--listItem_bg__hovered);
+}
+.ui-List .ui-List_item[aria-disabled='true'] {
+  background-color: var(--listItem_bg__disabled);
+  border-color: var(--listItem_borderColor__disabled);
+  transition: var(--listItem_transition__disabled);
+  color: var(--listItem_color__disabled);
+}

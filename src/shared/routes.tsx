@@ -3,6 +3,7 @@ import { RouteProps } from 'react-router-dom'
 
 import CalloutPage from '~/pages/callout'
 import DropdownPage from '~/pages/dropdown'
+import ListPage from '~/pages/list'
 import LoginPage from '~/pages/login'
 import MainPage from '~/pages/main'
 import NotFoundPage from '~/pages/not-found'
@@ -47,6 +48,13 @@ export const routes = {
     getName: () => 'Dropdown',
     path: '/dropdown',
     element: <DropdownPage />,
+  },
+  list: {
+    Header,
+    Nav,
+    getName: () => 'List',
+    path: '/list',
+    element: <ListPage />,
   },
   popover: {
     Header,

@@ -1,5 +1,6 @@
 import clr from 'color'
 
+import { ListCSSVars } from '~/ui/list/types/css-vars'
 import { TextInputCSSVars } from '~/ui/text-input/types/css-vars'
 
 import { Theme } from '../types/theme'
@@ -36,9 +37,7 @@ const errorColor = clr('#d2302f')
 const textInput_color = clr('#2d3843')
 const textInput_bg = clr('#f4f6f9')
 const textInput_borderColor = input_borderColor
-const textInput_outlineWidth = '4px'
 const textInput_outlineColor = primary
-const textInput_transition = 'border-color 0.3s, background-color 0.3s, box-shadow 0.3s'
 // --hovered
 const textInput_bg__hovered = textInput_bg.lighten(0.01)
 const textInput_borderColor__hovered = primary.lighten(0.5)
@@ -57,7 +56,10 @@ const textInput_color__disabled = textInput_color.lighten(1.5)
 const textInput_borderColor__readonly = 'transparent'
 const textInput_outlineColor__readonly = 'transparent'
 
-export const light: Theme & TextInputCSSVars = {
+/* List */
+const listItem_bg__hovered = bg
+
+export const light: Theme & TextInputCSSVars & ListCSSVars = {
   ...common,
   primary,
   color,
@@ -70,14 +72,12 @@ export const light: Theme & TextInputCSSVars = {
   errorColor,
   input_borderColor,
 
-  // TextInputCSSVars
+  // TextInput
   textInput_color,
   textInput_bg,
   textInput_borderColor,
   textInput_outlineColor,
-  textInput_transition,
   textInput_outlineColor__focused,
-  textInput_outlineWidth,
   textInput_bg__hovered,
   textInput_borderColor__hovered,
   textInput_borderColor__focused,
@@ -89,5 +89,7 @@ export const light: Theme & TextInputCSSVars = {
   textInput_color__disabled,
   textInput_borderColor__readonly,
   textInput_outlineColor__readonly,
+  // List
+  listItem_bg__hovered,
   // Button
 }

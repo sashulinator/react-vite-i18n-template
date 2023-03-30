@@ -1,7 +1,6 @@
 import { forwardRef, useCallback, useState } from 'react'
 import useMeasure from 'react-use-measure'
 
-import List from '~/ui/list'
 import Popover from '~/ui/popover'
 // import PositioningPortal, { PositionStrategyProps, bottomPrefered } from '~/ui/positioning-portal'
 import TextInput, { TextInputProps } from '~/ui/text-input'
@@ -42,7 +41,7 @@ const DropdownComponent: React.ForwardRefRenderFunction<HTMLInputElement, Dropdo
               maxHeight: '400px',
             }}
           >
-            <List
+            {/* <List
               data={filteredData}
               onItemRender={(item) => {
                 return (
@@ -66,7 +65,7 @@ const DropdownComponent: React.ForwardRefRenderFunction<HTMLInputElement, Dropdo
                   </ol>
                 )
               }}
-            />
+            /> */}
           </div>
         }
       >
