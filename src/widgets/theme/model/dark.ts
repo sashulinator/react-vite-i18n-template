@@ -39,10 +39,6 @@ const textInput_borderColor__error = errorColor
 const textInput_bg__disabled = textInput_bg.darken(0.5)
 const textInput_borderColor__disabled = textInput_bg.darken(0.5)
 const textInput_color__disabled = textInput_color.darken(0.4)
-// --readonly
-const textInput_borderColor__readonly = 'transparent'
-const textInput_outlineColor__readonly = 'transparent'
-const textInput_color__readonly = color
 
 export const dark: Theme & TextInputCSSVars = {
   ...common,
@@ -72,7 +68,4 @@ export const dark: Theme & TextInputCSSVars = {
   textInput_bg__disabled,
   textInput_borderColor__disabled,
   textInput_color__disabled,
-  textInput_borderColor__readonly,
-  textInput_outlineColor__readonly,
-  textInput_color__readonly,
 }

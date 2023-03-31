@@ -35,6 +35,12 @@ export interface ListCSSVars {
   listItem_color__hovered?: ToStringable
   listItem_outlineWidth__hovered?: ToStringable
 
+  listItem_bg__selected?: ToStringable
+  listItem_border__selected?: ToStringable
+  listItem_transition__selected?: ToStringable
+  listItem_color__selected?: ToStringable
+  listItem_outlineWidth__selected?: ToStringable
+
   listItem_bg__disabled?: ToStringable
   listItem_borderColor__disabled?: ToStringable
   listItem_transition__disabled?: ToStringable

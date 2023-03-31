@@ -10,14 +10,16 @@ import type { ForwardedRef } from 'react'
 export function setRefs<T extends HTMLElement | null>(
   ...refs: (ForwardedRef<T> | undefined)[]
 ): (instance: T | null) => void {
-  return (ref) => {
-    refs.forEach((someRef) => {
-      if (!someRef) return
-      if (typeof someRef === 'function') {
-        someRef(ref)
-      } else {
-        someRef.current = ref
-      }
-    })
+  return (instance) => {
+    refs.forEach((someRef) => setRef(instance, someRef))
+  }
+}
+
+export function setRef<T>(instance: T | null, ref: ForwardedRef<T> | undefined) {
+  if (!ref) return
+  if (typeof ref === 'function') {
+    ref(instance)
+  } else {
+    ref.current = instance
   }
 }

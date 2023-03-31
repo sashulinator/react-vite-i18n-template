@@ -1,6 +1,7 @@
-import { forwardRef, useCallback, useState } from 'react'
+import { useRef, useState } from 'react'
 import useMeasure from 'react-use-measure'
 
+import { ListActions, SelectableList, SelectableListProps } from '~/ui/list'
 import Popover from '~/ui/popover'
 // import PositioningPortal, { PositionStrategyProps, bottomPrefered } from '~/ui/positioning-portal'
 import TextInput, { TextInputProps } from '~/ui/text-input'
@@ -9,76 +10,108 @@ import { useBoolean } from '~/utils/hooks'
 // import If from '~/utils/react/if'
 import { setRefs } from '~/utils/react/set-refs'
 
-export type DropdownProps = TextInputProps
+export interface DropdownProps<T, P> extends Omit<SelectableListProps<T, P>, 'setSelected'> {
+  textInputProps?: TextInputProps
+  id?: string
+  name?: string
+  inputValue: string | undefined
+  filter?: (item: T, searchQuery: string) => boolean
+  setSelected: (item: T | null) => void
+}
 
-const DropdownComponent: React.ForwardRefRenderFunction<HTMLInputElement, DropdownProps> = (props, ref) => {
-  // const { portalProps } = props
+function Dropdown<T, P>(props: DropdownProps<T, P>) {
+  const { textInputProps, id, name, filter, inputValue = '', ...listProps } = props
   const [inputEl, setInputEl] = useState<HTMLInputElement | null>(null)
-  const [, open] = useBoolean(false)
-  const [isFocused, setFocused, unsetFocused] = useBoolean(false)
+  const [isOpen, open, close] = useBoolean(false)
+  const listWrapperRef = useRef<HTMLDivElement>(null)
   const [setInputMeasureEl, { width }] = useMeasure()
-  const data = ['первоеСлово', 'второеСлово', 'третье', 'четвертое', 'шестое']
   const [search, setSearch] = useState('')
-  const [value, setValue] = useState('')
-  const filteredData = !search && value ? [] : data.filter((item) => new RegExp(search, 'ig').test(item.toString()))
-  const isListVisible = Boolean(filteredData.length) || (!value && !search)
+  const actionRef = useRef<ListActions>(null)
+  const selectedElementRef = useRef<HTMLElement>(null)
+  const firstElementRef = useRef<HTMLElement>(null)
+  const filteredData = filter ? listProps.data?.filter((item) => filter(item, search)) : listProps.data
 
   return (
     <>
       <Popover
-        isOpen={isFocused && isListVisible}
+        isOpen={true}
         onClickOutside={handleClickOutside}
-        offset={[0, 5]}
+        onEscKeyDown={() => {
+          close()
+          inputEl?.focus()
+        }}
+        offset={[0, 7]}
         content={
           <div
+            ref={listWrapperRef}
             style={{
+              display: filteredData?.length && isOpen ? 'block' : 'none',
               background: 'var(--bgSecondary)',
               borderRadius: '8px',
               padding: '8px 0',
               boxShadow: '0px 1.2px 18px rgba(0, 0, 0, 0.15), 0px 6.4px 29px rgba(0, 0, 0, 0.15)',
-              position: 'fixed',
               width,
-              maxHeight: '400px',
+              maxHeight: '150px',
+              overflowY: 'auto',
             }}
           >
-            {/* <List
+            <SelectableList
+              {...listProps}
+              actionRef={actionRef}
               data={filteredData}
-              onItemRender={(item) => {
-                return (
-                  <ol
-                    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
-                    role={'button'}
-                    data-selectable={typeof item === 'number'}
-                    style={{ padding: '8px' }}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        setValue(item)
-                        setSearch('')
-                      }
-                    }}
-                    onClick={() => {
-                      setValue(item)
-                      setSearch('')
-                    }}
-                  >
-                    {item}
-                  </ol>
-                )
+              selectedElementRef={selectedElementRef}
+              firstElementRef={firstElementRef}
+              setSelected={(item) => {
+                listProps.setSelected(item)
+                setSearch('')
+                close()
+                inputEl?.focus()
               }}
-            /> */}
+            />
           </div>
         }
       >
         <TextInput
-          {...props}
-          value={search || value}
+          autoComplete='off'
+          id={id}
+          readOnly={!filter}
+          name={name}
+          {...textInputProps}
+          value={search || inputValue}
           onChange={(e) => {
-            setValue('')
+            listProps.setSelected(null)
             setSearch(e.target.value)
+            open()
           }}
-          ref={setRefs(setInputEl, ref, setInputMeasureEl)}
-          onClick={open}
-          onFocus={useCallback(handleOnFocus, [props.onFocus])}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              isOpen ? close() : open()
+              actionRef.current?.focusFirst?.()
+              actionRef.current?.focusSelected?.()
+              // console.log('selectedElementRef.current', selectedElementRef)
+              // console.log('firstElementRef.current', firstElementRef)
+              setTimeout(() => {
+                firstElementRef.current?.focus()
+                selectedElementRef.current?.focus()
+              })
+            }
+            if (e.key === 'Escape') {
+              close()
+            }
+            if (e.key === 'ArrowDown' && isOpen) {
+              firstElementRef.current?.focus()
+              selectedElementRef.current?.focus()
+            }
+          }}
+          ref={setRefs(setInputEl as any, setInputMeasureEl)}
+          onClick={(e) => {
+            isOpen ? close() : open()
+            textInputProps?.onClick?.(e)
+            setTimeout(() => {
+              actionRef.current?.focusFirst?.()
+              actionRef.current?.focusSelected?.()
+            })
+          }}
         />
       </Popover>
     </>
@@ -86,18 +119,12 @@ const DropdownComponent: React.ForwardRefRenderFunction<HTMLInputElement, Dropdo
 
   // Private
 
-  function handleOnFocus(e: React.FocusEvent<HTMLInputElement, Element>) {
-    setFocused()
-    props.onFocus?.(e)
-  }
-
   function handleClickOutside(event: MouseEvent) {
     if (isElement(event.target) && inputEl?.contains(event.target)) {
       return
     }
-    unsetFocused()
+    close()
   }
 }
 
-const Dropdown = forwardRef(DropdownComponent)
 export default Dropdown

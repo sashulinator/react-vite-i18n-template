@@ -52,12 +52,10 @@ const textInput_outlineColor__error = errorColor.alpha(0.5)
 const textInput_bg__disabled = textInput_bg.lighten(0.01)
 const textInput_borderColor__disabled = textInput_bg.lighten(0.01)
 const textInput_color__disabled = textInput_color.lighten(1.5)
-// --readonly
-const textInput_borderColor__readonly = 'transparent'
-const textInput_outlineColor__readonly = 'transparent'
 
 /* List */
 const listItem_bg__hovered = bg
+const listItem_bg__selected = bg.darken(0.05)
 
 export const light: Theme & TextInputCSSVars & ListCSSVars = {
   ...common,
@@ -87,9 +85,8 @@ export const light: Theme & TextInputCSSVars & ListCSSVars = {
   textInput_bg__disabled,
   textInput_borderColor__disabled,
   textInput_color__disabled,
-  textInput_borderColor__readonly,
-  textInput_outlineColor__readonly,
   // List
   listItem_bg__hovered,
+  listItem_bg__selected,
   // Button
 }

@@ -1,11 +1,10 @@
 // import List, { top } from '~/ui/List'
 import { useState } from 'react'
 
-import List, { GetItemProps } from '~/ui/list'
-import { SetterOrUpdater } from '~/utils/core'
+import { ItemComponentProps, List, SelectableItemComponentProps, SelectableList } from '~/ui/list'
 
 export default function ListPage(): JSX.Element {
-  const [selected, setSelected] = useState<string>('none')
+  const [selectedKey, setSelectedKey] = useState<string | number>('none')
   const data = ['первоеСлово', 'второеСлово', 'третье', 'четвертое', 'шестое']
 
   return (
@@ -16,20 +15,29 @@ export default function ListPage(): JSX.Element {
         style={{ borderRadius: '20px', border: '1px solid var(--input_borderColor)', position: 'relative' }}
       >
         <h2 className='mb-2rem'>List</h2>
-        <label htmlFor='none'>Selected</label>
-        <pre>{selected}</pre>
         <div className='mt-1rem flex flex-col'>
           <label htmlFor='readonly' className='label mb-0.25rem'>
-            Default
+            List
           </label>
           <div>
-            <List
+            <List data={data} payload={undefined} getKey={(k) => k} renderItem={Item} />
+          </div>
+        </div>
+        <h2 className='mb-2rem'>List</h2>
+        <label htmlFor='none'>Selected</label>
+        <pre>{selectedKey}</pre>
+        <div className='mt-1rem flex flex-col'>
+          <label htmlFor='readonly' className='label mb-0.25rem'>
+            SelectableList
+          </label>
+          <div>
+            <SelectableList
               data={data}
-              getItemProps={getItemProps}
-              payload={{
-                setSelected,
-                selected,
-              }}
+              payload={undefined}
+              getKey={(k) => k}
+              renderItem={SelectableItem}
+              selectedKey={selectedKey}
+              setSelected={setSelectedKey}
             />
           </div>
         </div>
@@ -38,25 +46,15 @@ export default function ListPage(): JSX.Element {
   )
 }
 
-interface Payload {
-  setSelected: SetterOrUpdater<string>
-  selected: string
+// interface Payload {
+//   setSelected: SetterOrUpdater<string>
+//   selected: string
+// }
+
+function Item(props: ItemComponentProps<string, undefined>) {
+  return <li {...props.rootProps}>{props.item}</li>
 }
 
-const getItemProps: GetItemProps<string, Payload> = (props) => {
-  return {
-    key: props.item,
-    // 'aria-disabled': true,
-    role: 'button',
-    style: { padding: '8px' },
-    onKeyDown: (e) => {
-      if (e.key === 'Enter') {
-        props.payload.setSelected(props.item)
-      }
-    },
-    onClick: () => {
-      props.payload.setSelected(props.item)
-    },
-    children: props.item,
-  }
+function SelectableItem(props: SelectableItemComponentProps<string, undefined>) {
+  return <li {...props.rootProps}>{props.item}</li>
 }
