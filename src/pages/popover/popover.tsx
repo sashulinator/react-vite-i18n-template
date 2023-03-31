@@ -130,7 +130,7 @@ export default function PopoverPage(): JSX.Element {
           <div>
             <Popover
               overflow={{ adjustX, adjustY, alwaysByViewport }}
-              portalTo={isPortalToMainContainer ? containerEl : undefined}
+              containerElement={isPortalToMainContainer ? containerEl : undefined}
               isOpen={isOpen}
               deps={[adjustX, adjustY, contentPosition]}
               placement={placement ? placement : undefined}

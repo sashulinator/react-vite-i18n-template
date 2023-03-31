@@ -1,10 +1,17 @@
-import { useEffect } from 'react'
+import { RefObject, useEffect } from 'react'
 
-export function useOnClickOutside(ref, handler) {
+/**
+ * Cледит за кликом за пределами элемента
+ * @param ref
+ * @param callback
+ */
+export function useOnClickOutside(ref: RefObject<HTMLElement>, handler: (e: MouseEvent | TouchEvent) => void) {
   useEffect(() => {
-    const listener = (event) => {
+    /** Подписка на клик за пределами */
+    const listener = (event: MouseEvent | TouchEvent) => {
       // Do nothing if clicking ref's element or descendent elements
-      if (!ref.current || ref.current.contains(event.target)) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if (!ref.current || ref.current.contains((event as any).target)) {
         return
       }
       handler(event)

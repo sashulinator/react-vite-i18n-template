@@ -40,7 +40,7 @@ function Dropdown<T, P>(props: DropdownProps<T, P>) {
           close()
           inputEl?.focus()
         }}
-        offset={[0, 7]}
+        sourceOffset={[0, 7]}
         content={
           <div
             ref={listWrapperRef}
@@ -119,7 +119,7 @@ function Dropdown<T, P>(props: DropdownProps<T, P>) {
 
   // Private
 
-  function handleClickOutside(event: MouseEvent) {
+  function handleClickOutside(event: MouseEvent | TouchEvent) {
     if (isElement(event.target) && inputEl?.contains(event.target)) {
       return
     }

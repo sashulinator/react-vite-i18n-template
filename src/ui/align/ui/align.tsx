@@ -1,53 +1,56 @@
-import { Config, alignElement } from 'dom-align-ts'
-import React, { useCallback, useLayoutEffect, useRef } from 'react'
+import { alignElement } from 'dom-align-ts'
+import React, { FC, useCallback, useLayoutEffect } from 'react'
 import { createPortal } from 'react-dom'
 
 import { listenParentScrolls, observeResize } from '~/utils/dom'
 import { useEventListener } from '~/utils/hooks'
-import { setRefs } from '~/utils/react/set-refs'
+import { useLatest } from '~/utils/hooks/latest'
+import { setRefs } from '~/utils/react'
 
-interface ChildProps {
-  ref?: React.Ref<HTMLElement> | undefined
-}
+import { AlignProps } from '../types/align-props'
 
-export interface AlignProps extends Omit<Config, 'source' | 'target'> {
-  target: HTMLElement
-  children: React.ReactElement<ChildProps>
-  portalTo?: HTMLElement | null | undefined
-  deps?: unknown[] | undefined
-  onAligned?: (ret: ReturnType<typeof alignElement>) => void
-}
-
-export default function Align(props: AlignProps): JSX.Element {
-  const { target, children, portalTo, deps = [], onAligned, ...config } = props
-  const onAlignedRef = useRef(onAligned)
-  onAlignedRef.current = onAligned
+/**
+ * Компонет для позиционирования Sourcе
+ * относительно Target, а так же порталинга Sourcе
+ * В указанный Элемент (по умолчанию body)
+ *
+ * Оперирует понятиями:
+ * Source: Элемент который будет портирован и спозиционирован относительно Target
+ * Target: Элемент относительно которого будет позиционироваться Source
+ * Container: Элемент в который будет портирован Source
+ */
+const Align: FC<AlignProps> = (props) => {
+  const { targetElement, children, containerElement, deps = [], onAligned, sourceOffset, ...config } = props
+  // Реф элемента который будет спозиционирован
+  const [sourceElement, setSourceEl] = React.useState<null | HTMLElement>(null)
+  // Реф события запускаемого после того как елемент будет спозиционирован
+  const onAlignedRef = useLatest(onAligned)
 
   if (!React.isValidElement(children)) {
     throw new Error('Must have one child')
   }
 
-  const [sourceEl, setSourceEl] = React.useState<null | HTMLElement>(null)
-  const align = useCallback(_align, [target, sourceEl, ...config.points, ...deps])
+  const align = useCallback(_align, [targetElement, sourceElement, containerElement, ...config.points, ...deps])
 
   useLayoutEffect(align, [align])
   useEventListener('resize', align, undefined, { passive: true })
-  useLayoutEffect(() => listenParentScrolls(target, align, { passive: true }), [align])
-  useLayoutEffect(() => listenParentScrolls(sourceEl, align, { passive: true }), [align])
-  useLayoutEffect(() => observeResize(target, align), [align])
-  useLayoutEffect(() => observeResize(sourceEl, align), [align])
+  useLayoutEffect(() => listenParentScrolls(targetElement, align, { passive: true }), [align])
+  useLayoutEffect(() => listenParentScrolls(sourceElement, align, { passive: true }), [align])
+  useLayoutEffect(() => observeResize(targetElement, align), [align])
+  useLayoutEffect(() => observeResize(sourceElement, align), [align])
 
-  const clonedChildren = React.cloneElement(children, {
-    ref: setRefs((children as ChildProps).ref, setSourceEl),
-  })
+  const clonedChildren = React.cloneElement(children, { ref: setRefs(children.ref, setSourceEl) })
 
-  return <>{createPortal(clonedChildren, portalTo || document.body)}</>
+  return <>{createPortal(clonedChildren, containerElement || targetElement.ownerDocument.body)}</>
 
   // Private
 
   function _align() {
-    if (!target || !sourceEl) return
-    const ret = alignElement(sourceEl, target, config)
+    if (!targetElement || !sourceElement) return
+    const ret = alignElement(sourceElement, targetElement, { ...config, offset: sourceOffset })
     onAlignedRef.current?.(ret)
   }
 }
+
+Align.displayName = 'Align'
+export default Align

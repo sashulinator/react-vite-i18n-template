@@ -8,15 +8,15 @@ import { setRefs } from '~/utils/react'
 
 import { toPoints } from '../lib/to-points'
 
-export interface PopoverProps extends Omit<AlignProps, 'target' | 'children' | 'align' | 'points'> {
+export interface PopoverProps extends Omit<AlignProps, 'targetElement' | 'children' | 'align' | 'points'> {
   children: React.ReactElement
   isOpen: boolean | undefined
   content: React.ReactElement
   points?: Points | undefined
   placement?: Point | undefined
   onClose?: (() => void) | undefined
-  onClickOutside?: ((e: MouseEvent) => void) | undefined
-  onEscKeyDown?: ((e: KeyboardEvent) => void) | undefined
+  onClickOutside?: ((e: MouseEvent | TouchEvent) => void) | undefined
+  onEscKeyDown?: ((e: KeyboardEvent | TouchEvent) => void) | undefined
 }
 
 const PopoverComponent: React.ForwardRefRenderFunction<HTMLDivElement, PopoverProps> = (props) => {
@@ -49,7 +49,7 @@ const PopoverComponent: React.ForwardRefRenderFunction<HTMLDivElement, PopoverPr
     <>
       {clonedChildren}
       {isOpen && childrenEl && (
-        <Align {...alignProps} target={childrenEl} points={points}>
+        <Align {...alignProps} targetElement={childrenEl} points={points}>
           {clonedContent}
         </Align>
       )}
@@ -58,7 +58,7 @@ const PopoverComponent: React.ForwardRefRenderFunction<HTMLDivElement, PopoverPr
 
   // Private
 
-  function _handleClickOutside(e: MouseEvent) {
+  function _handleClickOutside(e: MouseEvent | TouchEvent) {
     props.onClickOutside?.(e)
     props.onClose?.()
   }

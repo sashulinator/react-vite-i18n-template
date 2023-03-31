@@ -42,10 +42,10 @@ const CalloutComponent: React.ForwardRefRenderFunction<HTMLDivElement, CalloutPr
         >
           <Popover
             content={<div {...arrowProps} className={clsx('ui-Callout_arrow', arrowProps?.className)} />}
-            portalTo={contentEl}
+            containerElement={contentEl}
             isOpen={true}
             points={toPoints(adjustedPlacement)}
-            offset={calcArrowOffset(adjustedPlacement)}
+            sourceOffset={calcArrowOffset(adjustedPlacement)}
             deps={[adjustedPlacement]}
           >
             <div

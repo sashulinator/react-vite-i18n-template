@@ -3195,17 +3195,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dom-align-ts@npm:0.0.9":
-  version: 0.0.9
-  resolution: "dom-align-ts@npm:0.0.9"
-  checksum: 4a35f3afca29a56b066c3fab82a801029e4150fbc189f30d74fb58e1becf3efa444d305adf323ba9661f216a996f3038154663ee02bbdfec302bb28c78053fb4
-  languageName: node
-  linkType: hard
-
-"dom-align@npm:^1.12.4":
-  version: 1.12.4
-  resolution: "dom-align@npm:1.12.4"
-  checksum: ff5cfdb6e9c9e03e6d67a61b4633f25845f2385f67b1bd84a28aa2cb2c6b58eea53fde347b0d2439f0ba49cd6b80a7463f98569731cb14ec2542ecdeef19d165
+"dom-align-ts@npm:0.0.10":
+  version: 0.0.10
+  resolution: "dom-align-ts@npm:0.0.10"
+  checksum: fde410536fc7591e8f42524d6542bf4479454782716751bb123662bdaaba8d9c4625e2ceaa6aefa5c291be1fbc6224ef4b3605dadacf0b23a8732dd5c2b4e05c
   languageName: node
   linkType: hard
 
@@ -6246,8 +6239,7 @@ __metadata:
     color: 4.2.3
     color-transitions: 0.0.2
     dayjs: 1.11.6
-    dom-align: ^1.12.4
-    dom-align-ts: 0.0.9
+    dom-align-ts: 0.0.10
     eslint: 8.32.0
     eslint-config-prettier: 7.2.0
     eslint-import-resolver-typescript: 2.5.0
