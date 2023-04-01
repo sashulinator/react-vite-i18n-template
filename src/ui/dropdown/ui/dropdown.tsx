@@ -78,40 +78,10 @@ function Dropdown<T, P>(props: DropdownProps<T, P>) {
           name={name}
           {...textInputProps}
           value={search || inputValue}
-          onChange={(e) => {
-            listProps.setSelected(null)
-            setSearch(e.target.value)
-            open()
-          }}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              isOpen ? close() : open()
-              actionRef.current?.focusFirst?.()
-              actionRef.current?.focusSelected?.()
-              // console.log('selectedElementRef.current', selectedElementRef)
-              // console.log('firstElementRef.current', firstElementRef)
-              setTimeout(() => {
-                firstElementRef.current?.focus()
-                selectedElementRef.current?.focus()
-              })
-            }
-            if (e.key === 'Escape') {
-              close()
-            }
-            if (e.key === 'ArrowDown' && isOpen) {
-              firstElementRef.current?.focus()
-              selectedElementRef.current?.focus()
-            }
-          }}
+          onChange={onInputChange}
+          onKeyDown={onInputKeyDown}
           ref={setRefs(setInputEl as any, setInputMeasureEl)}
-          onClick={(e) => {
-            isOpen ? close() : open()
-            textInputProps?.onClick?.(e)
-            setTimeout(() => {
-              actionRef.current?.focusFirst?.()
-              actionRef.current?.focusSelected?.()
-            })
-          }}
+          onClick={onInputClick}
         />
       </Popover>
     </>
@@ -124,6 +94,40 @@ function Dropdown<T, P>(props: DropdownProps<T, P>) {
       return
     }
     close()
+  }
+
+  function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    listProps.setSelected(null)
+    setSearch(e.target.value)
+    open()
+  }
+
+  function onInputClick(e: React.MouseEvent<HTMLInputElement>) {
+    isOpen ? close() : open()
+    textInputProps?.onClick?.(e)
+    setTimeout(() => {
+      actionRef.current?.focusFirst?.()
+      actionRef.current?.focusSelected?.()
+    })
+  }
+
+  function onInputKeyDown(e: React.KeyboardEvent) {
+    if (e.key === 'Enter') {
+      isOpen ? close() : open()
+      actionRef.current?.focusFirst?.()
+      actionRef.current?.focusSelected?.()
+      setTimeout(() => {
+        firstElementRef.current?.focus()
+        selectedElementRef.current?.focus()
+      })
+    }
+    if (e.key === 'Escape') {
+      close()
+    }
+    if (e.key === 'ArrowDown' && isOpen) {
+      firstElementRef.current?.focus()
+      selectedElementRef.current?.focus()
+    }
   }
 }
 
