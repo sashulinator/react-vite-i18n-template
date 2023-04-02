@@ -1,58 +1,20 @@
 import c from 'clsx'
-import { Emitter } from 'mitt'
-import React, { ForwardedRef, RefObject, useMemo, useRef } from 'react'
+import React, { useMemo, useRef } from 'react'
 
 import { useControlledState } from '~/utils/hooks/controlled-state'
 import { useLatest } from '~/utils/hooks/latest'
 
 import { createMitt } from '../lib/create-mitt'
-import { Events } from '../types/events'
 import { Key } from '../types/key'
+import { ListProps } from '../types/list-props'
 import { MapItem } from '../types/map-item'
-
-export interface ListState<T> {
-  map: Map<Key, MapItem<T>>
-  mitt: Emitter<Events>
-  checkedKeyRef: RefObject<Key[]>
-  selectedKeyRef: RefObject<Key[]>
-}
-
-export interface ItemProps<T, P> extends ListProps<T, P> {
-  item: T
-  itemKey: Key
-  elementRef: RefObject<HTMLLIElement>
-  map: Map<Key, MapItem<T>>
-  mitt: Emitter<Events>
-  checked: Key[]
-  selected: Key[]
-}
-
-export interface ListProps<T, P> {
-  rootProps?: React.HTMLAttributes<HTMLUListElement>
-  data: T[]
-  payload?: P | undefined
-  checked?: Key[]
-  selected?: Key[]
-  stateRef?: ForwardedRef<ListState<T>>
-  isSelectable?: (item: T) => boolean
-  onCheck?: ((checked: Key[]) => void) | undefined
-  onCheckOne?: ((checked: Key) => void) | undefined
-  onUncheckOne?: ((checked: Key) => void) | undefined
-  onSelect?: ((selected: Key[]) => void) | undefined
-  onSelectOne?: ((selected: Key) => void) | undefined
-  onUnselectOne?: ((selected: Key) => void) | undefined
-  onFocus?: ((item: T, i: number, element: HTMLLIElement | undefined | null) => void) | undefined
-  onBlur?: (() => void) | undefined
-  getItemKey: (item: T, data: T[], payload: P | undefined) => Key
-  renderItem: (props: ItemProps<T, P>) => JSX.Element | null
-}
 
 export default function List<T, P>(props: ListProps<T, P>): JSX.Element {
   const {
-    onCheck: onCheckProp,
-    onSelect: onSelectProp,
     checked: checkedProp,
     selected: selectedProp,
+    onCheck: onCheckProp,
+    onSelect: onSelectProp,
     onFocus,
     onBlur,
     onSelectOne,

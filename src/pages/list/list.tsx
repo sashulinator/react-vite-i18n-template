@@ -13,7 +13,7 @@ export default function ListPage(): JSX.Element {
     <main className='pt-5rem'>
       <div
         // ref={setContainerEl}
-        className='bg-secondary p-2.5em mt-2.5rem'
+        className='bg-secondary p-2.5em mt-2.5rem mr-2rem'
         style={{ borderRadius: '20px', border: '1px solid var(--input_borderColor)', position: 'relative' }}
       >
         <h2 className='mb-2rem'>List</h2>
@@ -23,20 +23,13 @@ export default function ListPage(): JSX.Element {
           </label>
           <div>
             <List
-              onUncheckOne={(key) => {
-                console.log('onUncheckOne', key)
-                setChecked([])
-              }}
-              onCheckOne={(key) => {
-                console.log('onCheckOne')
-                setChecked([key])
-              }}
+              data={userList}
               selected={selected}
+              checked={checked}
+              onUncheckOne={() => setChecked([])}
+              onCheckOne={(key) => setChecked([key])}
               onSelectOne={(key) => setSelected([key])}
               onUnselectOne={() => setSelected([])}
-              data={userList}
-              checked={checked}
-              payload={undefined}
               getItemKey={(item) => item.username}
               renderItem={Item}
             />

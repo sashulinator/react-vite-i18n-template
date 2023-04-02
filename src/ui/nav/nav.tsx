@@ -8,7 +8,7 @@ export default function Nav(): JSX.Element {
   setCSSVar('nav-width', 200, getRootElement())
 
   return (
-    <nav style={{ paddingTop: '5rem' }}>
+    <nav className='pt-5rem pl-2rem'>
       <ul>
         <ol>
           <Link to={routes.callout.path}>Callout</Link>

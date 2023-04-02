@@ -4,14 +4,10 @@ import clsx from 'clsx'
 
 import { EventNames, ItemProps } from '~/ui/list'
 import { getNext } from '~/ui/list/lib/get-sibling'
-import { isElement } from '~/utils/dom'
-import { isHTMLElement } from '~/utils/dom/is/is-htmlelement'
 
 export function Item<T, P>(props: ItemProps<T, P> & { children: React.ReactNode }) {
   const isChecked = props.checked.includes(props.itemKey)
   const isSelected = props.selected.includes(props.itemKey)
-
-  console.log('isSelected', isSelected)
 
   function select() {
     console.log('onSelected', isSelected)

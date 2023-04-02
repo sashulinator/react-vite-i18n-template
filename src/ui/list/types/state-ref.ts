@@ -1,0 +1,13 @@
+import { Emitter } from 'mitt'
+import { RefObject } from 'react'
+
+import { Events } from './events'
+import { Key } from './key'
+import { MapItem } from './map-item'
+
+export interface ListState<T> {
+  map: Map<Key, MapItem<T>>
+  mitt: Emitter<Events>
+  checkedKeyRef: RefObject<Key[]>
+  selectedKeyRef: RefObject<Key[]>
+}
