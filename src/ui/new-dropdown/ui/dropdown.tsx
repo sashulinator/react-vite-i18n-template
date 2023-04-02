@@ -15,8 +15,6 @@ function Dropdown<I extends InputRenderProps>(props: DropdownProps<I>) {
   const [search, setSearch] = useState('')
   const actionsRef = useRef<Actions>(null)
 
-  console.log('textInputProps', textInputProps)
-
   return (
     <>
       {createElement(renderInput, {
@@ -55,8 +53,6 @@ function Dropdown<I extends InputRenderProps>(props: DropdownProps<I>) {
     isOpen ? setOpen(false) : setOpen(true)
     textInputProps?.onClick?.(e)
     setTimeout(() => {
-      console.log(actionsRef.current)
-
       actionsRef.current?.focus()
       // listActionsRef.current?.focusFirst?.()
       // listActionsRef.current?.focusSelected?.()

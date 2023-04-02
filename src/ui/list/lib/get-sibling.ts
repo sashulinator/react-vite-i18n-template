@@ -16,13 +16,14 @@ export function getNext<T>(
   const mapItemList = Array.from(map.values())
 
   while (index < map.size) {
-    const mapItem = mapItemList[index]
-    if (mapItem === undefined) {
+    const nextMapItem = mapItemList[index]
+
+    if (nextMapItem === undefined) {
       throw Error('undefined')
     }
-    // TODO!
-    if (!isSelectable) {
-      return mapItem
+
+    if (!isSelectable || isSelectable(nextMapItem.item)) {
+      return nextMapItem
     }
     index++
   }
@@ -41,16 +42,17 @@ export function getPrevious<T>(
     return null
   }
 
-  let index = mapItem[0] - 1
+  let index = mapItem.index - 1
   const mapItemList = Array.from(map.values())
 
   while (index >= 0) {
-    const mapItem = mapItemList[index]
-    if (mapItem === undefined) {
+    const previousMapItem = mapItemList[index]
+
+    if (previousMapItem === undefined) {
       throw Error('undefined')
     }
-    if (!isSelectable) {
-      return mapItem
+    if (!isSelectable || isSelectable(previousMapItem.item)) {
+      return previousMapItem
     }
     index--
   }

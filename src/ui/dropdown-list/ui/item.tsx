@@ -10,7 +10,6 @@ export function Item<T, P>(props: ItemProps<T, P> & { children: React.ReactNode 
   const isSelected = props.selected.includes(props.itemKey)
 
   function select() {
-    console.log('onSelected', isSelected)
     props.mitt.emit(EventNames.setSelected, [props.itemKey])
   }
   function unselect() {

@@ -63,8 +63,8 @@ export function createMitt<T>(props: CreateMittProps<T>): Emitter<Events> {
       throw new Error('MapItem not found')
     }
     if (!item) return
-    item[2].current?.focus()
-    props.onFocusRef.current?.(item[1], item[0], item[2].current)
+    item.elementRef.current?.focus()
+    props.onFocusRef.current?.(item.item, item.index, item.elementRef.current)
   })
 
   m.on(EventNames.unfocus, () => {

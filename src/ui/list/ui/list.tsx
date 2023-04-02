@@ -1,5 +1,5 @@
 import c from 'clsx'
-import React, { useMemo, useRef } from 'react'
+import React, { useMemo } from 'react'
 
 import { useControlledState } from '~/utils/hooks/controlled-state'
 import { useLatest } from '~/utils/hooks/latest'
@@ -24,7 +24,7 @@ export default function List<T, P>(props: ListProps<T, P>): JSX.Element {
     ...restProps
   } = props
 
-  const isDataChanged = useMemo(() => ({}), [...props.data])
+  const isDataChanged = useMemo(() => ({}), [props.data])
   const [checked, onCheck] = useControlledState<Key[]>([], checkedProp, onCheckProp)
   const [selected, onSelect] = useControlledState<Key[]>([], selectedProp, onSelectProp)
   const checkedKeyRef = useLatest(checked)
@@ -65,8 +65,7 @@ export default function List<T, P>(props: ListProps<T, P>): JSX.Element {
     <ul {...props.rootProps} className={c('ui-List', props.rootProps?.className)}>
       {props.data.map((item, index) => {
         const itemKey = props.getItemKey(item, props.data, props.payload)
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const elementRef = useRef<HTMLLIElement>(null)
+        const elementRef = { current: null }
         map.set(itemKey, { itemKey, index, item, elementRef })
 
         return React.createElement(props.renderItem, {
