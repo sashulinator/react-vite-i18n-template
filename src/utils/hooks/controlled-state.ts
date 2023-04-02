@@ -11,7 +11,11 @@ export function useControlledState<T>(
 
   useEffect(() => {
     if (value !== incomingValue) {
-      setValue(value)
+      if (incomingValue) {
+        setValue(incomingValue)
+      } else {
+        setValue(value)
+      }
     }
   })
 

@@ -1,14 +1,12 @@
 // import List, { top } from '~/ui/List'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { User, userList } from '~/mocks/user-list'
 import List, { EventNames, ItemProps } from '~/ui/list'
 import { getNext, getPrevious } from '~/ui/list/lib/get-sibling'
-import { isElement } from '~/utils/dom'
-import { isHTMLElement } from '~/utils/dom/is/is-htmlelement'
 
 export default function ListPage(): JSX.Element {
-  const [selectedKey, setSelectedKey] = useState<string | number>('none')
+  const [checked, setChecked] = useState<(string | number)[]>([])
 
   return (
     <main className='pt-5rem'>
@@ -23,12 +21,26 @@ export default function ListPage(): JSX.Element {
             List
           </label>
           <div>
-            <List data={userList} payload={undefined} getItemKey={(k) => k.username} renderItem={Item} />
+            <List
+              onUncheckOne={(key) => {
+                console.log('onUncheckOne', key)
+                setChecked([])
+              }}
+              onCheckOne={(key) => {
+                console.log('onCheckOne')
+                setChecked([key])
+              }}
+              data={userList}
+              checked={checked}
+              payload={undefined}
+              getItemKey={(item) => item.username}
+              renderItem={Item}
+            />
           </div>
         </div>
         <h2 className='mb-2rem'>List</h2>
         <label htmlFor='none'>Selected</label>
-        <pre>{selectedKey}</pre>
+        <pre>{checked}</pre>
         <div className='mt-1rem flex flex-col'>
           <label htmlFor='readonly' className='label mb-0.25rem'>
             SelectableList
@@ -62,23 +74,30 @@ function Item(props: ItemProps<User, undefined>) {
       props.mitt.emit(EventNames.checkOne, props.itemKey)
     }
   }
+  function selectNext() {
+    const previous = getPrevious(selected, props.map)
+    if (previous === null) return
+    const [key] = previous
+    props.mitt.emit(EventNames.focus, key)
+    props.mitt.emit(EventNames.setSelected, [key])
+  }
+  function selectPrevious() {
+    const next = getNext(selected, props.map)
+    if (next === null) return
+    const [key] = next
+    props.mitt.emit(EventNames.focus, key)
+    props.mitt.emit(EventNames.setSelected, [key])
+  }
+
   function onKeyDown(e: React.KeyboardEvent) {
     if (e.key === 'Enter') {
       toggle()
     }
     if (e.key === 'ArrowUp') {
-      const previous = getPrevious(selected, props.map)
-      if (previous === null) return
-      const [key] = previous
-      props.mitt.emit(EventNames.focus, key)
-      props.mitt.emit(EventNames.setSelected, [key])
+      selectNext()
     }
     if (e.key === 'ArrowDown') {
-      const next = getNext(selected, props.map)
-      if (next === null) return
-      const [key] = next
-      props.mitt.emit(EventNames.focus, key)
-      props.mitt.emit(EventNames.setSelected, [key])
+      selectPrevious()
     }
   }
 

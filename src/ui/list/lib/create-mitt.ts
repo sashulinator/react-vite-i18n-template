@@ -15,10 +15,10 @@ export interface CreateMittProps<T> {
   checkedKeyRef: RefObject<Key[]>
   selectedKeyRef: RefObject<Key[]>
   map: Map<Key, [number, T, RefObject<HTMLOListElement | HTMLUListElement>]>
-  onCheck: (checked: Key[]) => void
+  onCheck: ((checked: Key[]) => void) | undefined
   onCheckOne: ((checked: Key) => void) | undefined
   onUncheckOne: ((checked: Key) => void) | undefined
-  onSelect: (selected: Key[]) => void
+  onSelect: ((selected: Key[]) => void) | undefined
   onSelectOne: ((selected: Key) => void) | undefined
   onUnselectOne: ((selected: Key) => void) | undefined
   onFocus: ((item: T, i: number, element: HTMLOListElement | HTMLUListElement | undefined | null) => void) | undefined
@@ -29,7 +29,7 @@ export function createMitt<T>(props: CreateMittProps<T>): Emitter<Events> {
   const m = mitt<Events>()
 
   m.on(EventNames.setChecked, (checked) => {
-    props.onCheck(checked)
+    props.onCheck?.(checked)
   })
   m.on(EventNames.checkOne, (key) => {
     if (props.checkedKeyRef.current === null) return
@@ -43,7 +43,7 @@ export function createMitt<T>(props: CreateMittProps<T>): Emitter<Events> {
   })
 
   m.on(EventNames.setSelected, (selected) => {
-    props.onSelect(selected)
+    props.onSelect?.(selected)
   })
   m.on(EventNames.selectOne, (key) => {
     if (props.selectedKeyRef.current === null) return
