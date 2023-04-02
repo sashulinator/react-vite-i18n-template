@@ -1,7 +1,6 @@
 import mitt, { Emitter } from 'mitt'
 import { RefObject } from 'react'
 
-import { Any } from '~/utils/core'
 import { isHTMLElement } from '~/utils/dom/is/is-htmlelement'
 import { isDev } from '~/utils/is/dev'
 import { remove } from '~/utils/key'
@@ -9,51 +8,52 @@ import { remove } from '~/utils/key'
 import { EventNames } from '../types/event-names'
 import { Events } from '../types/events'
 import { Key } from '../types/key'
+import { MapItem } from '../types/map-item'
 
 export interface CreateMittProps<T> {
   data: T[]
   checkedKeyRef: RefObject<Key[]>
   selectedKeyRef: RefObject<Key[]>
-  map: Map<Key, [number, T, RefObject<HTMLOListElement | HTMLUListElement>]>
-  onCheck: ((checked: Key[]) => void) | undefined
-  onCheckOne: ((checked: Key) => void) | undefined
-  onUncheckOne: ((checked: Key) => void) | undefined
-  onSelect: ((selected: Key[]) => void) | undefined
-  onSelectOne: ((selected: Key) => void) | undefined
-  onUnselectOne: ((selected: Key) => void) | undefined
-  onFocus: ((item: T, i: number, element: HTMLOListElement | HTMLUListElement | undefined | null) => void) | undefined
-  onBlur: (() => void) | undefined
+  map: Map<Key, MapItem<T>>
+  onCheckRef: RefObject<((checked: Key[]) => void) | undefined>
+  onCheckOneRef: RefObject<((checked: Key) => void) | undefined>
+  onUncheckOneRef: RefObject<((checked: Key) => void) | undefined>
+  onSelectRef: RefObject<((selected: Key[]) => void) | undefined>
+  onSelectOneRef: RefObject<((selected: Key) => void) | undefined>
+  onUnselectOneRef: RefObject<((selected: Key) => void) | undefined>
+  onFocusRef: RefObject<((item: T, i: number, element: HTMLLIElement | undefined | null) => void) | undefined>
+  onBlurRef: RefObject<(() => void) | undefined>
 }
 
 export function createMitt<T>(props: CreateMittProps<T>): Emitter<Events> {
   const m = mitt<Events>()
 
   m.on(EventNames.setChecked, (checked) => {
-    props.onCheck?.(checked)
+    props.onCheckRef.current?.(checked)
   })
   m.on(EventNames.checkOne, (key) => {
     if (props.checkedKeyRef.current === null) return
     m.emit(EventNames.setChecked, [...props.checkedKeyRef.current, key])
-    props.onCheckOne?.(key)
+    props.onCheckOneRef.current?.(key)
   })
   m.on(EventNames.uncheckOne, (key) => {
     if (props.checkedKeyRef.current === null) return
     m.emit(EventNames.setChecked, remove(key, props.checkedKeyRef.current))
-    props.onUncheckOne?.(key)
+    props.onUncheckOneRef.current?.(key)
   })
 
   m.on(EventNames.setSelected, (selected) => {
-    props.onSelect?.(selected)
+    props.onSelectRef.current?.(selected)
   })
   m.on(EventNames.selectOne, (key) => {
     if (props.selectedKeyRef.current === null) return
     m.emit(EventNames.setSelected, [...props.selectedKeyRef.current, key])
-    props.onSelectOne?.(key)
+    props.onSelectOneRef.current?.(key)
   })
   m.on(EventNames.unselectOne, (key) => {
     if (props.selectedKeyRef.current === null) return
     m.emit(EventNames.setSelected, remove(key, props.selectedKeyRef.current))
-    props.onUnselectOne?.(key)
+    props.onUnselectOneRef.current?.(key)
   })
 
   m.on(EventNames.focus, (key) => {
@@ -64,14 +64,14 @@ export function createMitt<T>(props: CreateMittProps<T>): Emitter<Events> {
     }
     if (!item) return
     item[2].current?.focus()
-    props.onFocus?.(item[1], item[0], item[2].current)
+    props.onFocusRef.current?.(item[1], item[0], item[2].current)
   })
 
   m.on(EventNames.unfocus, () => {
     if (isHTMLElement(document.activeElement)) {
       document.activeElement.blur()
     }
-    props.onBlur?.()
+    props.onBlurRef.current?.()
   })
 
   // m.on(EventNames.selectNext, () => {

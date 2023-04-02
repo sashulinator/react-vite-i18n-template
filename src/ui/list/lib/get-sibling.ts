@@ -1,29 +1,28 @@
-import { RefObject } from 'react'
-
 import { Key } from '../types/key'
+import { MapItem } from '../types/map-item'
 
 export function getNext<T>(
   itemKey: Key,
-  map: Map<Key, [number, T, RefObject<HTMLOListElement | HTMLUListElement>]>,
+  map: Map<Key, MapItem<T>>,
   isSelectable?: (item: T) => boolean
-): [Key, number, T, RefObject<HTMLOListElement | HTMLUListElement>] | null {
+): MapItem<T> | null {
   const mapItem = map.get(itemKey)
 
   if (mapItem === undefined) {
     return null
   }
 
-  let index = mapItem[0] + 1
-  const itemList = Array.from(map.entries())
+  let index = mapItem.index + 1
+  const mapItemList = Array.from(map.values())
 
   while (index < map.size) {
-    const entry = itemList[index]
-    if (entry === undefined) {
+    const mapItem = mapItemList[index]
+    if (mapItem === undefined) {
       throw Error('undefined')
     }
-    const [key, value] = entry
+    // TODO!
     if (!isSelectable) {
-      return [key, ...value]
+      return mapItem
     }
     index++
   }
@@ -33,9 +32,9 @@ export function getNext<T>(
 
 export function getPrevious<T>(
   itemKey: Key,
-  map: Map<Key, [number, T, RefObject<HTMLOListElement | HTMLUListElement>]>,
+  map: Map<Key, MapItem<T>>,
   isSelectable?: (item: T) => boolean
-): [Key, number, T, RefObject<HTMLOListElement | HTMLUListElement>] | null {
+): MapItem<T> | null {
   const mapItem = map.get(itemKey)
 
   if (mapItem === undefined) {
@@ -43,16 +42,15 @@ export function getPrevious<T>(
   }
 
   let index = mapItem[0] - 1
-  const itemList = Array.from(map.entries())
+  const mapItemList = Array.from(map.values())
 
   while (index >= 0) {
-    const entry = itemList[index]
-    if (entry === undefined) {
+    const mapItem = mapItemList[index]
+    if (mapItem === undefined) {
       throw Error('undefined')
     }
-    const [key, value] = entry
     if (!isSelectable) {
-      return [key, ...value]
+      return mapItem
     }
     index--
   }

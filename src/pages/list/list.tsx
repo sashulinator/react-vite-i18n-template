@@ -7,6 +7,7 @@ import { getNext, getPrevious } from '~/ui/list/lib/get-sibling'
 
 export default function ListPage(): JSX.Element {
   const [checked, setChecked] = useState<(string | number)[]>([])
+  const [selected, setSelected] = useState<(string | number)[]>([])
 
   return (
     <main className='pt-5rem'>
@@ -30,6 +31,9 @@ export default function ListPage(): JSX.Element {
                 console.log('onCheckOne')
                 setChecked([key])
               }}
+              selected={selected}
+              onSelectOne={(key) => setSelected([key])}
+              onUnselectOne={() => setSelected([])}
               data={userList}
               checked={checked}
               payload={undefined}
@@ -62,10 +66,10 @@ function Item(props: ItemProps<User, undefined>) {
   const isChecked = props.checked.includes(props.itemKey)
 
   function select() {
-    props.mitt.emit(EventNames.setSelected, [props.itemKey])
+    props.mitt.emit(EventNames.selectOne, props.itemKey)
   }
   function unselect() {
-    props.mitt.emit(EventNames.setSelected, [])
+    props.mitt.emit(EventNames.unselectOne, props.itemKey)
   }
   function toggle() {
     if (isChecked) {
@@ -77,16 +81,14 @@ function Item(props: ItemProps<User, undefined>) {
   function selectNext() {
     const previous = getPrevious(selected, props.map)
     if (previous === null) return
-    const [key] = previous
-    props.mitt.emit(EventNames.focus, key)
-    props.mitt.emit(EventNames.setSelected, [key])
+    props.mitt.emit(EventNames.focus, previous.itemKey)
+    props.mitt.emit(EventNames.setSelected, [previous.itemKey])
   }
   function selectPrevious() {
     const next = getNext(selected, props.map)
     if (next === null) return
-    const [key] = next
-    props.mitt.emit(EventNames.focus, key)
-    props.mitt.emit(EventNames.setSelected, [key])
+    props.mitt.emit(EventNames.focus, next.itemKey)
+    props.mitt.emit(EventNames.setSelected, [next.itemKey])
   }
 
   function onKeyDown(e: React.KeyboardEvent) {
@@ -108,7 +110,7 @@ function Item(props: ItemProps<User, undefined>) {
       tabIndex={0}
       onClick={toggle}
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ref={props.itemRef as any}
+      ref={props.elementRef}
       onKeyDown={onKeyDown}
       onMouseOver={select}
       onMouseLeave={unselect}

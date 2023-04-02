@@ -8,17 +8,20 @@ import { useLatest } from '~/utils/hooks/latest'
 import { createMitt } from '../lib/create-mitt'
 import { Events } from '../types/events'
 import { Key } from '../types/key'
+import { MapItem } from '../types/map-item'
 
 export interface ListState<T> {
-  map: Map<Key, [number, T, RefObject<HTMLOListElement | HTMLUListElement>]>
+  map: Map<Key, MapItem<T>>
   mitt: Emitter<Events>
+  checkedKeyRef: RefObject<Key[]>
+  selectedKeyRef: RefObject<Key[]>
 }
 
 export interface ItemProps<T, P> extends ListProps<T, P> {
   item: T
   itemKey: Key
-  itemRef: RefObject<HTMLOListElement | HTMLUListElement>
-  map: Map<Key, [number, T, RefObject<HTMLOListElement | HTMLUListElement>]>
+  elementRef: RefObject<HTMLLIElement>
+  map: Map<Key, MapItem<T>>
   mitt: Emitter<Events>
   checked: Key[]
   selected: Key[]
@@ -38,7 +41,7 @@ export interface ListProps<T, P> {
   onSelect?: ((selected: Key[]) => void) | undefined
   onSelectOne?: ((selected: Key) => void) | undefined
   onUnselectOne?: ((selected: Key) => void) | undefined
-  onFocus?: ((item: T, i: number, element: HTMLOListElement | HTMLUListElement | undefined | null) => void) | undefined
+  onFocus?: ((item: T, i: number, element: HTMLLIElement | undefined | null) => void) | undefined
   onBlur?: (() => void) | undefined
   getItemKey: (item: T, data: T[], payload: P | undefined) => Key
   renderItem: (props: ItemProps<T, P>) => JSX.Element | null
@@ -48,23 +51,33 @@ export default function List<T, P>(props: ListProps<T, P>): JSX.Element {
   const {
     onCheck: onCheckProp,
     onSelect: onSelectProp,
+    checked: checkedProp,
+    selected: selectedProp,
     onFocus,
     onBlur,
     onSelectOne,
     onCheckOne,
     onUncheckOne,
     onUnselectOne,
-    checked: checkedProp,
-    selected: selectedProp,
     ...restProps
   } = props
 
+  const isDataChanged = useMemo(() => ({}), [...props.data])
   const [checked, onCheck] = useControlledState<Key[]>([], checkedProp, onCheckProp)
   const [selected, onSelect] = useControlledState<Key[]>([], selectedProp, onSelectProp)
   const checkedKeyRef = useLatest(checked)
   const selectedKeyRef = useLatest(selected)
 
-  const map = useMemo(() => new Map<Key, [number, T, RefObject<HTMLOListElement | HTMLUListElement>]>(), [props.data])
+  const onCheckRef = useLatest(onCheck)
+  const onCheckOneRef = useLatest(onCheckOne)
+  const onUncheckOneRef = useLatest(onUncheckOne)
+  const onSelectRef = useLatest(onSelect)
+  const onSelectOneRef = useLatest(onSelectOne)
+  const onUnselectOneRef = useLatest(onUnselectOne)
+  const onFocusRef = useLatest(onFocus)
+  const onBlurRef = useLatest(onBlur)
+
+  const map = useMemo(() => new Map<Key, MapItem<T>>(), [isDataChanged])
   const mitt = useMemo(
     () =>
       createMitt({
@@ -72,40 +85,38 @@ export default function List<T, P>(props: ListProps<T, P>): JSX.Element {
         checkedKeyRef,
         selectedKeyRef,
         map,
-        onUnselectOne,
-        onCheck,
-        onUncheckOne,
-        onSelectOne,
-        onFocus,
-        onCheckOne,
-        onBlur,
-        onSelect,
+        onCheckRef,
+        onCheckOneRef,
+        onUncheckOneRef,
+        onSelectRef,
+        onSelectOneRef,
+        onUnselectOneRef,
+        onFocusRef,
+        onBlurRef,
       }),
-    [props.data]
+    [isDataChanged]
   )
 
-  React.useImperativeHandle(props.stateRef, () => ({ map, mitt }), [props.data])
+  React.useImperativeHandle(props.stateRef, () => ({ map, mitt, checkedKeyRef, selectedKeyRef }), [isDataChanged])
 
   return (
     <ul {...props.rootProps} className={c('ui-List', props.rootProps?.className)}>
-      {props.data.map((item, i) => {
-        const key = props.getItemKey(item, props.data, props.payload)
+      {props.data.map((item, index) => {
+        const itemKey = props.getItemKey(item, props.data, props.payload)
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const itemRef = useRef<HTMLOListElement | HTMLUListElement>(null)
-        map.set(key, [i, item, itemRef])
+        const elementRef = useRef<HTMLLIElement>(null)
+        map.set(itemKey, { itemKey, index, item, elementRef })
 
         return React.createElement(props.renderItem, {
           ...restProps,
-          onCheck,
-          onSelect,
           mitt,
-          itemRef,
+          elementRef,
           selected,
           checked,
           item,
-          key,
+          key: itemKey,
           map,
-          itemKey: key,
+          itemKey,
         })
       })}
     </ul>

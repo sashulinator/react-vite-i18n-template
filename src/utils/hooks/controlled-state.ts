@@ -1,20 +1,30 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
+
+import { isDev } from '../is/dev'
 
 export function useControlledState<T>(
   defaulValue: T,
   incomingValue: T | undefined,
   setIncomingValue: ((v: T) => void) | undefined
 ): [T, Dispatch<SetStateAction<T>>] {
+  const defaultRef = useRef(defaulValue)
+  const incomingValueRef = useRef(incomingValue)
   const isUncontrolled = incomingValue === undefined
 
   const [value, setValue] = useState(incomingValue ?? defaulValue)
 
   useEffect(() => {
     if (value !== incomingValue) {
-      if (incomingValue) {
+      if (incomingValue !== undefined) {
         setValue(incomingValue)
+        if (incomingValueRef.current === undefined && isDev()) {
+          throw new Error('Dont change state from uncontrolled to controlled')
+        }
       } else {
-        setValue(value)
+        setValue(defaultRef.current)
+        if (incomingValueRef.current !== undefined && isDev()) {
+          throw new Error('Dont change state from controlled to uncontrolled')
+        }
       }
     }
   })
