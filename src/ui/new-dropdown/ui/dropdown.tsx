@@ -1,36 +1,34 @@
 import { createElement, useRef, useState } from 'react'
 
-import { ListActions } from '~/ui/list'
-
 import { InputRenderProps, OnInputRender } from '../types/input-render'
+import { Actions, OnListRender } from '../types/list-render'
 
-export type DropdownProps<TOption, I extends InputRenderProps> = I & {
-  onInputRender: OnInputRender<Omit<I, keyof DropdownProps<TOption, I>>> | 'input'
+export type DropdownProps<I extends InputRenderProps> = I & {
+  renderInput: OnInputRender<Omit<I, keyof DropdownProps<I>>> | 'input'
+  renderList: OnListRender
 }
 
-function Dropdown<TOption, I extends InputRenderProps>(props: DropdownProps<TOption, I>) {
-  const { onInputRender, ...textInputProps } = props
-  const inputRef = useRef<HTMLInputElement>(null)
-  const [isOpen] = useState(true)
+function Dropdown<I extends InputRenderProps>(props: DropdownProps<I>) {
+  const { renderInput, renderList, ...textInputProps } = props
+  const [inputElement, setInputElement] = useState<null | HTMLInputElement>(null)
+  const [isOpen, setOpen] = useState(true)
   const [search, setSearch] = useState('')
-  const listActionsRef = useRef<ListActions>(null)
-  const selectedElementRef = useRef<HTMLElement>(null)
-  const firstElementRef = useRef<HTMLElement>(null)
+  const actionsRef = useRef<Actions>(null)
+
+  console.log('textInputProps', textInputProps)
 
   return (
     <>
-      {createElement(onInputRender, {
+      {createElement(renderInput, {
         autoComplete: 'off',
-        // readOnly: !listProps.filter,
-        readOnly: false,
         ...textInputProps,
         value: props.value || search,
-        ref: inputRef,
+        ref: setInputElement,
         onClick: onInputClick,
         onChange: onInputChange,
         onKeyDown: onInputKeyDown,
       })}
-      {/* {createElement(onListRender, { ...listProps, inputRef, setOpen, isOpen })} */}
+      {inputElement && createElement(renderList, { inputElement, isOpen, actionsRef, onChecked })}
     </>
   )
 
@@ -42,39 +40,48 @@ function Dropdown<TOption, I extends InputRenderProps>(props: DropdownProps<TOpt
   //   }
   //   close()
   // }
+  function onChecked() {
+    setOpen(false)
+  }
 
   function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     // listProps.setSelected(null)
     setSearch(e.target.value)
-    open()
+    setOpen(true)
+    props.onChange?.(e)
   }
 
   function onInputClick(e: React.MouseEvent<HTMLInputElement>) {
-    isOpen ? close() : open()
+    isOpen ? setOpen(false) : setOpen(true)
     textInputProps?.onClick?.(e)
     setTimeout(() => {
-      listActionsRef.current?.focusFirst?.()
-      listActionsRef.current?.focusSelected?.()
+      console.log(actionsRef.current)
+
+      actionsRef.current?.focus()
+      // listActionsRef.current?.focusFirst?.()
+      // listActionsRef.current?.focusSelected?.()
     })
+    props.onClick?.(e)
   }
 
-  function onInputKeyDown(e: React.KeyboardEvent) {
+  function onInputKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Enter') {
-      isOpen ? close() : open()
-      listActionsRef.current?.focusFirst?.()
-      listActionsRef.current?.focusSelected?.()
-      setTimeout(() => {
-        firstElementRef.current?.focus()
-        selectedElementRef.current?.focus()
-      })
+      isOpen ? setOpen(false) : setOpen(true)
+      // listActionsRef.current?.focusFirst?.()
+      // listActionsRef.current?.focusSelected?.()
+      // setTimeout(() => {
+      //   firstElementRef.current?.focus()
+      //   selectedElementRef.current?.focus()
+      // })
     }
     if (e.key === 'Escape') {
-      close()
+      setOpen(false)
     }
     if (e.key === 'ArrowDown' && isOpen) {
-      firstElementRef.current?.focus()
-      selectedElementRef.current?.focus()
+      // firstElementRef.current?.focus()
+      // selectedElementRef.current?.focus()
     }
+    props.onKeyDown?.(e)
   }
 }
 

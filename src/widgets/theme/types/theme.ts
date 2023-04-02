@@ -5,6 +5,7 @@ export interface Theme {
   bgSecondary: ToStringable
   color: ToStringable
   primary: ToStringable
+  primaryAlpha04: ToStringable
   caretColor: ToStringable
   selectionColor: ToStringable
   selectionBg: ToStringable

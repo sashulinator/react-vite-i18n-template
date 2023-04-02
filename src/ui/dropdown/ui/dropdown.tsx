@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react'
 import useMeasure from 'react-use-measure'
 
-import { ListActions, SelectableList, SelectableListProps } from '~/ui/list'
 import Popover from '~/ui/popover'
 // import PositioningPortal, { PositionStrategyProps, bottomPrefered } from '~/ui/positioning-portal'
 import TextInput, { TextInputProps } from '~/ui/text-input'
@@ -10,7 +9,7 @@ import { useBoolean } from '~/utils/hooks'
 // import If from '~/utils/react/if'
 import { setRefs } from '~/utils/react/set-refs'
 
-export interface DropdownProps<T, P> extends Omit<SelectableListProps<T, P>, 'setSelected'> {
+export interface DropdownProps<T, P> extends Omit<any, 'setSelected'> {
   textInputProps?: TextInputProps
   id?: string
   name?: string
@@ -26,7 +25,7 @@ function Dropdown<T, P>(props: DropdownProps<T, P>) {
   const listWrapperRef = useRef<HTMLDivElement>(null)
   const [setInputMeasureEl, { width }] = useMeasure()
   const [search, setSearch] = useState('')
-  const actionRef = useRef<ListActions>(null)
+  const actionRef = useRef<any>(null)
   const selectedElementRef = useRef<HTMLElement>(null)
   const firstElementRef = useRef<HTMLElement>(null)
   const filteredData = filter ? listProps.data?.filter((item) => filter(item, search)) : listProps.data
@@ -55,7 +54,7 @@ function Dropdown<T, P>(props: DropdownProps<T, P>) {
               overflowY: 'auto',
             }}
           >
-            <SelectableList
+            {/* <SelectableList
               {...listProps}
               actionRef={actionRef}
               data={filteredData}
@@ -67,7 +66,7 @@ function Dropdown<T, P>(props: DropdownProps<T, P>) {
                 close()
                 inputEl?.focus()
               }}
-            />
+            /> */}
           </div>
         }
       >

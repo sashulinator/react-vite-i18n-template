@@ -1,3 +1,0 @@
-.ui-SelectableList .ui-List_item[aria-selected='true'] {
-  background-color: var(--listItem_bg__selected);
-}

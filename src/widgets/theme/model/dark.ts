@@ -7,6 +7,7 @@ import { common } from './common'
 
 /* Main */
 const primary = clr('#027ffe')
+const primaryAlpha04 = primary.alpha(0.4)
 const color = clr('#b2bac2')
 const bg = clr('#0a1929')
 const bgSecondary = clr('#011e3c')
@@ -43,7 +44,8 @@ const textInput_color__disabled = textInput_color.darken(0.4)
 export const dark: Theme & TextInputCSSVars = {
   ...common,
   primary,
-  color: color,
+  primaryAlpha04,
+  color,
   bg,
   bgSecondary,
   caretColor,

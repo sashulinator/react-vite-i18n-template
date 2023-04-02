@@ -1,8 +1,14 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 
+import DropdownList from '~/ui/dropdown-list'
+import { Item } from '~/ui/dropdown-list/ui/item'
+import { EventNames, ItemProps, Key, ListState } from '~/ui/list'
 // import DropdownList from '~/ui/dropdown-list/ui/dropdown-list'
 // import { SelectableItemComponentProps } from '~/ui/list'
 import Dropdown from '~/ui/new-dropdown'
+import TextInput from '~/ui/text-input/ui/text-input'
+import { isElement } from '~/utils/dom'
+import { isHTMLElement } from '~/utils/dom/is/is-htmlelement'
 
 // import TextInput from '~/ui/text-input/ui/text-input'
 
@@ -15,7 +21,7 @@ interface DropdownItem {
 const data: DropdownItem[] = [
   {
     id: '1',
-    username: 'vasya',
+    username: 'Vasya',
     sex: 'male',
   },
   {
@@ -33,11 +39,28 @@ const data: DropdownItem[] = [
     username: 'Lena',
     sex: 'female',
   },
+  {
+    id: '5',
+    username: 'Kira',
+    sex: 'female',
+  },
+  {
+    id: '6',
+    username: 'Misha',
+    sex: 'male',
+  },
+  {
+    id: '7',
+    username: 'John',
+    sex: 'male',
+  },
 ]
 
 export default function DropdownPage(): JSX.Element {
-  const [selectedItem] = useState<DropdownItem | null>(null)
-  console.log('data', data)
+  const [checked, setChecked] = useState<Key>('')
+  const listStateRef = useRef<ListState<DropdownItem>>(null)
+
+  const item = listStateRef.current?.map.get(checked)?.[1]
 
   return (
     <main className='pt-5rem'>
@@ -50,17 +73,33 @@ export default function DropdownPage(): JSX.Element {
           <label htmlFor='readonly' className='label ml-0.25rem'>
             Dropdown
           </label>
-          <Dropdown value={selectedItem?.username} onInputRender={'input'} />
+          <Dropdown
+            value={item?.username}
+            renderInput={TextInput as any}
+            renderList={(dlProps) => {
+              const nChecked = checked ? [checked] : []
+
+              return (
+                <DropdownList
+                  {...dlProps}
+                  stateRef={listStateRef}
+                  checked={nChecked}
+                  onCheck={(newChecked) => {
+                    const n = newChecked.filter((v) => v !== checked)
+                    setChecked(n[0])
+                    dlProps.onChecked()
+                  }}
+                  data={data}
+                  getItemKey={(item) => item.id}
+                  renderItem={(iProps) => {
+                    return <Item {...iProps}>{iProps.item.username}</Item>
+                  }}
+                />
+              )
+            }}
+          />
         </div>
       </div>
     </main>
   )
 }
-
-// function Item(props: SelectableItemComponentProps<DropdownItem, undefined>) {
-//   return (
-//     <li {...props.rootProps} key={props.itemKey} style={{ padding: '12px' }}>
-//       {props.item.username}
-//     </li>
-//   )
-// }

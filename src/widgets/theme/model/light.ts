@@ -23,6 +23,7 @@ if (defaultColor === null) {
 
 /* Main */
 const primary = clr(defaultPrimary)
+const primaryAlpha04 = primary.alpha(0.1)
 const color = clr(defaultColor)
 const bg = clr(defaultBg)
 const bgSecondary = clr('white')
@@ -60,6 +61,7 @@ const listItem_bg__selected = bg.darken(0.05)
 export const light: Theme & TextInputCSSVars & ListCSSVars = {
   ...common,
   primary,
+  primaryAlpha04,
   color,
   bg,
   bgSecondary,
