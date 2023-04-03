@@ -11,7 +11,7 @@ import { ListProps } from '../types/list-props'
 import { MapItem } from '../types/map-item'
 import { ListState } from '../types/state-ref'
 
-export default function List<T>(props: ListProps<T>): JSX.Element {
+export default function List<T, TItemProps>(props: ListProps<T, TItemProps>): JSX.Element {
   const {
     checked: checkedProp,
     selected: selectedProp,
@@ -75,6 +75,7 @@ export default function List<T>(props: ListProps<T>): JSX.Element {
         return React.createElement(props.renderItem, {
           key: itemKey,
           data: props.data,
+          itemProps: props.itemProps,
           getItemKey: props.getItemKey,
           stateRef,
           mitt,

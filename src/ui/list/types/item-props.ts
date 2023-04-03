@@ -6,7 +6,8 @@ import { Key } from './key'
 import { MapItem } from './map-item'
 import { ListState } from './state-ref'
 
-export interface ItemProps<T> {
+export interface ItemProps<T, TItemProps> {
+  itemProps: TItemProps | undefined
   data: T[]
   stateRef: ForwardedRef<ListState<T>>
   item: T

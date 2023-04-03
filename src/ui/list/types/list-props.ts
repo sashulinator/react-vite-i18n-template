@@ -4,8 +4,9 @@ import { ItemProps } from './item-props'
 import { Key } from './key'
 import { ListState } from './state-ref'
 
-export interface ListProps<T> {
+export interface ListProps<T, TItemProps> {
   rootProps?: React.HTMLAttributes<HTMLUListElement>
+  itemProps?: TItemProps | undefined
   data: T[]
   checked?: Key[]
   selected?: Key[]
@@ -20,5 +21,5 @@ export interface ListProps<T> {
   onFocus?: ((item: T, i: number, element: HTMLLIElement | undefined | null) => void) | undefined
   onBlur?: (() => void) | undefined
   getItemKey: (item: T, data: T[]) => Key
-  renderItem: (props: ItemProps<T>) => JSX.Element | null
+  renderItem: (props: ItemProps<T, TItemProps>) => JSX.Element | null
 }
