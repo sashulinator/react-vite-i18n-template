@@ -7,9 +7,7 @@ import type { ForwardedRef } from 'react'
  * @example
  * <div ref={setRefs(ref, divRef)} />
  */
-export function setRefs<T extends HTMLElement | null>(
-  ...refs: (ForwardedRef<T> | undefined)[]
-): (instance: T | null) => void {
+export function setRefs<T>(...refs: (ForwardedRef<T> | undefined)[]): (instance: T | null) => void {
   return (instance) => {
     refs.forEach((someRef) => setRef(instance, someRef))
   }

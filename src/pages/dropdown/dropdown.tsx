@@ -1,12 +1,11 @@
-import React, { useCallback, useLayoutEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 
-import Align from '~/ui/align'
-import List, { EventNames, ItemProps, Key, ListProps, ListState, getNext, getPrevious } from '~/ui/list'
+import DropdownList from '~/ui/dropdown-list/ui/dropdown-list'
+import { EventNames, ItemProps, Key, ListProps, ListState, getNext, getPrevious } from '~/ui/list'
 // import DropdownList from '~/ui/dropdown-list/ui/dropdown-list'
 // import { SelectableItemComponentProps } from '~/ui/list'
 import Dropdown from '~/ui/new-dropdown'
 import TextInput, { TextInputProps } from '~/ui/text-input/ui/text-input'
-import { useLatest } from '~/utils/hooks/latest'
 
 // import TextInput from '~/ui/text-input/ui/text-input'
 
@@ -59,10 +58,7 @@ export default function DropdownPage(): JSX.Element {
   const [selected, setSelected] = useState<Key[]>([])
   const listStateRef = useRef<ListState<DropdownItem>>(null)
   const value = checked[0] || ''
-  const item = listStateRef.current?.map.get(value)?.[1]
-
-  const selectedRef = useLatest(selected)
-  const checkedRef = useLatest(checked)
+  const item = listStateRef.current?.map.get(value)?.item
 
   return (
     <main className='pt-5rem'>
@@ -75,59 +71,21 @@ export default function DropdownPage(): JSX.Element {
           <label htmlFor='readonly' className='label ml-0.25rem'>
             Dropdown
           </label>
-          <Dropdown<TextInputProps, ListProps<DropdownItem>>
+          <Dropdown<TextInputProps, ListProps<DropdownItem, undefined>>
             value={item?.username}
             renderInput={TextInput}
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            listProps={{ data, renderItem: SingleSelectItem as any, getItemKey: (item) => item.username }}
-            renderList={useCallback((dlProps) => {
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              useLayoutEffect(() => {
-                if (dlProps.isFocused) {
-                  const key = selectedRef.current.length ? selectedRef.current : [data[0].username]
-                  stateRef.current?.mitt.emit(EventNames.focus, key[0])
-                }
-              }, [dlProps.isFocused])
-
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              useLayoutEffect(() => {
-                if (dlProps.isFirstSelected) {
-                  stateRef.current?.mitt.emit(EventNames.setSelected, [data[0].username])
-                }
-              }, [dlProps.isFirstSelected])
-
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              const ref = useRef<HTMLDivElement>(null)
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              const stateRef = useRef<ListState<DropdownItem>>(null)
-
-              if (!dlProps.isOpen) {
-                return null
-              }
-              return (
-                <Align points={['tc', 'bc']} targetElement={dlProps.inputElement}>
-                  <div ref={ref} style={{ width: getComputedStyle(dlProps.inputElement).width }}>
-                    <List
-                      data={data}
-                      renderItem={dlProps.renderItem}
-                      getItemKey={dlProps.getItemKey}
-                      checked={checkedRef.current}
-                      selected={selectedRef.current}
-                      isSelectable={(item) => Boolean(item.id)}
-                      onSelectOne={(key) => setSelected([key])}
-                      onUnselectOne={() => setSelected([])}
-                      stateRef={stateRef}
-                      onCheckOne={(key) => {
-                        dlProps.onChecked()
-                        setChecked([key])
-                      }}
-                      onUncheckOne={() => setChecked([])}
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    />
-                  </div>
-                </Align>
-              )
-            }, [])}
+            renderList={DropdownList}
+            listProps={{
+              data,
+              selected,
+              checked,
+              onSelectOne: (k) => setSelected([k]),
+              onUnselectOne: () => setSelected([]),
+              renderItem: SingleSelectItem,
+              getItemKey: (item) => item.username,
+              onCheckOne: (key) => setChecked(() => [key]),
+            }}
           />
         </div>
       </div>
@@ -141,7 +99,6 @@ function SingleSelectItem(props: ItemProps<DropdownItem, undefined>) {
   const isChecked = props.checked.includes(props.itemKey)
 
   function select() {
-    console.log('selected', selected, isSelected)
     props.mitt.emit(EventNames.selectOne, props.itemKey)
   }
   function unselect() {
@@ -176,6 +133,9 @@ function SingleSelectItem(props: ItemProps<DropdownItem, undefined>) {
     }
     if (e.key === 'ArrowDown') {
       selectPrevious()
+    }
+    if (e.key === ' ') {
+      toggle()
     }
   }
 

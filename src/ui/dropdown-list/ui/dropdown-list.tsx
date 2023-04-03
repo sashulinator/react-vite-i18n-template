@@ -1,61 +1,64 @@
-import React, { ForwardedRef, useImperativeHandle, useRef, useState } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 
 import Align from '~/ui/align'
-import List, { ListProps, ListState } from '~/ui/list'
+import List, { EventNames, ListProps, ListState } from '~/ui/list'
+import { ListProps as ListRenderProps } from '~/ui/new-dropdown'
+import { setRefs } from '~/utils/react'
 
-interface DropdownListProps<T, P> extends ListProps<T, P> {
-  isOpen?: boolean
-  searchQuery?: string | undefined
-  inputElement: HTMLInputElement | null
-  actionsRef: ForwardedRef<{
-    focus: () => void
-  }>
-  filter?: (item: T, searchQuery?: string) => boolean
-}
+type DropdownListProps<T, P> = ListRenderProps & ListProps<T, P>
 
 export default function DropdownList<T, P>(props: DropdownListProps<T, P>): JSX.Element | null {
-  const { isOpen, searchQuery, data, filter, actionsRef, ...listProps } = props
+  const { isFirstSelected, isFocused, searchQuery, inputElement, isOpen, setOpen, ...listProps } = props
+  const renderProps: ListRenderProps = {
+    isOpen,
+    isFocused,
+    isFirstSelected,
+    searchQuery,
+    inputElement,
+    setOpen,
+  }
 
-  const [rootElement, setRootElement] = useState<HTMLDivElement | null>(null)
+  const width = getComputedStyle(props.inputElement).width
+
+  const ref = useRef<HTMLDivElement>(null)
   const stateRef = useRef<ListState<T>>(null)
 
-  useImperativeHandle(
-    actionsRef,
-    () => {
-      return {
-        focus: () => {
-          // stateRef.current?.mitt.emit(EventNames.selectFirst)
-          // rootElement?.focus()
-        },
-      }
-    },
-    [rootElement, props.checked]
-  )
+  useLayoutEffect(() => {
+    if (renderProps.isFocused) {
+      const key = listProps.checked?.length
+        ? listProps.checked[0]
+        : listProps.getItemKey(listProps.data[0], listProps.data, listProps.payload)
+      stateRef.current?.mitt.emit(EventNames.focus, key)
+    }
+  }, [renderProps.isFocused])
 
-  if (!isOpen || !props.inputElement) {
+  useLayoutEffect(() => {
+    if (renderProps.isFirstSelected) {
+      stateRef.current?.mitt.emit(EventNames.setSelected, [
+        props.getItemKey(listProps.data[0], listProps.data, listProps.payload),
+      ])
+    }
+  }, [renderProps.isFirstSelected])
+
+  if (!renderProps.isOpen) {
     return null
   }
 
-  const filteredData = props.filter && searchQuery ? data?.filter((item) => filter?.(item, searchQuery)) : props.data
-  const { width } = getComputedStyle(props.inputElement)
-
   return (
-    <Align points={['tc', 'bc']} targetElement={props.inputElement}>
-      <div
-        ref={setRootElement}
-        style={{
-          display: filteredData?.length && isOpen ? 'block' : 'none',
-          background: 'var(--bgSecondary)',
-          borderRadius: '8px',
-          padding: '8px 0',
-          boxShadow: '0px 1.2px 18px rgba(0, 0, 0, 0.15), 0px 6.4px 29px rgba(0, 0, 0, 0.15)',
-          width,
-          maxHeight: '200px',
-          overflowY: 'auto',
-        }}
-      >
-        <List {...listProps} data={filteredData} stateRef={stateRef} />
+    <Align points={['tc', 'bc']} targetElement={renderProps.inputElement}>
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions*/}
+      <div ref={ref} style={{ width }} onKeyDown={onKeyDown}>
+        <List {...listProps} stateRef={setRefs(stateRef, listProps.stateRef)} />
       </div>
     </Align>
   )
+
+  // Private
+
+  function onKeyDown(e: React.KeyboardEvent) {
+    if (e.key === 'Enter' && ref.current?.contains(document.activeElement)) {
+      renderProps.setOpen(false)
+      renderProps.inputElement.focus()
+    }
+  }
 }

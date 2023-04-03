@@ -1,12 +1,12 @@
-import { createElement, useState } from 'react'
+import { createElement, useEffect, useState } from 'react'
 
 import { InputRenderProps, OnInputRender } from '../types/input-render'
 import { OnListRender } from '../types/list-render'
 
 export type DropdownProps<I extends InputRenderProps, LP> = I & {
   renderInput: OnInputRender<Omit<I, keyof DropdownProps<I, LP>>> | 'input'
-  renderList: OnListRender<LP>
   listProps: LP
+  renderList: OnListRender<LP>
 }
 
 function Dropdown<I extends InputRenderProps, LP>(props: DropdownProps<I, LP>) {
@@ -14,15 +14,21 @@ function Dropdown<I extends InputRenderProps, LP>(props: DropdownProps<I, LP>) {
   const [inputElement, setInputElement] = useState<null | HTMLInputElement>(null)
   const [isOpen, setOpen] = useState(false)
   const [isFirstSelected, setFirstSelected] = useState(false)
-  const [search, setSearch] = useState('')
+  const [searchQuery, setSearch] = useState('')
   const [isListFocused, setListFocused] = useState(false)
+
+  useEffect(() => {
+    if (!isOpen) {
+      setListFocused(false)
+    }
+  }, [isOpen])
 
   return (
     <>
       {createElement(renderInput, {
         autoComplete: 'off',
         ...textInputProps,
-        value: props.value || search,
+        value: props.value || searchQuery,
         ref: setInputElement,
         onClick: onInputClick,
         onChange: onInputChange,
@@ -35,8 +41,9 @@ function Dropdown<I extends InputRenderProps, LP>(props: DropdownProps<I, LP>) {
           inputElement,
           isOpen,
           isFocused: isListFocused,
+          searchQuery,
           isFirstSelected,
-          onChecked,
+          setOpen,
         })}
     </>
   )
@@ -49,9 +56,6 @@ function Dropdown<I extends InputRenderProps, LP>(props: DropdownProps<I, LP>) {
   //   }
   //   close()
   // }
-  function onChecked() {
-    setOpen(false)
-  }
 
   function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     // listProps.setSelected(null)
@@ -64,10 +68,8 @@ function Dropdown<I extends InputRenderProps, LP>(props: DropdownProps<I, LP>) {
   function onInputClick(e: React.MouseEvent<HTMLInputElement>) {
     if (isOpen) {
       setOpen(false)
-      setListFocused(false)
     } else {
       setOpen(true)
-      setListFocused(true)
     }
 
     textInputProps?.onClick?.(e)
@@ -78,7 +80,6 @@ function Dropdown<I extends InputRenderProps, LP>(props: DropdownProps<I, LP>) {
     if (e.key === 'Enter') {
       if (isOpen) {
         setOpen(false)
-        setListFocused(false)
       } else {
         setOpen(true)
       }

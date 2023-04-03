@@ -43,12 +43,10 @@ export function createMitt<T>(props: CreateMittProps<T>): Emitter<Events> {
   })
 
   m.on(EventNames.setSelected, (selected) => {
-    // console.log('setSelectedsetSelectedsetSelected', selected)
     props.onSelectRef.current?.(selected)
   })
   m.on(EventNames.selectOne, (key) => {
     if (props.selectedKeyRef.current === null) return
-    // console.log('keykeykey', key)
     m.emit(EventNames.setSelected, [...props.selectedKeyRef.current, key])
     props.onSelectOneRef.current?.(key)
   })
