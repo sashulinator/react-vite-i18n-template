@@ -19,14 +19,11 @@ export interface PopoverProps extends Omit<AlignProps, 'targetElement' | 'childr
   onEscKeyDown?: ((e: KeyboardEvent | TouchEvent) => void) | undefined
 }
 
-const PopoverComponent: React.ForwardRefRenderFunction<HTMLDivElement, PopoverProps> = (props) => {
+export default function Popover(props: PopoverProps) {
   const { isOpen, content, placement = 'bc', onClose, onClickOutside, onEscKeyDown, ...alignProps } = props
   const points = props.placement ? toPoints(placement) : props.points ?? ['tc', 'bc']
   const sourceRef = React.useRef<null | HTMLDivElement>(null)
   const [childrenEl, setChildrenEl] = React.useState<null | HTMLElement>(null)
-
-  const handleClickOutside = React.useCallback(_handleClickOutside, [onClickOutside, onClose])
-  const handleEscKeyDown = React.useCallback(_handleEscKeyDown, [onEscKeyDown, onClose])
 
   useOnClickOutside(sourceRef, handleClickOutside)
   useEventListener('keydown', handleEscKeyDown)
@@ -58,18 +55,17 @@ const PopoverComponent: React.ForwardRefRenderFunction<HTMLDivElement, PopoverPr
 
   // Private
 
-  function _handleClickOutside(e: MouseEvent | TouchEvent) {
-    props.onClickOutside?.(e)
-    props.onClose?.()
+  function handleClickOutside(e: MouseEvent | TouchEvent) {
+    onClickOutside?.(e)
+    onClose?.()
   }
 
-  function _handleEscKeyDown(e: KeyboardEvent) {
+  function handleEscKeyDown(e: KeyboardEvent) {
     if (e.key === 'Escape') {
-      props.onEscKeyDown?.(e)
-      props.onClose?.()
+      onEscKeyDown?.(e)
+      onClose?.()
     }
   }
 }
 
-const Popover = React.forwardRef(PopoverComponent)
-export default Popover
+Popover.displayName = 'PopoverComponent'

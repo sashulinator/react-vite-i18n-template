@@ -48,8 +48,8 @@ export default function ListPage(): JSX.Element {
               data={filteredUserList}
               selected={singleSelected}
               checked={singleChecked}
-              onUncheckOne={() => setSingleChecked([])}
               onCheckOne={(key) => setSingleChecked([key])}
+              onUncheckOne={() => setSingleChecked([])}
               onSelectOne={(key) => setSingleSelected([key])}
               onUnselectOne={() => setSingleSelected([])}
               getItemKey={(item) => item.username}

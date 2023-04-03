@@ -15,19 +15,20 @@ export function useControlledState<T>(
 
   useEffect(() => {
     if (value !== incomingValue) {
-      if (incomingValue !== undefined) {
-        setValue(incomingValue)
-        if (incomingValueRef.current === undefined && isDev()) {
+      if (incomingValue !== undefined && incomingValueRef.current === undefined) {
+        setIncomingValue?.(incomingValue)
+        if (isDev()) {
           throw new Error('Dont change state from uncontrolled to controlled')
         }
-      } else {
+      }
+      if (incomingValue === undefined && incomingValueRef.current !== undefined) {
         setValue(defaultRef.current)
         if (incomingValueRef.current !== undefined && isDev()) {
           throw new Error('Dont change state from controlled to uncontrolled')
         }
       }
     }
-  })
+  }, [incomingValue])
 
   return isUncontrolled ? [value, setValue] : ([incomingValue, setIncomingValue] as [T, Dispatch<SetStateAction<T>>])
 }

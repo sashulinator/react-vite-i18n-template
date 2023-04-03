@@ -68,6 +68,8 @@ export default function List<T, P>(props: ListProps<T, P>): JSX.Element {
         const elementRef = { current: null }
         map.set(itemKey, { itemKey, index, item, elementRef })
 
+        console.log('selectedselected', selectedKeyRef)
+
         return React.createElement(props.renderItem, {
           ...restProps,
           mitt,

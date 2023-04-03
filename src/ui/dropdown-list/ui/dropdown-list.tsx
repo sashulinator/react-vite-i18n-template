@@ -1,7 +1,7 @@
 import React, { ForwardedRef, useImperativeHandle, useRef, useState } from 'react'
 
 import Align from '~/ui/align'
-import List, { EventNames, ListProps, ListState } from '~/ui/list'
+import List, { ListProps, ListState } from '~/ui/list'
 
 interface DropdownListProps<T, P> extends ListProps<T, P> {
   isOpen?: boolean

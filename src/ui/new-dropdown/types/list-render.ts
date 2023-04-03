@@ -1,5 +1,3 @@
-import { RefObject } from 'react'
-
 export type Actions = {
   focus: () => void
 }
@@ -7,8 +5,9 @@ export type Actions = {
 export interface ListProps {
   isOpen: boolean
   inputElement: HTMLInputElement
-  actionsRef: RefObject<Actions> | null
+  isFocused: boolean
+  isFirstSelected: boolean
   onChecked: () => void
 }
 
-export type OnListRender = (props: ListProps) => JSX.Element | null
+export type OnListRender<P> = (props: ListProps & P) => JSX.Element | null
