@@ -7,4 +7,5 @@ export interface MapItem<T> {
   item: T
   elementRef: RefObject<HTMLLIElement>
   itemKey: Key
+  map: Map<Key | HTMLLIElement, MapItem<T>>
 }

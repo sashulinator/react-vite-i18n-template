@@ -13,7 +13,9 @@ export interface ItemProps<T, TItemProps> {
   item: T
   itemKey: Key
   elementRef: RefObject<HTMLLIElement>
-  map: Map<Key, MapItem<T>>
+  setElementRef: (instance: HTMLLIElement) => void
+  map: Map<Key | HTMLLIElement, MapItem<T>>
+  mapItem: MapItem<T>
   mitt: Emitter<Events>
   checked: Key[]
   selected: Key[]

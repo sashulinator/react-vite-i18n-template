@@ -3,7 +3,7 @@ import { MapItem } from '../types/map-item'
 
 export function getNext<T>(
   itemKey: Key,
-  map: Map<Key, MapItem<T>>,
+  map: Map<Key | HTMLLIElement, MapItem<T>>,
   isSelectable?: (item: T) => boolean
 ): MapItem<T> | null {
   const mapItem = map.get(itemKey)
@@ -33,7 +33,7 @@ export function getNext<T>(
 
 export function getPrevious<T>(
   itemKey: Key,
-  map: Map<Key, MapItem<T>>,
+  map: Map<Key | HTMLLIElement, MapItem<T>>,
   isSelectable?: (item: T) => boolean
 ): MapItem<T> | null {
   const mapItem = map.get(itemKey)

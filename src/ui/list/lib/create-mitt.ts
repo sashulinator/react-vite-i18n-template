@@ -14,7 +14,7 @@ export interface CreateMittProps<T> {
   data: T[]
   checkedKeyRef: RefObject<Key[]>
   selectedKeyRef: RefObject<Key[]>
-  map: Map<Key, MapItem<T>>
+  map: Map<Key | HTMLLIElement, MapItem<T>>
   onCheckRef: RefObject<((checked: Key[]) => void) | undefined>
   onCheckOneRef: RefObject<((checked: Key) => void) | undefined>
   onUncheckOneRef: RefObject<((checked: Key) => void) | undefined>

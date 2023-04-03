@@ -101,7 +101,7 @@ export default function ListPage(): JSX.Element {
   )
 }
 
-function GroupedItem(props: ItemProps<User>) {
+function GroupedItem<TItemProps>(props: ItemProps<User, TItemProps>) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if ((props.item as any).group) {
     return (
@@ -176,7 +176,7 @@ function GroupedItem(props: ItemProps<User>) {
   )
 }
 
-function SingleSelectItem(props: ItemProps<User>) {
+function SingleSelectItem<P>(props: ItemProps<User, P>) {
   const selected = props.selected[0]
   const isSelected = props.itemKey === selected
   const isChecked = props.checked.includes(props.itemKey)
@@ -239,7 +239,7 @@ function SingleSelectItem(props: ItemProps<User>) {
   )
 }
 
-function MultiSelectItem(props: ItemProps<User>) {
+function MultiSelectItem<P>(props: ItemProps<User, P>) {
   const isSelected = props.selected.includes(props.itemKey)
   const isChecked = props.checked.includes(props.itemKey)
 

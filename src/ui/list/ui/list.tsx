@@ -6,6 +6,7 @@ import { useLatest } from '~/utils/hooks/latest'
 import { setRefs } from '~/utils/react'
 
 import { createMitt } from '../lib/create-mitt'
+import { EventNames } from '../types/event-names'
 import { Key } from '../types/key'
 import { ListProps } from '../types/list-props'
 import { MapItem } from '../types/map-item'
@@ -41,7 +42,7 @@ export default function List<T, TItemProps>(props: ListProps<T, TItemProps>): JS
   const onFocusRef = useLatest(onFocus)
   const onBlurRef = useLatest(onBlur)
 
-  const map = useMemo(() => new Map<Key, MapItem<T>>(), [isDataChanged])
+  const map = useMemo(() => new Map<Key | HTMLLIElement, MapItem<T>>(), [isDataChanged])
   const mitt = useMemo(
     () =>
       createMitt({
@@ -61,16 +62,64 @@ export default function List<T, TItemProps>(props: ListProps<T, TItemProps>): JS
     [isDataChanged]
   )
 
-  React.useImperativeHandle(setRefs(stateRef, props.stateRef), () => ({ map, mitt, checkedKeyRef, selectedKeyRef }), [
-    isDataChanged,
-  ])
+  function setSelected(selected: Key[]) {
+    mitt.emit(EventNames.setSelected, selected)
+  }
+  function checkOne(key: Key) {
+    mitt.emit(EventNames.checkOne, key)
+  }
+  function focus(key: Key) {
+    mitt.emit(EventNames.focus, key)
+  }
+  function selectOne(key: Key) {
+    mitt.emit(EventNames.selectOne, key)
+  }
+  function setChecked(checked: Key[]) {
+    mitt.emit(EventNames.setChecked, checked)
+  }
+  function uncheckOne(key: Key) {
+    mitt.emit(EventNames.uncheckOne, key)
+  }
+  function unfocus() {
+    mitt.emit(EventNames.unfocus)
+  }
+  function unselectOne(key: Key) {
+    mitt.emit(EventNames.unselectOne, key)
+  }
+
+  React.useImperativeHandle(
+    setRefs(stateRef, props.stateRef),
+    () => ({
+      map,
+      mitt,
+      checkedKeyRef,
+      selectedKeyRef,
+      setSelected,
+      checkOne,
+      focus,
+      selectOne,
+      setChecked,
+      uncheckOne,
+      unfocus,
+      unselectOne,
+    }),
+    [isDataChanged]
+  )
 
   return (
     <ul {...props.rootProps} className={c('ui-List', props.rootProps?.className)}>
       {props.data.map((item, index) => {
         const itemKey = props.getItemKey(item, props.data)
-        const elementRef = { current: null }
-        map.set(itemKey, { itemKey, index, item, elementRef })
+        const elementRef: { current: null | HTMLLIElement } = { current: null }
+        const mapItem: MapItem<T> = { itemKey, index, item, elementRef, map }
+        map.set(itemKey, mapItem)
+
+        function setElementRef(instance: HTMLLIElement) {
+          console.log('instance', instance)
+
+          elementRef.current = instance
+          map.set(instance, mapItem)
+        }
 
         return React.createElement(props.renderItem, {
           key: itemKey,
@@ -80,9 +129,11 @@ export default function List<T, TItemProps>(props: ListProps<T, TItemProps>): JS
           stateRef,
           mitt,
           elementRef,
+          setElementRef,
           selected,
           checked,
           item,
+          mapItem,
           map,
           itemKey,
         })
