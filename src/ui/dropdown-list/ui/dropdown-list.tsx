@@ -5,9 +5,9 @@ import List, { EventNames, ListProps, ListState } from '~/ui/list'
 import { ListProps as ListRenderProps } from '~/ui/new-dropdown'
 import { setRefs } from '~/utils/react'
 
-type DropdownListProps<T, P> = ListRenderProps & ListProps<T, P>
+type DropdownListProps<T> = ListRenderProps & ListProps<T>
 
-export default function DropdownList<T, P>(props: DropdownListProps<T, P>): JSX.Element | null {
+export default function DropdownList<T>(props: DropdownListProps<T>): JSX.Element | null {
   const { isFirstSelected, isFocused, searchQuery, inputElement, isOpen, setOpen, ...listProps } = props
   const renderProps: ListRenderProps = {
     isOpen,
@@ -27,16 +27,14 @@ export default function DropdownList<T, P>(props: DropdownListProps<T, P>): JSX.
     if (renderProps.isFocused) {
       const key = listProps.checked?.length
         ? listProps.checked[0]
-        : listProps.getItemKey(listProps.data[0], listProps.data, listProps.payload)
+        : listProps.getItemKey(listProps.data[0], listProps.data)
       stateRef.current?.mitt.emit(EventNames.focus, key)
     }
   }, [renderProps.isFocused])
 
   useLayoutEffect(() => {
     if (renderProps.isFirstSelected) {
-      stateRef.current?.mitt.emit(EventNames.setSelected, [
-        props.getItemKey(listProps.data[0], listProps.data, listProps.payload),
-      ])
+      stateRef.current?.mitt.emit(EventNames.setSelected, [props.getItemKey(listProps.data[0], listProps.data)])
     }
   }, [renderProps.isFirstSelected])
 

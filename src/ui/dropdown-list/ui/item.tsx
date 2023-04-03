@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import { EventNames, ItemProps } from '~/ui/list'
 import { getNext } from '~/ui/list/lib/get-sibling'
 
-export function Item<T, P>(props: ItemProps<T, P> & { children: React.ReactNode }) {
+export function Item<T>(props: ItemProps<T> & { children: React.ReactNode }) {
   const isChecked = props.checked.includes(props.itemKey)
   const isSelected = props.selected.includes(props.itemKey)
 

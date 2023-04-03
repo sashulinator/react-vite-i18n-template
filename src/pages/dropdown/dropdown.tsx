@@ -71,7 +71,7 @@ export default function DropdownPage(): JSX.Element {
           <label htmlFor='readonly' className='label ml-0.25rem'>
             Dropdown
           </label>
-          <Dropdown<TextInputProps, ListProps<DropdownItem, undefined>>
+          <Dropdown<TextInputProps, ListProps<DropdownItem>>
             value={item?.username}
             renderInput={TextInput}
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -93,7 +93,7 @@ export default function DropdownPage(): JSX.Element {
   )
 }
 
-function SingleSelectItem(props: ItemProps<DropdownItem, undefined>) {
+function SingleSelectItem(props: ItemProps<DropdownItem>) {
   const selected = props.selected[0]
   const isSelected = props.itemKey === selected
   const isChecked = props.checked.includes(props.itemKey)

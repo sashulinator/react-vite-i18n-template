@@ -64,7 +64,7 @@ export function createMitt<T>(props: CreateMittProps<T>): Emitter<Events> {
     }
     if (!item) return
     item.elementRef.current?.focus()
-    props.onFocusRef.current?.(item.item, item.index, item.elementRef.current)
+    // props.onFocusRef.current?.(item.item, item.index, item.elementRef.current)
   })
 
   m.on(EventNames.unfocus, () => {

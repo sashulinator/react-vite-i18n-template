@@ -1,15 +1,17 @@
 import c from 'clsx'
-import React, { useMemo } from 'react'
+import React, { useMemo, useRef } from 'react'
 
 import { useControlledState } from '~/utils/hooks/controlled-state'
 import { useLatest } from '~/utils/hooks/latest'
+import { setRefs } from '~/utils/react'
 
 import { createMitt } from '../lib/create-mitt'
 import { Key } from '../types/key'
 import { ListProps } from '../types/list-props'
 import { MapItem } from '../types/map-item'
+import { ListState } from '../types/state-ref'
 
-export default function List<T, P>(props: ListProps<T, P>): JSX.Element {
+export default function List<T>(props: ListProps<T>): JSX.Element {
   const {
     checked: checkedProp,
     selected: selectedProp,
@@ -21,7 +23,6 @@ export default function List<T, P>(props: ListProps<T, P>): JSX.Element {
     onCheckOne,
     onUncheckOne,
     onUnselectOne,
-    ...restProps
   } = props
 
   const isDataChanged = useMemo(() => ({}), [props.data])
@@ -29,6 +30,7 @@ export default function List<T, P>(props: ListProps<T, P>): JSX.Element {
   const [selected, onSelect] = useControlledState<Key[]>([], selectedProp, onSelectProp)
   const checkedKeyRef = useLatest(checked)
   const selectedKeyRef = useLatest(selected)
+  const stateRef = useRef<ListState<T>>(null)
 
   const onCheckRef = useLatest(onCheck)
   const onCheckOneRef = useLatest(onCheckOne)
@@ -43,7 +45,7 @@ export default function List<T, P>(props: ListProps<T, P>): JSX.Element {
   const mitt = useMemo(
     () =>
       createMitt({
-        ...restProps,
+        data: props.data,
         checkedKeyRef,
         selectedKeyRef,
         map,
@@ -59,23 +61,27 @@ export default function List<T, P>(props: ListProps<T, P>): JSX.Element {
     [isDataChanged]
   )
 
-  React.useImperativeHandle(props.stateRef, () => ({ map, mitt, checkedKeyRef, selectedKeyRef }), [isDataChanged])
+  React.useImperativeHandle(setRefs(stateRef, props.stateRef), () => ({ map, mitt, checkedKeyRef, selectedKeyRef }), [
+    isDataChanged,
+  ])
 
   return (
     <ul {...props.rootProps} className={c('ui-List', props.rootProps?.className)}>
       {props.data.map((item, index) => {
-        const itemKey = props.getItemKey(item, props.data, props.payload)
+        const itemKey = props.getItemKey(item, props.data)
         const elementRef = { current: null }
         map.set(itemKey, { itemKey, index, item, elementRef })
 
         return React.createElement(props.renderItem, {
-          ...restProps,
+          key: itemKey,
+          data: props.data,
+          getItemKey: props.getItemKey,
+          stateRef,
           mitt,
           elementRef,
           selected,
           checked,
           item,
-          key: itemKey,
           map,
           itemKey,
         })

@@ -101,7 +101,7 @@ export default function ListPage(): JSX.Element {
   )
 }
 
-function GroupedItem(props: ItemProps<User, undefined>) {
+function GroupedItem(props: ItemProps<User>) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if ((props.item as any).group) {
     return (
@@ -131,13 +131,13 @@ function GroupedItem(props: ItemProps<User, undefined>) {
     }
   }
   function selectNext() {
-    const next = getNext(selected, props.map, props.isSelectable)
+    const next = getNext(selected, props.map)
     if (next === null) return
     props.mitt.emit(EventNames.focus, next.itemKey)
     props.mitt.emit(EventNames.setSelected, [next.itemKey])
   }
   function selectPrevious() {
-    const previous = getPrevious(selected, props.map, props.isSelectable)
+    const previous = getPrevious(selected, props.map)
     if (previous === null) return
     props.mitt.emit(EventNames.focus, previous.itemKey)
     props.mitt.emit(EventNames.setSelected, [previous.itemKey])
@@ -176,7 +176,7 @@ function GroupedItem(props: ItemProps<User, undefined>) {
   )
 }
 
-function SingleSelectItem(props: ItemProps<User, undefined>) {
+function SingleSelectItem(props: ItemProps<User>) {
   const selected = props.selected[0]
   const isSelected = props.itemKey === selected
   const isChecked = props.checked.includes(props.itemKey)
@@ -239,7 +239,7 @@ function SingleSelectItem(props: ItemProps<User, undefined>) {
   )
 }
 
-function MultiSelectItem(props: ItemProps<User, undefined>) {
+function MultiSelectItem(props: ItemProps<User>) {
   const isSelected = props.selected.includes(props.itemKey)
   const isChecked = props.checked.includes(props.itemKey)
 

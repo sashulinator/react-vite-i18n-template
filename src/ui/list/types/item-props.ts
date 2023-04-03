@@ -1,12 +1,14 @@
 import { Emitter } from 'mitt'
-import { RefObject } from 'react'
+import { ForwardedRef, RefObject } from 'react'
 
 import { Events } from './events'
 import { Key } from './key'
-import { ListProps } from './list-props'
 import { MapItem } from './map-item'
+import { ListState } from './state-ref'
 
-export interface ItemProps<T, P = unknown> extends ListProps<T, P> {
+export interface ItemProps<T> {
+  data: T[]
+  stateRef: ForwardedRef<ListState<T>>
   item: T
   itemKey: Key
   elementRef: RefObject<HTMLLIElement>
@@ -14,4 +16,5 @@ export interface ItemProps<T, P = unknown> extends ListProps<T, P> {
   mitt: Emitter<Events>
   checked: Key[]
   selected: Key[]
+  getItemKey: (item: T, data: T[]) => Key
 }
