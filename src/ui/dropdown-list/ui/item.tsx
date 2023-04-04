@@ -17,7 +17,7 @@ export function DropdownListItem<T>(props: ItemProps<T, DropdownItemProps<T>>) {
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <li
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-      tabIndex={0}
+      tabIndex={-1}
       className={clsx('ui-DropdownListItem')}
       data-selected={isSelected}
       data-checked={isChecked}

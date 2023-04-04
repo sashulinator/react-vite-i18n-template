@@ -90,10 +90,12 @@ export default function List<T, TItemProps>(props: ListProps<T, TItemProps>): JS
   React.useImperativeHandle(
     setRefs(stateRef, props.stateRef),
     () => ({
+      data: props.data,
       map,
       mitt,
       checkedKeyRef,
       selectedKeyRef,
+      getItemKey: props.getItemKey,
       setSelected,
       checkOne,
       focus,
@@ -115,8 +117,6 @@ export default function List<T, TItemProps>(props: ListProps<T, TItemProps>): JS
         map.set(itemKey, mapItem)
 
         function setElementRef(instance: HTMLLIElement) {
-          console.log('instance', instance)
-
           elementRef.current = instance
           map.set(instance, mapItem)
         }

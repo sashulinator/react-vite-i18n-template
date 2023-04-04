@@ -1,7 +1,8 @@
 import { useLayoutEffect, useRef } from 'react'
 
 import Align from '~/ui/align'
-import List, { EventNames, ListProps, ListState, MapItem, getNext } from '~/ui/list'
+import { EventNames, ListProps, ListState, MapItem, getNext } from '~/ui/list'
+import ControlledList from '~/ui/list/ui/controlled-list'
 import { ListProps as ListRenderProps } from '~/ui/new-dropdown'
 import { assertNotNull } from '~/utils/core/assertions/assert-not-null'
 import { isNull } from '~/utils/core/is/is-null'
@@ -65,7 +66,7 @@ export default function DropdownList<T, P>(
     <Align points={['tc', 'bc']} targetElement={renderProps.inputElement}>
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions*/}
       <div ref={ref} style={{ width }}>
-        <List {...listProps} stateRef={setRefs(stateRef, listProps.stateRef)} itemProps={itemProps} />
+        <ControlledList {...listProps} stateRef={setRefs(stateRef, listProps.stateRef)} itemProps={itemProps} />
       </div>
     </Align>
   )

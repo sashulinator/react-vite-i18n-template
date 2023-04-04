@@ -10,6 +10,8 @@ export interface ListState<T> {
   mitt: Emitter<Events>
   checkedKeyRef: RefObject<Key[]>
   selectedKeyRef: RefObject<Key[]>
+  data: T[]
+  getItemKey: (item: T, data: T[]) => Key
   focus: (key: Key) => void
   unfocus: () => void
   selectOne: (key: Key) => void
