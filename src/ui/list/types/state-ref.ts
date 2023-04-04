@@ -12,7 +12,7 @@ export interface ListState<T> {
   selectedKeyRef: RefObject<Key[]>
   data: T[]
   getItemKey: (item: T, data: T[]) => Key
-  focus: (key: Key) => void
+  focus: (key?: Key) => void
   unfocus: () => void
   selectOne: (key: Key) => void
   setChecked: (checked: Key[]) => void

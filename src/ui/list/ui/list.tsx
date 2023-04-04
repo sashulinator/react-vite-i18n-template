@@ -54,6 +54,7 @@ export default function List<T, TItemProps>(props: ListProps<T, TItemProps>): JS
         onCheckOneRef,
         onUncheckOneRef,
         onSelectRef,
+        getItemKey: props.getItemKey,
         onSelectOneRef,
         onUnselectOneRef,
         onFocusRef,
@@ -68,7 +69,7 @@ export default function List<T, TItemProps>(props: ListProps<T, TItemProps>): JS
   function checkOne(key: Key) {
     mitt.emit(EventNames.checkOne, key)
   }
-  function focus(key: Key) {
+  function focus(key?: Key) {
     mitt.emit(EventNames.focus, key)
   }
   function selectOne(key: Key) {

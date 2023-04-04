@@ -23,6 +23,7 @@ export interface CreateMittProps<T> {
   onUnselectOneRef: RefObject<((selected: Key) => void) | undefined>
   onFocusRef: RefObject<((item: T, i: number, element: HTMLLIElement | undefined | null) => void) | undefined>
   onBlurRef: RefObject<(() => void) | undefined>
+  getItemKey: (item: T, data: T[]) => Key
 }
 
 export function createMitt<T>(props: CreateMittProps<T>): Emitter<Events> {
@@ -57,14 +58,19 @@ export function createMitt<T>(props: CreateMittProps<T>): Emitter<Events> {
   })
 
   m.on(EventNames.focus, (key) => {
-    if (!key) return
+    key =
+      key ??
+      (props.checkedKeyRef.current?.[0] ||
+        props.selectedKeyRef.current?.[0] ||
+        props.getItemKey(props.data[0], props.data))
+
     const item = props.map.get(key)
     if (!item && isDev()) {
       throw new Error('MapItem not found')
     }
     if (!item) return
     item.elementRef.current?.focus()
-    // props.onFocusRef.current?.(item.item, item.index, item.elementRef.current)
+    props.onFocusRef.current?.(item.item, item.index, item.elementRef.current)
   })
 
   m.on(EventNames.unfocus, () => {

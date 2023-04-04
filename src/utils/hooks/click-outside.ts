@@ -1,11 +1,15 @@
 import { RefObject, useEffect } from 'react'
 
+import { useLatest } from './latest'
+
 /**
  * Cледит за кликом за пределами элемента
  * @param ref
  * @param callback
  */
 export function useOnClickOutside(ref: RefObject<HTMLElement>, handler: (e: MouseEvent | TouchEvent) => void) {
+  const handlerRef = useLatest(handler)
+
   useEffect(() => {
     /** Подписка на клик за пределами */
     const listener = (event: MouseEvent | TouchEvent) => {
@@ -14,7 +18,7 @@ export function useOnClickOutside(ref: RefObject<HTMLElement>, handler: (e: Mous
       if (!ref.current || ref.current.contains(event?.target as HTMLElement)) {
         return
       }
-      handler(event)
+      handlerRef.current(event)
     }
     document.addEventListener('mousedown', listener)
     document.addEventListener('touchstart', listener)

@@ -1,4 +1,6 @@
-import { createElement, useEffect, useState } from 'react'
+import { createElement, useRef, useState } from 'react'
+
+import { useEventListener, useOnClickOutside } from '~/utils/hooks'
 
 import { InputRenderProps, OnInputRender } from '../types/input-render'
 import { OnListRender } from '../types/list-render'
@@ -13,15 +15,24 @@ function Dropdown<I extends InputRenderProps, LP>(props: DropdownProps<I, LP>) {
   const { renderInput, renderList, listProps, ...textInputProps } = props
   const [inputElement, setInputElement] = useState<null | HTMLInputElement>(null)
   const [isOpen, setOpen] = useState(false)
-  const [isFirstSelected, setFirstSelected] = useState(false)
   const [searchQuery, setSearch] = useState('')
-  const [isListFocused, setListFocused] = useState(false)
+  const listRef = useRef<HTMLElement>(null)
 
-  useEffect(() => {
-    if (!isOpen) {
-      setListFocused(false)
+  useOnClickOutside(listRef, (e) => {
+    if (!inputElement?.contains(e.target as HTMLElement)) {
+      setOpen(false)
     }
-  }, [isOpen])
+  })
+
+  useEventListener('keydown', (e) => {
+    if (
+      e.key === 'Escape' &&
+      (listRef.current?.contains(document.activeElement) || document.activeElement === inputElement)
+    ) {
+      setOpen(false)
+      inputElement?.focus()
+    }
+  })
 
   return (
     <>
@@ -37,12 +48,10 @@ function Dropdown<I extends InputRenderProps, LP>(props: DropdownProps<I, LP>) {
       {inputElement &&
         createElement(renderList, {
           ...listProps,
-          key: 'list',
+          ref: listRef,
           inputElement,
           isOpen,
-          isFocused: isListFocused,
           searchQuery,
-          isFirstSelected,
           setOpen,
         })}
     </>
@@ -61,7 +70,6 @@ function Dropdown<I extends InputRenderProps, LP>(props: DropdownProps<I, LP>) {
     // listProps.setSelected(null)
     setSearch(e.target.value)
     setOpen(true)
-    setFirstSelected(true)
     props.onChange?.(e)
   }
 
@@ -82,62 +90,17 @@ function Dropdown<I extends InputRenderProps, LP>(props: DropdownProps<I, LP>) {
         setOpen(false)
       } else {
         setOpen(true)
+        setTimeout(() => {
+          listRef.current?.focus()
+        }, 0)
       }
-      // listActionsRef.current?.focusFirst?.()
-      // listActionsRef.current?.focusSelected?.()
-      // setTimeout(() => {
-      //   firstElementRef.current?.focus()
-      //   selectedElementRef.current?.focus()
-      // })
     }
-    if (e.key === 'Escape') {
-      setOpen(false)
-      setListFocused(false)
-    }
-    if (e.key === 'ArrowDown' && isOpen) {
-      setListFocused(true)
+
+    if (e.key === 'ArrowDown') {
+      listRef.current?.focus()
     }
     props.onKeyDown?.(e)
   }
 }
 
 export default Dropdown
-
-// <>
-//   <Popover
-//     isOpen={true}
-//     onClickOutside={handleClickOutside}
-//     onEscKeyDown={() => {
-//       close()
-//       inputRef.current?.focus()
-//     }}
-//     sourceOffset={[0, 7]}
-//     content={
-//       <div
-//         style={{
-//           // display: filteredData?.length && isOpen ? 'block' : 'none',
-//           background: 'var(--bgSecondary)',
-//           borderRadius: '8px',
-//           padding: '8px 0',
-//           boxShadow: '0px 1.2px 18px rgba(0, 0, 0, 0.15), 0px 6.4px 29px rgba(0, 0, 0, 0.15)',
-//           // width,
-//           maxHeight: '150px',
-//           overflowY: 'auto',
-//         }}
-//       >
-//         <SelectableList
-//           {...listProps}
-//           actionRef={actionRef}
-//           data={filteredData}
-//           selectedElementRef={selectedElementRef}
-//           firstElementRef={firstElementRef}
-//           setSelected={(item) => {
-//             listProps.setSelected(item)
-//             setSearch('')
-//             close()
-//             inputRef.current?.focus()
-//           }}
-//         />
-//       </div>
-//     }
-//   >

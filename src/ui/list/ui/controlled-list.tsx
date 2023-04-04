@@ -121,27 +121,19 @@ function ControllableList<T, TItemProps>(props: ControllableListProps<T, TItemPr
   }
 
   function onListKeyDown(e: React.KeyboardEvent) {
-    console.log('allooooosdksjfj')
-
-    if (!stateRef.current) return
-    const { focus, getItemKey, checkedKeyRef, selectedKeyRef, data } = stateRef.current
-    if (e.key === 'Enter' && stateRef.current) {
-      const firstChecked = checkedKeyRef.current?.[0]
-      const firstSelected = selectedKeyRef.current?.[0]
-      const firstItem = getItemKey(data[0], data)
-      console.log('firstChecked', firstChecked)
-      console.log('firstSelected', firstSelected)
-      console.log('firstItem', firstItem)
-
-      const key = firstChecked ? firstChecked : firstSelected ? firstSelected : firstItem
-      focus(key)
+    if (e.target === e.currentTarget) {
+      if (!stateRef.current) return
+      const { focus } = stateRef.current
+      if (e.key === 'Enter' && stateRef.current) {
+        focus()
+      }
     }
   }
 }
 
 const ControlledListForwardRef = forwardRef<HTMLUListElement, ControllableListProps<unknown, unknown>>(
   function ControlledListForwardRef(props, ref) {
-    return <ControllableList {...props} rootProps={{ ...props.rootProps, ref }} />
+    return <ControllableList {...props} rootProps={{ ...props.rootProps, ref: setRefs(ref, props.rootProps?.ref) }} />
   }
 ) as typeof ControllableList
 

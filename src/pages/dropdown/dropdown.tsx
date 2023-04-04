@@ -61,6 +61,9 @@ export default function DropdownPage(): JSX.Element {
   const value = checked[0] || ''
   const item = listStateRef.current?.map.get(value)?.item
 
+  console.log('checked', item)
+  console.log('value', value)
+
   return (
     <main className='pt-5rem'>
       <div
@@ -81,6 +84,7 @@ export default function DropdownPage(): JSX.Element {
               data,
               selected,
               checked,
+              stateRef: listStateRef,
               renderItem: DropdownItem,
               onSelectOne: (k) => setSelected([k]),
               onUnselectOne: () => setSelected([]),
