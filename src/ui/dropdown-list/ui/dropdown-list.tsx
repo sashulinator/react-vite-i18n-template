@@ -1,4 +1,5 @@
-import { forwardRef, useRef } from 'react'
+import { Offset } from 'dom-align-ts'
+import { forwardRef, useMemo, useRef } from 'react'
 
 import Align from '~/ui/align'
 import { ListState } from '~/ui/list'
@@ -8,10 +9,14 @@ import { fns } from '~/utils/function/fns'
 import { setRefs } from '~/utils/react'
 
 // Пропсы для дропдауна
-export type DropdownListProps<T, P> = ControllableListProps<T, P> & Partial<ListRenderProps>
+export type DropdownListProps<T, P> = ControllableListProps<T, P> &
+  Partial<ListRenderProps> & {
+    filter?: ((item: T, searchQuery: string, data: T[]) => boolean) | undefined
+    offset?: Offset
+  }
 
 function DropdownList<T, P>(props: DropdownListProps<T, P>): JSX.Element | null {
-  const { searchQuery, inputElement, isOpen, ...restProps } = props
+  const { searchQuery = '', inputElement, isOpen, offset, filter, setSearchQuery, ...restProps } = props
 
   const renderProps = {
     isOpen,
@@ -20,11 +25,16 @@ function DropdownList<T, P>(props: DropdownListProps<T, P>): JSX.Element | null 
   } as ListRenderProps
 
   const width = getComputedStyle(renderProps.inputElement).width
+  const filteredData = useMemo(
+    () => (filter ? props.data.filter((item) => filter(item, searchQuery, props.data)) : props.data),
+    [filter, searchQuery]
+  )
 
   const stateRef = useRef<ListState<T>>(null)
 
   const listProps: ControllableListProps<T, P> = {
     ...restProps,
+    data: filteredData,
     rootProps: {
       ...restProps.rootProps,
       style: { ...restProps.rootProps?.style, width },
@@ -33,6 +43,10 @@ function DropdownList<T, P>(props: DropdownListProps<T, P>): JSX.Element | null 
       onClick: fns(restProps.rootProps?.onClick, onListClick),
     },
     stateRef: setRefs(stateRef, restProps.stateRef),
+    onCheck: fns(restProps.onCheck, () => {
+      // Делаем через таймаут чтобы лист не моргал
+      setTimeout(() => setSearchQuery?.(''))
+    }),
   }
 
   if (!renderProps.isOpen) {
@@ -40,7 +54,7 @@ function DropdownList<T, P>(props: DropdownListProps<T, P>): JSX.Element | null 
   }
 
   return (
-    <Align points={['tc', 'bc']} targetElement={renderProps.inputElement}>
+    <Align points={['tc', 'bc']} sourceOffset={offset} targetElement={renderProps.inputElement}>
       <ControlledList {...listProps} />
     </Align>
   )

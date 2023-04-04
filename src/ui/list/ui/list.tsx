@@ -32,6 +32,7 @@ export default function List<T, TItemProps>(props: ListProps<T, TItemProps>): JS
   const checkedKeyRef = useLatest(checked)
   const selectedKeyRef = useLatest(selected)
   const stateRef = useRef<ListState<T>>(null)
+  const listRef = useRef<HTMLUListElement>(null)
 
   const onCheckRef = useLatest(onCheck)
   const onCheckOneRef = useLatest(onCheckOne)
@@ -96,6 +97,7 @@ export default function List<T, TItemProps>(props: ListProps<T, TItemProps>): JS
       mitt,
       checkedKeyRef,
       selectedKeyRef,
+      listRef,
       getItemKey: props.getItemKey,
       setSelected,
       checkOne,
@@ -110,11 +112,15 @@ export default function List<T, TItemProps>(props: ListProps<T, TItemProps>): JS
   )
 
   return (
-    <ul {...props.rootProps} className={c('ui-List', props.rootProps?.className)}>
+    <ul
+      {...props.rootProps}
+      className={c('ui-List', props.rootProps?.className)}
+      ref={setRefs(props.rootProps?.ref, listRef)}
+    >
       {props.data.map((item, index) => {
         const itemKey = props.getItemKey(item, props.data)
         const elementRef: { current: null | HTMLLIElement } = { current: null }
-        const mapItem: MapItem<T> = { itemKey, index, item, elementRef, map }
+        const mapItem: MapItem<T> = { itemKey, index, item, elementRef, map, stateRef }
         map.set(itemKey, mapItem)
 
         function setElementRef(instance: HTMLLIElement) {

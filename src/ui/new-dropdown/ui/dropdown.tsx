@@ -1,21 +1,28 @@
 import { createElement, useRef, useState } from 'react'
 
+import { Any } from '~/utils/core'
 import { useEventListener, useOnClickOutside } from '~/utils/hooks'
 
 import { InputRenderProps, OnInputRender } from '../types/input-render'
 import { OnListRender } from '../types/list-render'
 
-export type DropdownProps<I extends InputRenderProps, LP> = I & {
+export type DropdownProps<
+  I extends InputRenderProps,
+  LP extends { filter?: ((...a: Any[]) => Any) | undefined }
+> = I & {
   renderInput: OnInputRender<Omit<I, keyof DropdownProps<I, LP>>> | 'input'
   listProps: LP
   renderList: OnListRender<LP>
+  clearValue: () => void
 }
 
-function Dropdown<I extends InputRenderProps, LP>(props: DropdownProps<I, LP>) {
-  const { renderInput, renderList, listProps, ...textInputProps } = props
+function Dropdown<I extends InputRenderProps, LP extends { filter?: ((...a: Any[]) => Any) | undefined }>(
+  props: DropdownProps<I, LP>
+) {
+  const { renderInput, renderList, listProps, clearValue, ...textInputProps } = props
   const [inputElement, setInputElement] = useState<null | HTMLInputElement>(null)
   const [isOpen, setOpen] = useState(false)
-  const [searchQuery, setSearch] = useState('')
+  const [searchQuery, setSearchQuery] = useState('')
   const listRef = useRef<HTMLElement>(null)
 
   useOnClickOutside(listRef, (e) => {
@@ -39,7 +46,8 @@ function Dropdown<I extends InputRenderProps, LP>(props: DropdownProps<I, LP>) {
       {createElement(renderInput, {
         autoComplete: 'off',
         ...textInputProps,
-        value: props.value || searchQuery,
+        value: searchQuery || props.value,
+        readOnly: !listProps.filter,
         ref: setInputElement,
         onClick: onInputClick,
         onChange: onInputChange,
@@ -52,6 +60,7 @@ function Dropdown<I extends InputRenderProps, LP>(props: DropdownProps<I, LP>) {
           inputElement,
           isOpen,
           searchQuery,
+          setSearchQuery,
           setOpen,
         })}
     </>
@@ -68,9 +77,10 @@ function Dropdown<I extends InputRenderProps, LP>(props: DropdownProps<I, LP>) {
 
   function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     // listProps.setSelected(null)
-    setSearch(e.target.value)
+    setSearchQuery(e.target.value)
     setOpen(true)
     props.onChange?.(e)
+    clearValue()
   }
 
   function onInputClick(e: React.MouseEvent<HTMLInputElement>) {
@@ -97,7 +107,8 @@ function Dropdown<I extends InputRenderProps, LP>(props: DropdownProps<I, LP>) {
     }
 
     if (e.key === 'ArrowDown') {
-      listRef.current?.focus()
+      // Для предотвращения нежелательного после фокуса, запускаем через таймаут
+      setTimeout(() => listRef.current?.focus())
     }
     props.onKeyDown?.(e)
   }

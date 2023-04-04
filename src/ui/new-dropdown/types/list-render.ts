@@ -4,8 +4,8 @@ export interface ListProps {
   isOpen: boolean
   inputElement: HTMLInputElement
   searchQuery: string
-  filter?: (...args: unknown[]) => unknown
   setOpen: SetterOrUpdater<boolean>
+  setSearchQuery: SetterOrUpdater<string>
 }
 
 export type OnListRender<P> = (props: ListProps & P) => JSX.Element | null

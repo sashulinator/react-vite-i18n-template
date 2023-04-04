@@ -14,10 +14,10 @@ export function getNext<T>(
 
   let index = mapItem.index + 1
   const mapItemList = Array.from(map.values())
+  const size = map.size / 2
 
-  while (index < map.size) {
+  while (index < size) {
     const nextMapItem = mapItemList[index]
-
     if (nextMapItem === undefined) {
       throw Error('undefined')
     }

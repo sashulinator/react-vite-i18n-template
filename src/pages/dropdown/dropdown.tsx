@@ -52,6 +52,31 @@ const data: User[] = [
     username: 'John',
     sex: 'male',
   },
+  {
+    id: '8',
+    username: 'Jxxdohn',
+    sex: 'male',
+  },
+  {
+    id: '9',
+    username: 'Johdxn',
+    sex: 'male',
+  },
+  {
+    id: '10',
+    username: 'Jodhdxn',
+    sex: 'male',
+  },
+  {
+    id: '11',
+    username: 'Jodhxn',
+    sex: 'male',
+  },
+  {
+    id: '12',
+    username: 'Koko',
+    sex: 'male',
+  },
 ]
 
 export default function DropdownPage(): JSX.Element {
@@ -60,9 +85,6 @@ export default function DropdownPage(): JSX.Element {
   const listStateRef = useRef<ListState<User>>(null)
   const value = checked[0] || ''
   const item = listStateRef.current?.map.get(value)?.item
-
-  console.log('checked', item)
-  console.log('value', value)
 
   return (
     <main className='pt-5rem'>
@@ -76,15 +98,27 @@ export default function DropdownPage(): JSX.Element {
             Dropdown
           </label>
           <Dropdown<TextInputProps, DropdownListProps<User, DropdownItemProps<User, unknown>>>
-            value={item?.username}
+            value={item?.username || ''}
             renderInput={TextInput}
             renderList={DropdownList}
+            clearValue={() => setChecked([])}
             listProps={{
-              getItemKey: (item) => item.username,
+              rootProps: {
+                style: {
+                  backgroundColor: 'var(--bgSecondary)',
+                  border: '1px solid #ccc',
+                  boxShadow: '0px 1.2px 18px rgba(0, 0, 0, 0.15), 0px 6.4px 29px rgba(0, 0, 0, 0.15)',
+                  maxHeight: '150px',
+                  overflow: 'auto',
+                },
+              },
+              offset: [0, 5],
               data,
               selected,
               checked,
               stateRef: listStateRef,
+              getItemKey: (item) => item.username,
+              filter: (item, sq) => (sq ? new RegExp(sq, 'gi').test(item.username) : true),
               renderItem: DropdownItem,
               onSelectOne: (k) => setSelected([k]),
               onUnselectOne: () => setSelected([]),

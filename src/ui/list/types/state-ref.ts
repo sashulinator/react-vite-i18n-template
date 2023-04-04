@@ -10,6 +10,7 @@ export interface ListState<T> {
   mitt: Emitter<Events>
   checkedKeyRef: RefObject<Key[]>
   selectedKeyRef: RefObject<Key[]>
+  listRef: RefObject<HTMLUListElement>
   data: T[]
   getItemKey: (item: T, data: T[]) => Key
   focus: (key?: Key) => void
