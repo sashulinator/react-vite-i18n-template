@@ -1,36 +1,23 @@
 import './item.css'
 
-import clsx from 'clsx'
+import { ItemProps } from '~/ui/list'
+import { ControllableItemProps } from '~/ui/list/ui/controlled-list'
 
-import { ItemProps, MapItem } from '~/ui/list'
+export type DropdownItemProps<T, P> = ItemProps<T, P & ControllableItemProps>
 
-export interface DropdownItemProps<T> {
-  onKeyDown?: (mapItem: MapItem<T>) => (e: React.KeyboardEvent) => void
-  children: React.ReactNode
-}
-
-export function DropdownListItem<T>(props: ItemProps<T, DropdownItemProps<T>>) {
+export default function DropdownListItem<T, P>(props: ItemProps<T, P & ControllableItemProps>) {
+  const selected = props.selected[0]
+  const isSelected = props.itemKey === selected
   const isChecked = props.checked.includes(props.itemKey)
-  const isSelected = props.selected.includes(props.itemKey)
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <li
-      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-      tabIndex={-1}
-      className={clsx('ui-DropdownListItem')}
-      data-selected={isSelected}
-      data-checked={isChecked}
       ref={props.setElementRef}
-      // onKeyDown={props.itemProps?.onKeyDown?.(props.map)}
-      // onClick={toggle}
-      // onKeyDown={onKeyDown}
-      // onMouseOver={select}
-      // onMouseLeave={unselect}
-      // onBlur={unselect}
-      // onFocus={select}
+      {...props.itemProps?.controlProps}
+      style={{ backgroundColor: isSelected ? 'black' : isChecked ? 'green' : undefined }}
     >
-      {props.itemProps?.children}
+      {/*eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
+      {(props.item as any).username}
     </li>
   )
 }

@@ -5,7 +5,7 @@ import { Key } from './key'
 import { ListState } from './state-ref'
 
 export interface ListProps<T, TItemProps> {
-  rootProps?: React.HTMLAttributes<HTMLUListElement>
+  rootProps?: React.HTMLAttributes<HTMLUListElement> & { ref?: ForwardedRef<HTMLUListElement> }
   itemProps?: TItemProps | undefined
   data: T[]
   checked?: Key[]
