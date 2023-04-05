@@ -62,49 +62,7 @@ export default function List<T, TItemProps>(props: ListProps<T, TItemProps>): JS
     [props.data]
   )
 
-  function setSelected(selected: Key[]) {
-    mitt.emit(EventNames.setSelected, selected)
-  }
-  function checkOne(key: Key) {
-    mitt.emit(EventNames.checkOne, key)
-  }
-  function focus(key?: Key) {
-    mitt.emit(EventNames.focus, key)
-  }
-  function selectOne(key: Key) {
-    mitt.emit(EventNames.selectOne, key)
-  }
-  function setChecked(checked: Key[]) {
-    mitt.emit(EventNames.setChecked, checked)
-  }
-  function uncheckOne(key: Key) {
-    mitt.emit(EventNames.uncheckOne, key)
-  }
-  function unfocus() {
-    mitt.emit(EventNames.unfocus)
-  }
-  function unselectOne(key: Key) {
-    mitt.emit(EventNames.unselectOne, key)
-  }
-
-  const listState: ListState<T> = {
-    data: props.data,
-    map,
-    mitt,
-    checkedRef,
-    selectedRef,
-    elementRef,
-    getItemKey: props.getItemKey,
-    setSelected,
-    checkOne,
-    focus,
-    selectOne,
-    setChecked,
-    uncheckOne,
-    unfocus,
-    unselectOne,
-  }
-
+  const listState: ListState<T> = buildListState()
   React.useImperativeHandle(setRefs(props.listStateRef), () => listState, [props.data])
 
   return (
@@ -143,4 +101,35 @@ export default function List<T, TItemProps>(props: ListProps<T, TItemProps>): JS
       })}
     </ul>
   )
+
+  // Private
+
+  function buildListState() {
+    const setSelected = (selected: Key[]) => mitt.emit(EventNames.setSelected, selected)
+    const checkOne = (key: Key) => mitt.emit(EventNames.checkOne, key)
+    const focus = (key?: Key) => mitt.emit(EventNames.focus, key)
+    const selectOne = (key: Key) => mitt.emit(EventNames.selectOne, key)
+    const setChecked = (checked: Key[]) => mitt.emit(EventNames.setChecked, checked)
+    const uncheckOne = (key: Key) => mitt.emit(EventNames.uncheckOne, key)
+    const unfocus = () => mitt.emit(EventNames.unfocus)
+    const unselectOne = (key: Key) => mitt.emit(EventNames.unselectOne, key)
+
+    return {
+      data: props.data,
+      map,
+      mitt,
+      checkedRef,
+      selectedRef,
+      elementRef,
+      getItemKey: props.getItemKey,
+      setSelected,
+      checkOne,
+      focus,
+      selectOne,
+      setChecked,
+      uncheckOne,
+      unfocus,
+      unselectOne,
+    }
+  }
 }

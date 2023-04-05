@@ -39,6 +39,7 @@ function ControllableList<T, TItemProps>(props: ControllableListProps<T, TItemPr
   }
 
   useLayoutEffect(() => {
+    if (props.data.length === 0) return
     setStyles(stateRef.current?.elementRef.current, { visibility: 'hidden' })
     const mapItem = getPrimaryMapItem(stateRef.current)
     mapItem.elementRef.current?.scrollIntoView({ block: 'center' })
