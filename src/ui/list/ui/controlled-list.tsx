@@ -1,10 +1,12 @@
 import React, { forwardRef, useLayoutEffect, useRef } from 'react'
 
-import { assertNotNull } from '~/utils/core/assertions/assert-not-null'
-import { isNull } from '~/utils/core/is/is-null'
+import { isNull } from '~/utils/core'
+import { setStyles } from '~/utils/dom'
 import { fns } from '~/utils/function/fns'
 import { setRefs } from '~/utils/react'
 
+import { getMapItem } from '../lib/get-map-item'
+import { getPrimaryMapItem } from '../lib/get-primary-map-item'
 import { getNext, getPrevious } from '../lib/get-sibling'
 import { ListProps } from '../types/list-props'
 import { ListState } from '../types/state-ref'
@@ -37,20 +39,12 @@ function ControllableList<T, TItemProps>(props: ControllableListProps<T, TItemPr
   }
 
   useLayoutEffect(() => {
-    if (!stateRef.current?.listRef.current) return
-    stateRef.current.listRef.current.style.visibility = 'hidden'
-    const key =
-      stateRef.current?.checkedKeyRef.current?.[0] ||
-      stateRef.current?.selectedKeyRef.current?.[0] ||
-      stateRef.current?.getItemKey(props.data[0], props.data)
+    setStyles(stateRef.current?.listRef.current, { visibility: 'hidden' })
     setTimeout(() => {
-      if (key === undefined) return
-      const offsetTop = stateRef.current?.map.get(key)?.elementRef.current?.offsetTop
-      if (offsetTop === undefined) return
-      if (!stateRef.current?.listRef.current) return
-      stateRef.current.listRef.current.scrollTo({ top: offsetTop })
-      stateRef.current.listRef.current.style.visibility = 'visible'
-    }, 10)
+      const mapItem = getPrimaryMapItem(stateRef.current)
+      mapItem.elementRef.current?.scrollIntoView({ block: 'center' })
+      setStyles(stateRef.current?.listRef.current, { visibility: 'visible' })
+    }, 0)
   }, [])
 
   const itemProps = {
@@ -74,84 +68,68 @@ function ControllableList<T, TItemProps>(props: ControllableListProps<T, TItemPr
   // Private
 
   function onItemFocus(e: React.FocusEvent) {
-    assertNotNull(stateRef.current)
-    const mapItem = stateRef.current.map.get(e.target as HTMLLIElement)
-    if (mapItem === undefined) return
-    stateRef.current.selectOne(mapItem.itemKey)
+    const mapItem = getMapItem(stateRef.current, e.currentTarget as HTMLLIElement)
+    stateRef.current?.selectOne(mapItem.itemKey)
   }
 
   function onItemBlur(e: React.FocusEvent) {
-    assertNotNull(stateRef.current)
-    const mapItem = stateRef.current.map.get(e.target as HTMLLIElement)
-    if (mapItem === undefined) return
-    stateRef.current.unselectOne(mapItem.itemKey)
+    const mapItem = getMapItem(stateRef.current, e.currentTarget as HTMLLIElement)
+    stateRef.current?.unselectOne(mapItem.itemKey)
   }
 
   function onItemMouseLeave(e: React.MouseEvent) {
-    assertNotNull(stateRef.current)
-    const mapItem = stateRef.current.map.get(e.target as HTMLLIElement)
-    if (mapItem === undefined) return
-    stateRef.current.unselectOne(mapItem.itemKey)
+    const mapItem = getMapItem(stateRef.current, e.currentTarget as HTMLLIElement)
+    stateRef.current?.unselectOne(mapItem.itemKey)
   }
 
   function onItemMouseOver(e: React.MouseEvent) {
-    assertNotNull(stateRef.current)
-    const mapItem = stateRef.current.map.get(e.target as HTMLLIElement)
-    if (mapItem === undefined) return
-    stateRef.current.selectOne(mapItem.itemKey)
+    const mapItem = getMapItem(stateRef.current, e.currentTarget as HTMLLIElement)
+    stateRef.current?.selectOne(mapItem.itemKey)
   }
 
   function onItemMouseClick(e: React.MouseEvent) {
-    assertNotNull(stateRef.current)
-    const mapItem = stateRef.current.map.get(e.target as HTMLLIElement)
+    const mapItem = getMapItem(stateRef.current, e.currentTarget as HTMLLIElement)
+
     if (mapItem === undefined) return
-    if (stateRef.current.checkedKeyRef.current?.includes(mapItem.itemKey)) {
+    if (stateRef.current?.checkedKeyRef.current?.includes(mapItem.itemKey)) {
       stateRef.current.uncheckOne(mapItem.itemKey)
     } else {
-      stateRef.current.checkOne(mapItem.itemKey)
+      stateRef.current?.checkOne(mapItem.itemKey)
     }
   }
 
   function onItemKeyDown(e: React.KeyboardEvent) {
-    assertNotNull(stateRef.current)
-    const mapItem = stateRef.current.map.get(e.target as HTMLLIElement)
+    const mapItem = getMapItem(stateRef.current, e.currentTarget as HTMLLIElement)
     if (mapItem === undefined) return
 
     if (e.key === 'Enter') {
-      if (stateRef.current.checkedKeyRef.current?.includes(mapItem.itemKey)) {
+      if (stateRef.current?.checkedKeyRef.current?.includes(mapItem.itemKey)) {
         stateRef.current.uncheckOne(mapItem.itemKey)
       } else {
-        stateRef.current.checkOne(mapItem.itemKey)
+        stateRef.current?.checkOne(mapItem.itemKey)
       }
     }
     if (e.key === 'ArrowDown') {
+      // Отменить скрол
       e.preventDefault()
       const next = getNext(mapItem.itemKey, mapItem.map)
       if (isNull(next)) return
       stateRef?.current?.focus(next.itemKey)
-      stateRef.current.listRef?.current?.scroll({
-        top: next.elementRef?.current?.offsetTop as number,
-      })
+      next.elementRef.current?.scrollIntoView({ block: 'center' })
     }
     if (e.key === 'ArrowUp') {
-      // Отменить скролл
+      // Отменить скрол
       e.preventDefault()
-      const previous = getPrevious(mapItem.itemKey, stateRef.current?.map)
+      const previous = getPrevious(mapItem.itemKey, mapItem.map)
       if (isNull(previous)) return
       stateRef.current?.focus(previous.itemKey)
-      stateRef.current.listRef?.current?.scroll({
-        top: previous.elementRef?.current?.offsetTop as number,
-      })
+      previous.elementRef.current?.scrollIntoView({ block: 'center' })
     }
   }
 
   function onListKeyDown(e: React.KeyboardEvent) {
-    if (e.target === e.currentTarget) {
-      if (!stateRef.current) return
-      const { focus } = stateRef.current
-      if (e.key === 'Enter' && stateRef.current) {
-        focus()
-      }
+    if (e.target === e.currentTarget && e.key === 'Enter') {
+      stateRef.current?.focus()
     }
   }
 }

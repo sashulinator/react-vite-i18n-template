@@ -110,6 +110,8 @@ export default function DropdownPage(): JSX.Element {
                   boxShadow: '0px 1.2px 18px rgba(0, 0, 0, 0.15), 0px 6.4px 29px rgba(0, 0, 0, 0.15)',
                   maxHeight: '150px',
                   overflow: 'auto',
+                  borderRadius: '8px',
+                  padding: '12px 0',
                 },
               },
               offset: [0, 5],
