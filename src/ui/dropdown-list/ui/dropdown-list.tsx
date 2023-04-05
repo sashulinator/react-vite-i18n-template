@@ -42,7 +42,7 @@ function DropdownList<T, P>(props: DropdownListProps<T, P>): JSX.Element | null 
       onKeyDown: fns(restProps.rootProps?.onKeyDown, onListKeyDown),
       onClick: fns(restProps.rootProps?.onClick, onListClick),
     },
-    stateRef: setRefs(stateRef, restProps.stateRef),
+    listStateRef: setRefs(stateRef, restProps.listStateRef),
     onCheck: fns(restProps.onCheck, () => {
       // Делаем через таймаут чтобы лист не моргал
       setTimeout(() => setSearchQuery?.(''))

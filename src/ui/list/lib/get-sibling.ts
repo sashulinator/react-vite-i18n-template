@@ -1,11 +1,11 @@
+import { ItemState } from '../types/item-state'
 import { Key } from '../types/key'
-import { MapItem } from '../types/map-item'
 
 export function getNext<T>(
   itemKey: Key,
-  map: Map<Key | HTMLLIElement, MapItem<T>>,
+  map: Map<Key | HTMLLIElement, ItemState<T>>,
   isSelectable?: (item: T) => boolean
-): MapItem<T> | null {
+): ItemState<T> | null {
   const mapItem = map.get(itemKey)
 
   if (mapItem === undefined) {
@@ -33,9 +33,9 @@ export function getNext<T>(
 
 export function getPrevious<T>(
   itemKey: Key,
-  map: Map<Key | HTMLLIElement, MapItem<T>>,
+  map: Map<Key | HTMLLIElement, ItemState<T>>,
   isSelectable?: (item: T) => boolean
-): MapItem<T> | null {
+): ItemState<T> | null {
   const mapItem = map.get(itemKey)
 
   if (mapItem === undefined) {

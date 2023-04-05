@@ -1,9 +1,9 @@
 import { assertNotUndefined } from '~/utils/core'
 import { assertNotNil } from '~/utils/core/assertions/assert-not-nil'
 
+import { ItemState } from '../types/item-state'
 import { Key } from '../types/key'
-import { MapItem } from '../types/map-item'
-import { ListState } from '../types/state-ref'
+import { ListState } from '../types/list-state'
 
 /**
  * Получить mapItem
@@ -13,7 +13,7 @@ import { ListState } from '../types/state-ref'
 export function getMapItem<T>(
   stateRef: ListState<T> | undefined | null,
   key: Key | HTMLLIElement | undefined
-): MapItem<T> {
+): ItemState<T> {
   assertNotUndefined(key)
   assertNotNil(stateRef)
   const mapItem = stateRef.map.get(key)

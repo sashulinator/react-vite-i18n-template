@@ -1,5 +1,5 @@
-import { MapItem } from '../types/map-item'
-import { ListState } from '../types/state-ref'
+import { ItemState } from '../types/item-state'
+import { ListState } from '../types/list-state'
 import { getMapItem } from './get-map-item'
 
 /**
@@ -11,10 +11,10 @@ import { getMapItem } from './get-map-item'
  * @param stateRef
  * @returns
  */
-export function getPrimaryMapItem<T>(stateRef: ListState<T> | undefined | null): MapItem<T> {
+export function getPrimaryMapItem<T>(stateRef: ListState<T> | undefined | null): ItemState<T> {
   const key =
-    stateRef?.checkedKeyRef.current?.[0] ||
-    stateRef?.selectedKeyRef.current?.[0] ||
+    stateRef?.checkedRef.current?.[0] ||
+    stateRef?.selectedRef.current?.[0] ||
     stateRef?.getItemKey(stateRef.data[0], stateRef.data)
 
   return getMapItem(stateRef, key)

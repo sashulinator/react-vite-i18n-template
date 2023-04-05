@@ -6,9 +6,7 @@ import { ControllableItemProps } from '~/ui/list/ui/controlled-list'
 export type DropdownItemProps<T, P> = ItemProps<T, P & ControllableItemProps>
 
 export default function DropdownListItem<T, P>(props: ItemProps<T, P & ControllableItemProps>) {
-  const selected = props.selected[0]
-  const isSelected = props.itemKey === selected
-  const isChecked = props.checked.includes(props.itemKey)
+  const { isSelected, isChecked } = props
 
   return (
     <li

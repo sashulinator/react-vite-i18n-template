@@ -2,7 +2,7 @@ import { ForwardedRef } from 'react'
 
 import { ItemProps } from './item-props'
 import { Key } from './key'
-import { ListState } from './state-ref'
+import { ListState } from './list-state'
 
 export interface ListProps<T, TItemProps> {
   rootProps?: React.HTMLAttributes<HTMLUListElement> & { ref?: ForwardedRef<HTMLUListElement> }
@@ -10,7 +10,7 @@ export interface ListProps<T, TItemProps> {
   data: T[]
   checked?: Key[]
   selected?: Key[]
-  stateRef?: ForwardedRef<ListState<T>>
+  listStateRef?: ForwardedRef<ListState<T>>
   isSelectable?: (item: T) => boolean
   onCheck?: ((checked: Key[]) => void) | undefined
   onCheckOne?: ((checked: Key) => void) | undefined

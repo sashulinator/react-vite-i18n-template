@@ -9,7 +9,7 @@ import { getMapItem } from '../lib/get-map-item'
 import { getPrimaryMapItem } from '../lib/get-primary-map-item'
 import { getNext, getPrevious } from '../lib/get-sibling'
 import { ListProps } from '../types/list-props'
-import { ListState } from '../types/state-ref'
+import { ListState } from '../types/list-state'
 import List from './list'
 
 export interface ControllableItemProps {
@@ -39,12 +39,10 @@ function ControllableList<T, TItemProps>(props: ControllableListProps<T, TItemPr
   }
 
   useLayoutEffect(() => {
-    setStyles(stateRef.current?.listRef.current, { visibility: 'hidden' })
-    setTimeout(() => {
-      const mapItem = getPrimaryMapItem(stateRef.current)
-      mapItem.elementRef.current?.scrollIntoView({ block: 'center' })
-      setStyles(stateRef.current?.listRef.current, { visibility: 'visible' })
-    }, 0)
+    setStyles(stateRef.current?.elementRef.current, { visibility: 'hidden' })
+    const mapItem = getPrimaryMapItem(stateRef.current)
+    mapItem.elementRef.current?.scrollIntoView({ block: 'center' })
+    setStyles(stateRef.current?.elementRef.current, { visibility: 'visible' })
   }, [])
 
   const itemProps = {
@@ -55,7 +53,7 @@ function ControllableList<T, TItemProps>(props: ControllableListProps<T, TItemPr
   return (
     <List
       {...props}
-      stateRef={setRefs(stateRef, props.stateRef)}
+      listStateRef={setRefs(stateRef, props.listStateRef)}
       itemProps={itemProps}
       rootProps={{
         tabIndex: props.rootProps?.tabIndex ?? 0,
@@ -91,7 +89,7 @@ function ControllableList<T, TItemProps>(props: ControllableListProps<T, TItemPr
     const mapItem = getMapItem(stateRef.current, e.currentTarget as HTMLLIElement)
 
     if (mapItem === undefined) return
-    if (stateRef.current?.checkedKeyRef.current?.includes(mapItem.itemKey)) {
+    if (stateRef.current?.checkedRef.current?.includes(mapItem.itemKey)) {
       stateRef.current.uncheckOne(mapItem.itemKey)
     } else {
       stateRef.current?.checkOne(mapItem.itemKey)
@@ -103,7 +101,7 @@ function ControllableList<T, TItemProps>(props: ControllableListProps<T, TItemPr
     if (mapItem === undefined) return
 
     if (e.key === 'Enter') {
-      if (stateRef.current?.checkedKeyRef.current?.includes(mapItem.itemKey)) {
+      if (stateRef.current?.checkedRef.current?.includes(mapItem.itemKey)) {
         stateRef.current.uncheckOne(mapItem.itemKey)
       } else {
         stateRef.current?.checkOne(mapItem.itemKey)

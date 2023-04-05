@@ -2,15 +2,15 @@ import { Emitter } from 'mitt'
 import { RefObject } from 'react'
 
 import { Events } from './events'
+import { ItemState } from './item-state'
 import { Key } from './key'
-import { MapItem } from './map-item'
 
 export interface ListState<T> {
-  map: Map<Key | HTMLLIElement, MapItem<T>>
+  map: Map<Key | HTMLLIElement, ItemState<T>>
   mitt: Emitter<Events>
-  checkedKeyRef: RefObject<Key[]>
-  selectedKeyRef: RefObject<Key[]>
-  listRef: RefObject<HTMLUListElement>
+  checkedRef: RefObject<Key[]>
+  selectedRef: RefObject<Key[]>
+  elementRef: RefObject<HTMLUListElement>
   data: T[]
   getItemKey: (item: T, data: T[]) => Key
   focus: (key?: Key) => void

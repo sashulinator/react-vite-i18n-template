@@ -7,14 +7,14 @@ import { remove } from '~/utils/key'
 
 import { EventNames } from '../types/event-names'
 import { Events } from '../types/events'
+import { ItemState } from '../types/item-state'
 import { Key } from '../types/key'
-import { MapItem } from '../types/map-item'
 
 export interface CreateMittProps<T> {
   data: T[]
-  checkedKeyRef: RefObject<Key[]>
-  selectedKeyRef: RefObject<Key[]>
-  map: Map<Key | HTMLLIElement, MapItem<T>>
+  checkedRef: RefObject<Key[]>
+  selectedRef: RefObject<Key[]>
+  map: Map<Key | HTMLLIElement, ItemState<T>>
   onCheckRef: RefObject<((checked: Key[]) => void) | undefined>
   onCheckOneRef: RefObject<((checked: Key) => void) | undefined>
   onUncheckOneRef: RefObject<((checked: Key) => void) | undefined>
@@ -33,13 +33,13 @@ export function createMitt<T>(props: CreateMittProps<T>): Emitter<Events> {
     props.onCheckRef.current?.(checked)
   })
   m.on(EventNames.checkOne, (key) => {
-    if (props.checkedKeyRef.current === null) return
-    m.emit(EventNames.setChecked, [...props.checkedKeyRef.current, key])
+    if (props.checkedRef.current === null) return
+    m.emit(EventNames.setChecked, [...props.checkedRef.current, key])
     props.onCheckOneRef.current?.(key)
   })
   m.on(EventNames.uncheckOne, (key) => {
-    if (props.checkedKeyRef.current === null) return
-    m.emit(EventNames.setChecked, remove(key, props.checkedKeyRef.current))
+    if (props.checkedRef.current === null) return
+    m.emit(EventNames.setChecked, remove(key, props.checkedRef.current))
     props.onUncheckOneRef.current?.(key)
   })
 
@@ -47,22 +47,20 @@ export function createMitt<T>(props: CreateMittProps<T>): Emitter<Events> {
     props.onSelectRef.current?.(selected)
   })
   m.on(EventNames.selectOne, (key) => {
-    if (props.selectedKeyRef.current === null) return
-    m.emit(EventNames.setSelected, [...props.selectedKeyRef.current, key])
+    if (props.selectedRef.current === null) return
+    m.emit(EventNames.setSelected, [...props.selectedRef.current, key])
     props.onSelectOneRef.current?.(key)
   })
   m.on(EventNames.unselectOne, (key) => {
-    if (props.selectedKeyRef.current === null) return
-    m.emit(EventNames.setSelected, remove(key, props.selectedKeyRef.current))
+    if (props.selectedRef.current === null) return
+    m.emit(EventNames.setSelected, remove(key, props.selectedRef.current))
     props.onUnselectOneRef.current?.(key)
   })
 
   m.on(EventNames.focus, (key) => {
     key =
       key ??
-      (props.checkedKeyRef.current?.[0] ||
-        props.selectedKeyRef.current?.[0] ||
-        props.getItemKey(props.data[0], props.data))
+      (props.checkedRef.current?.[0] || props.selectedRef.current?.[0] || props.getItemKey(props.data[0], props.data))
 
     const item = props.map.get(key)
     if (!item && isDev()) {
@@ -79,36 +77,6 @@ export function createMitt<T>(props: CreateMittProps<T>): Emitter<Events> {
     }
     props.onBlurRef.current?.()
   })
-
-  // m.on(EventNames.selectNext, () => {
-  //   if (props.selectedKeyRef.current === null) return
-  //   const mapItem = props.map.get(props.selectedKeyRef.current)
-  //   if (mapItem === undefined) return
-  //   const item = props.data[mapItem[0] + 1]
-  //   if (item === undefined) return
-  //   props.onSelect(props.getKey(item, props.data, props.payloadRef.current))
-  // })
-
-  // m.on(EventNames.selectPrevious, () => {
-  //   if (props.selectedKeyRef.current === null) return
-  //   const mapItem = props.map.get(props.selectedKeyRef.current)
-  //   if (mapItem === undefined) return
-  //   const item = props.data[mapItem[0] - 1]
-  //   if (item === undefined) return
-  //   props.onSelect(props.getKey(item, props.data, props.payloadRef.current))
-  // })
-
-  // m.on(EventNames.selectFirst, () => {
-  //   const key = props.getKey(props.data[0], props.data, props.payloadRef.current)
-  //   m.emit(EventNames.select, key)
-  // })
-
-  // m.on(EventNames.selectLast, () => {
-  //   const last = props.data.at(-1)
-  //   if (last === undefined) return
-  //   const key = props.getKey(last, props.data, props.payloadRef.current)
-  //   m.emit(EventNames.select, key)
-  // })
 
   return m
 }

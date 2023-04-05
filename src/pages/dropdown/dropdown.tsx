@@ -118,7 +118,7 @@ export default function DropdownPage(): JSX.Element {
               data,
               selected,
               checked,
-              stateRef: listStateRef,
+              listStateRef: listStateRef,
               getItemKey: (item) => item.username,
               filter: (item, sq) => (sq ? new RegExp(sq, 'gi').test(item.username) : true),
               renderItem: DropdownItem,
