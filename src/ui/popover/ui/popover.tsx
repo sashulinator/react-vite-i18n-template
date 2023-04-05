@@ -9,7 +9,7 @@ import { setRefs } from '~/utils/react'
 import { toPoints } from '../lib/to-points'
 
 export interface PopoverProps extends Omit<AlignProps, 'targetElement' | 'children' | 'align' | 'points'> {
-  children: React.ReactElement
+  children: React.ReactElement<React.HTMLAttributes<HTMLElement>>
   isOpen: boolean | undefined
   content: React.ReactElement
   points?: Points | undefined

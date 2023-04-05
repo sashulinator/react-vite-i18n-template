@@ -19,7 +19,8 @@ export default function CalloutPage(): JSX.Element {
           </label>
           <div>
             <Callout
-              placement='tc'
+              delay={500}
+              placement='bc'
               overflow={{ adjustX: true, adjustY: true, alwaysByViewport: true }}
               isOpen={isDefaultOpen}
               content={
@@ -34,7 +35,9 @@ export default function CalloutPage(): JSX.Element {
                 </span>
               }
             >
-              <button onClick={toggleDefault}>Toggle</button>
+              <button onClick={toggleDefault} style={{ padding: '70px' }}>
+                Toggle
+              </button>
             </Callout>
           </div>
         </div>

@@ -5,41 +5,58 @@ import { Offset, Point, Points, flipPointHorizontally, flipPointVertically } fro
 import * as React from 'react'
 
 import Popover, { PopoverProps } from '~/ui/popover'
+import { fns } from '~/utils/function/fns'
+import { useDebounceCb } from '~/utils/hooks/debounce-cb'
 import { setRefs } from '~/utils/react/set-refs'
 
 export interface CalloutProps extends Omit<PopoverProps, 'points'> {
   contentWrapperProps?: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> }
   contentProps?: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> }
   arrowProps?: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> }
+  delay: number
 }
 
 const CalloutComponent: React.ForwardRefRenderFunction<HTMLDivElement, CalloutProps> = (props) => {
-  const { arrowProps, contentWrapperProps, contentProps, content, placement = 'tc', ...popoverProps } = props
+  const {
+    arrowProps,
+    delay = 100,
+    contentWrapperProps,
+    contentProps,
+    content,
+    placement = 'tc',
+    children,
+    ...popoverProps
+  } = props
 
+  const [isOpen, setOpen] = React.useState(false)
+  const [emit, clear] = useDebounceCb(() => setOpen(true), delay)
   const [contentEl, setContentEl] = React.useState<HTMLDivElement | null>(null)
+
+  const onMouseLeave = React.useCallback(() => {
+    clear()
+    setOpen(false)
+  }, [emit, clear, setOpen])
 
   const [isXAdjusted, setXAdjusted] = React.useState(false)
   const [isYAdjusted, setYAdjusted] = React.useState(false)
   const adjustedPlacement = getAdjustedPlacement()
 
+  const clonedChildren = React.cloneElement(children, {
+    onMouseEnter: fns(children.props.onMouseEnter, emit),
+    onMouseLeave: fns(children.props.onMouseLeave, onMouseLeave),
+  })
+
   return (
     <Popover
       {...popoverProps}
+      isOpen={isOpen}
       placement={placement}
       onAligned={(ret) => {
         setXAdjusted(ret.isXAdjusted)
         setYAdjusted(ret.isYAdjusted)
       }}
       content={
-        <div
-          {...contentWrapperProps}
-          className={clsx(
-            'ui-Callout_content-wrapper',
-            `--${adjustedPlacement.charAt(0)}`,
-            `--${adjustedPlacement.charAt(1)}`,
-            contentWrapperProps?.className
-          )}
-        >
+        <div {...contentWrapperProps} className={clsx('ui-Callout_content-wrapper', contentWrapperProps?.className)}>
           <Popover
             content={<div {...arrowProps} className={clsx('ui-Callout_arrow', arrowProps?.className)} />}
             containerElement={contentEl}
@@ -58,7 +75,9 @@ const CalloutComponent: React.ForwardRefRenderFunction<HTMLDivElement, CalloutPr
           </Popover>
         </div>
       }
-    />
+    >
+      {clonedChildren}
+    </Popover>
   )
 
   // Private

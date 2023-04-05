@@ -1,6 +1,7 @@
 .ui-Callout_content-wrapper {
   --arrow-size: 10px;
   position: fixed;
+  padding: var(--arrow-size);
 }
 
 .ui-Callout_content-wrapper .ui-Callout_content {
