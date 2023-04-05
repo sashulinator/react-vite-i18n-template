@@ -182,7 +182,7 @@ function GroupedItem<TItemProps>(props: ItemProps<User, TItemProps>) {
       tabIndex={0}
       onClick={toggle}
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ref={props.elementRef}
+      ref={props.setElementRef}
       onKeyDown={onKeyDown}
       onMouseOver={select}
       onMouseLeave={unselect}
@@ -226,7 +226,7 @@ function MultiSelectItem<P>(props: ItemProps<User, P>) {
       tabIndex={0}
       onClick={toggle}
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ref={props.elementRef}
+      ref={props.setElementRef}
       onKeyDown={onKeyDown}
       onMouseOver={select}
       onMouseLeave={unselect}

@@ -1,5 +1,5 @@
 import { Emitter } from 'mitt'
-import { ForwardedRef, RefObject } from 'react'
+import { ForwardedRef } from 'react'
 
 import { Events } from './events'
 import { Key } from './key'
@@ -12,7 +12,6 @@ export interface ItemProps<T, TItemProps> {
   stateRef: ForwardedRef<ListState<T>>
   item: T
   itemKey: Key
-  elementRef: RefObject<HTMLLIElement>
   setElementRef: (instance: HTMLLIElement) => void
   map: Map<Key | HTMLLIElement, MapItem<T>>
   mapItem: MapItem<T>

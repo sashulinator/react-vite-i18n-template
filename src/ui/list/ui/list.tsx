@@ -120,7 +120,7 @@ export default function List<T, TItemProps>(props: ListProps<T, TItemProps>): JS
       {props.data.map((item, index) => {
         const itemKey = props.getItemKey(item, props.data)
         const elementRef: { current: null | HTMLLIElement } = { current: null }
-        const mapItem: MapItem<T> = { itemKey, index, item, elementRef, map, stateRef }
+        const mapItem: MapItem<T> = { itemKey, index, item, elementRef, map }
         map.set(itemKey, mapItem)
 
         function setElementRef(instance: HTMLLIElement) {
@@ -135,7 +135,6 @@ export default function List<T, TItemProps>(props: ListProps<T, TItemProps>): JS
           getItemKey: props.getItemKey,
           stateRef,
           mitt,
-          elementRef,
           setElementRef,
           selected,
           checked,
