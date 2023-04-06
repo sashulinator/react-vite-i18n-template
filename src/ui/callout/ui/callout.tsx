@@ -27,7 +27,6 @@ const CalloutComponent: React.ForwardRefRenderFunction<HTMLDivElement, CalloutPr
     children,
     ...popoverProps
   } = props
-
   const [isOpen, setOpen] = React.useState(false)
   const [emit, clear] = useDebounceCb(() => setOpen(true), delay)
   const [contentEl, setContentEl] = React.useState<HTMLDivElement | null>(null)

@@ -1,10 +1,33 @@
-import { clsx } from 'clsx'
-import React from 'react'
+import { createElement, useState } from 'react'
 
-interface CalloutProps {
-  rootProps?: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> }
-}
+import Popover from '~/ui/popover'
 
-export default function Callout(props: CalloutProps): JSX.Element {
-  return <div className={clsx('ui-Callout', props.rootProps?.className)}>Callout</div>
+import { adjustPlacement } from '../lib/adjust-placement'
+import { CalloutProps } from '../types/callout-props'
+
+/**
+ * Компонент
+ * @param props
+ * @returns
+ */
+export default function Callout<IContainerProp>(props: CalloutProps<IContainerProp>): JSX.Element {
+  const [isXAdjusted, setXAdjusted] = useState(false)
+  const [isYAdjusted, setYAdjusted] = useState(false)
+  const adjustedPlacement = adjustPlacement(props.placement, { x: isXAdjusted, y: isYAdjusted })
+
+  const container = createElement(props.renderContainer, { ...props.containerProps, arrowPlacement: adjustedPlacement })
+
+  return (
+    <Popover
+      isOpen={props.isOpen}
+      placement={props.placement}
+      content={container}
+      onAligned={(ret) => {
+        setXAdjusted(ret.isXAdjusted)
+        setYAdjusted(ret.isYAdjusted)
+      }}
+    >
+      {props.children}
+    </Popover>
+  )
 }
