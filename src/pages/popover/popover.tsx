@@ -170,7 +170,7 @@ interface PointsDropdownProps {
   value: string | undefined
 }
 
-function PointDropdown(props: PointsDropdownProps): JSX.Element {
+export function PointDropdown(props: PointsDropdownProps): JSX.Element {
   const options: (Point | '')[] = ['', 'bc', 'bl', 'br', 'cc', 'cl', 'cr', 'tc', 'tl', 'tr']
 
   return (

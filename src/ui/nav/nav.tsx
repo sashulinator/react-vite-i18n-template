@@ -25,6 +25,9 @@ export default function Nav(): JSX.Element {
         <ol>
           <Link to={routes.popover.path}>Popover</Link>
         </ol>
+        <ol>
+          <Link to={routes.speechBubble.path}>SpeechBubble</Link>
+        </ol>
       </ul>
     </nav>
   )

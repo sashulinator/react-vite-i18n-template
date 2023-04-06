@@ -9,6 +9,7 @@ import MainPage from '~/pages/main'
 import NotFoundPage from '~/pages/not-found'
 import PopoverPage from '~/pages/popover'
 import SettingsPage from '~/pages/settings'
+import SpeechBubble from '~/pages/speech-bubble'
 import TextInputPage from '~/pages/text-input'
 import Header from '~/ui/header'
 import Nav from '~/ui/nav'
@@ -63,6 +64,14 @@ export const routes = {
     path: '/popover',
     element: <PopoverPage />,
   },
+  speechBubble: {
+    Header,
+    Nav,
+    getName: () => 'speechBubble',
+    path: '/speech-bubble',
+    element: <SpeechBubble />,
+  },
+  // Other
   settings: {
     Header,
     Nav,

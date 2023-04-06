@@ -1,0 +1,21 @@
+.ui-SpeechBubble {
+  --arrow-size: 12px;
+  position: relative;
+  width: 100%;
+}
+
+.ui-SpeechBubble_content {
+  position: absolute;
+  background-color: rgb(230, 255, 196);
+  padding: var(--arrow-size);
+  z-index: 2;
+}
+
+.ui-SpeechBubble_arrow {
+  position: absolute;
+  background-color: bisque;
+  width: var(--arrow-size);
+  height: var(--arrow-size);
+  transform: rotate(45deg);
+  z-index: 1;
+}
