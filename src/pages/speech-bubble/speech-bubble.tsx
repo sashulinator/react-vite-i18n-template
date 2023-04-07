@@ -12,9 +12,13 @@ export default function CalloutPage(): JSX.Element {
       <div
         // ref={setContainerEl}
         className='w-20rem bg-secondary p-2.5em mt-2.5rem'
-        style={{ borderRadius: '20px', border: '1px solid var(--input_borderColor)', position: 'relative' }}
+        style={{
+          borderRadius: '20px',
+          border: '1px solid var(--input_borderColor)',
+          width: '100%',
+        }}
       >
-        <h2 className='mb-2rem'>Callout</h2>
+        <h2 className='mb-2rem'>SpeechBubble</h2>
         <div className='mt-1rem flex flex-col'>
           <label htmlFor='readonly' className='label mb-0.25rem'>
             Default
@@ -34,7 +38,6 @@ export default function CalloutPage(): JSX.Element {
               />
             </div>
             <SpeechBubble placement={placement}>
-              <button style={{ padding: '70px' }}>Toggle</button>
               <span>
                 Default
                 <br />

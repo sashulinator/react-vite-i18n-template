@@ -5,41 +5,55 @@ import { Point, Points, flipPointHorizontally, flipPointVertically } from 'dom-a
 import React from 'react'
 
 import Popover from '~/ui/popover'
-import { getStyle } from '~/utils/dom/get-style'
+import { Any } from '~/utils/core'
+import { useWindowSize } from '~/utils/hooks'
 import { setRefs } from '~/utils/react'
 
 import { calcArrowOffset } from '../lib/calc-arrow-offset'
 import { SpeechBubbleProps } from '../types/speech-bubble-props'
 
 export default function SpeechBubble(props: SpeechBubbleProps): JSX.Element {
+  const [childrenEl, setChildrenEl] = React.useState<HTMLDivElement | null>(null)
   const [contentEl, setContentEl] = React.useState<HTMLDivElement | null>(null)
-  const [rootEl, setRootEl] = React.useState<HTMLDivElement | null>(null)
   const { placement = 'tc' } = props
-  const height = getStyle(contentEl)?.height
-  const width = getStyle(rootEl)?.width
+
+  const rect = childrenEl?.getBoundingClientRect()
+  useWindowSize()
+
+  if (!React.isValidElement(props.children)) {
+    throw new Error('Must have one child')
+  }
+  const clonedChildren = React.cloneElement<Any>(props.children, {
+    ref: setRefs((props.children as Any).ref, setChildrenEl),
+  })
 
   return (
     <div
       {...props.rootProps}
-      style={{ height, ...props.rootProps?.style }}
+      ref={setRefs(setContentEl, props.contentProps?.ref)}
+      style={{ height: rect?.height, width: rect?.width, ...props.rootProps?.style }}
       className={clsx('ui-SpeechBubble', props.rootProps?.className)}
-      ref={setRefs(setRootEl, props.rootProps?.ref)}
     >
       <Popover
-        content={<div {...props.arrowProps} className={clsx('ui-SpeechBubble_arrow', props.arrowProps?.className)} />}
-        containerElement={rootEl}
+        content={
+          <div
+            {...props.arrowProps}
+            className={clsx('ui-SpeechBubble_arrow', props.arrowProps?.className)}
+            style={{ position: 'absolute', ...props.arrowProps?.style }}
+          />
+        }
         isOpen={true}
+        containerElement={contentEl}
         points={toPoints(placement)}
         sourceOffset={calcArrowOffset(placement)}
         deps={[props.placement]}
       >
         <div
           {...props.contentProps}
-          style={{ width, ...props.contentProps?.style }}
           className={clsx('ui-SpeechBubble_content', props.contentProps?.className)}
-          ref={setRefs(setContentEl, props.contentProps?.ref)}
+          style={{ position: 'absolute', ...props.contentProps?.style }}
         >
-          {props.children}
+          {clonedChildren}
         </div>
       </Popover>
     </div>

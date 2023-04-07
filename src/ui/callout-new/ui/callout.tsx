@@ -10,18 +10,19 @@ import { CalloutProps } from '../types/callout-props'
  * @param props
  * @returns
  */
-export default function Callout<IContainerProp>(props: CalloutProps<IContainerProp>): JSX.Element {
+export default function Callout<IContentProp>(props: CalloutProps<IContentProp>): JSX.Element {
+  const { placement = 'bc', ...popoverProps } = props
   const [isXAdjusted, setXAdjusted] = useState(false)
   const [isYAdjusted, setYAdjusted] = useState(false)
-  const adjustedPlacement = adjustPlacement(props.placement, { x: isXAdjusted, y: isYAdjusted })
+  const adjustedPlacement = adjustPlacement(placement, { x: isXAdjusted, y: isYAdjusted })
 
-  const container = createElement(props.renderContainer, { ...props.containerProps, arrowPlacement: adjustedPlacement })
+  const content = createElement(props.renderContent, { ...props.contentProps, placement: adjustedPlacement })
 
   return (
     <Popover
-      isOpen={props.isOpen}
-      placement={props.placement}
-      content={container}
+      {...popoverProps}
+      placement={placement}
+      content={content}
       onAligned={(ret) => {
         setXAdjusted(ret.isXAdjusted)
         setYAdjusted(ret.isYAdjusted)
