@@ -1,4 +1,4 @@
-import { Key } from '../core/types/key'
+import { Key } from '../core/key'
 import { isDictionary } from './is/dictionary'
 import { Dictionary } from './types/dictionary'
 

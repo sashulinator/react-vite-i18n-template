@@ -1,16 +1,16 @@
-.ui-SpeechBubble {
+.ui-Baloon {
   --arrow-size: 12px;
   position: relative;
   width: 100%;
 }
 
-.ui-SpeechBubble_content {
+.ui-Baloon_content {
   position: absolute;
   background-color: yellow;
   z-index: 2;
 }
 
-.ui-SpeechBubble_arrow {
+.ui-Baloon_arrow {
   position: absolute;
   background-color: yellow;
   width: var(--arrow-size);

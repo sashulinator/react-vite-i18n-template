@@ -8,6 +8,9 @@ import { setRefs } from '~/utils/react'
 
 import { toPoints } from '../lib/to-points'
 
+/**
+ * Test PopoverProps
+ */
 export interface PopoverProps extends Omit<AlignProps, 'targetElement' | 'children' | 'align' | 'points'> {
   children: React.ReactElement<React.HTMLAttributes<HTMLElement>>
   isOpen: boolean | undefined
@@ -19,7 +22,11 @@ export interface PopoverProps extends Omit<AlignProps, 'targetElement' | 'childr
   onEscKeyDown?: ((e: KeyboardEvent | TouchEvent) => void) | undefined
 }
 
-export default function Popover(props: PopoverProps) {
+/**
+ * @param {PopoverProps} props Смотри документацию {@link PopoverProps}
+ * @returns {JSX.Element | null}
+ */
+export default function Popover(props: PopoverProps): JSX.Element {
   const { isOpen, content, placement = 'bc', onClose, onClickOutside, onEscKeyDown, ...alignProps } = props
   const points = props.placement ? toPoints(placement) : props.points ?? ['tc', 'bc']
   const sourceRef = React.useRef<null | HTMLDivElement>(null)

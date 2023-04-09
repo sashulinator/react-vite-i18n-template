@@ -1,4 +1,4 @@
-import { Key } from '../../core/types/key'
+import { Key } from '../../core/key'
 
 export interface Dictionary<T> {
   [key: Key]: T

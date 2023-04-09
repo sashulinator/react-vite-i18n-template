@@ -1,4 +1,4 @@
-import './speech-bubble.css'
+import './balloon.css'
 
 import clsx from 'clsx'
 import { Point, Points, flipPointHorizontally, flipPointVertically } from 'dom-align-ts'
@@ -10,9 +10,9 @@ import { useWindowSize } from '~/utils/hooks'
 import { setRefs } from '~/utils/react'
 
 import { calcArrowOffset } from '../lib/calc-arrow-offset'
-import { SpeechBubbleProps } from '../types/speech-bubble-props'
+import { BaloonProps } from '../types/balloon-props'
 
-export default function SpeechBubble(props: SpeechBubbleProps): JSX.Element {
+export default function Baloon(props: BaloonProps): JSX.Element {
   const [childrenEl, setChildrenEl] = React.useState<HTMLDivElement | null>(null)
   const [contentEl, setContentEl] = React.useState<HTMLDivElement | null>(null)
   const { placement = 'tc' } = props
@@ -32,13 +32,13 @@ export default function SpeechBubble(props: SpeechBubbleProps): JSX.Element {
       {...props.rootProps}
       ref={setRefs(setContentEl, props.contentProps?.ref)}
       style={{ height: rect?.height, width: rect?.width, ...props.rootProps?.style }}
-      className={clsx('ui-SpeechBubble', props.rootProps?.className)}
+      className={clsx('ui-Baloon', props.rootProps?.className)}
     >
       <Popover
         content={
           <div
             {...props.arrowProps}
-            className={clsx('ui-SpeechBubble_arrow', props.arrowProps?.className)}
+            className={clsx('ui-Baloon_arrow', props.arrowProps?.className)}
             style={{ position: 'absolute', ...props.arrowProps?.style }}
           />
         }
@@ -50,7 +50,7 @@ export default function SpeechBubble(props: SpeechBubbleProps): JSX.Element {
       >
         <div
           {...props.contentProps}
-          className={clsx('ui-SpeechBubble_content', props.contentProps?.className)}
+          className={clsx('ui-Baloon_content', props.contentProps?.className)}
           style={{ position: 'absolute', ...props.contentProps?.style }}
         >
           {clonedChildren}

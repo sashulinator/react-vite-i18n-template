@@ -2,9 +2,9 @@
 import { Point } from 'dom-align-ts'
 import { useState } from 'react'
 
-import SpeechBubble from '~/ui/speech-bubble'
+import Baloon from '~/ui/balloon'
 
-export default function CalloutPage(): JSX.Element {
+export default function BaloonPage(): JSX.Element {
   const [placement, setPlacement] = useState<Point>('tc')
 
   return (
@@ -18,7 +18,7 @@ export default function CalloutPage(): JSX.Element {
           width: '100%',
         }}
       >
-        <h2 className='mb-2rem'>SpeechBubble</h2>
+        <h2 className='mb-2rem'>Baloon</h2>
         <div className='mt-1rem flex flex-col'>
           <label htmlFor='readonly' className='label mb-0.25rem'>
             Default
@@ -37,7 +37,7 @@ export default function CalloutPage(): JSX.Element {
                 value={placement}
               />
             </div>
-            <SpeechBubble placement={placement}>
+            <Baloon placement={placement}>
               <span>
                 Default
                 <br />
@@ -47,7 +47,7 @@ export default function CalloutPage(): JSX.Element {
                 <br />
                 Default
               </span>
-            </SpeechBubble>
+            </Baloon>
           </div>
         </div>
       </div>

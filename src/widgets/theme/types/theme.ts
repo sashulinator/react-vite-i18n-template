@@ -1,4 +1,4 @@
-import { ToStringable } from '../../../utils/core/types/to-stringable'
+import { ToStringable } from '../../../utils/core'
 
 export interface Theme {
   bg: ToStringable

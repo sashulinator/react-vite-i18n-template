@@ -1,4 +1,4 @@
-import { Key } from '../core/types/key'
+import { Key } from '../core/key'
 import { Dictionary } from './types/dictionary'
 
 export function setPath(dictionary: Dictionary<unknown>, path: Key[], value: unknown): Dictionary<unknown> {

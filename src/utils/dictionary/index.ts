@@ -1,4 +1,4 @@
-export * from '../core/types/key'
+export * from '../core/key'
 
 export * from './add'
 export * from './find'

@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { RouteProps } from 'react-router-dom'
 
+import Baloon from '~/pages/balloon'
 import CalloutPage from '~/pages/callout'
 import DropdownPage from '~/pages/dropdown'
 import ListPage from '~/pages/list'
@@ -9,7 +10,6 @@ import MainPage from '~/pages/main'
 import NotFoundPage from '~/pages/not-found'
 import PopoverPage from '~/pages/popover'
 import SettingsPage from '~/pages/settings'
-import SpeechBubble from '~/pages/speech-bubble'
 import TextInputPage from '~/pages/text-input'
 import Header from '~/ui/header'
 import Nav from '~/ui/nav'
@@ -69,7 +69,7 @@ export const routes = {
     Nav,
     getName: () => 'speechBubble',
     path: '/speech-bubble',
-    element: <SpeechBubble />,
+    element: <Baloon />,
   },
   // Other
   settings: {

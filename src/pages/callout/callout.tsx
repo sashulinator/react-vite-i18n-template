@@ -1,10 +1,10 @@
 // import Callout, { top } from '~/ui/callout'
 import { forwardRef } from 'react'
 
+import Baloon from '~/ui/balloon'
+import { BaloonProps } from '~/ui/balloon/types/balloon-props'
 import Callout from '~/ui/callout-new'
 import { ContentProp } from '~/ui/callout-new/types/callout-props'
-import SpeechBubble from '~/ui/speech-bubble'
-import { SpeechBubbleProps } from '~/ui/speech-bubble/types/speech-bubble-props'
 import { useBoolean } from '~/utils/hooks'
 
 export default function CalloutPage(): JSX.Element {
@@ -23,7 +23,7 @@ export default function CalloutPage(): JSX.Element {
             Default
           </label>
           <div>
-            <Callout<SpeechBubbleProps>
+            <Callout<BaloonProps>
               isOpen={isDefaultOpen}
               // contentProps={}
               placement='bc'
@@ -31,7 +31,7 @@ export default function CalloutPage(): JSX.Element {
               contentProps={{
                 children: <div>Hello</div>,
               }}
-              renderContent={BubbleWrapper}
+              renderContent={BaloonWrapper}
             >
               <button onClick={toggleDefault} style={{ padding: '70px' }}>
                 Toggle
@@ -44,15 +44,13 @@ export default function CalloutPage(): JSX.Element {
   )
 }
 
-const BubbleWrapper = forwardRef<HTMLDivElement, ContentProp & SpeechBubbleProps>(function BubbleWrapper(
-  props: ContentProp & SpeechBubbleProps,
+const BaloonWrapper = forwardRef<HTMLDivElement, ContentProp & BaloonProps>(function BubbleWrapper(
+  props: ContentProp & BaloonProps,
   ref
 ) {
-  console.log('props', props)
-
   return (
     <div ref={ref}>
-      <SpeechBubble {...props} />
+      <Baloon {...props} />
     </div>
   )
 })

@@ -1,7 +1,7 @@
 import { Point } from 'dom-align-ts'
 import { RefAttributes } from 'react'
 
-export interface SpeechBubbleProps {
+export interface BaloonProps {
   /* Пропсы для Корневого компонента */
   rootProps?: React.HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>
 
@@ -11,9 +11,13 @@ export interface SpeechBubbleProps {
   /* Пропсы для Стрелка компонента */
   arrowProps?: React.HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>
 
-  /* Позиция сообщения. На эснове этого пропса Стрелка вычисляет свое положение */
+  /*
+    Позиция Ballon относительно Таргет. 
+    На основе этого пропса Стрелка вычисляет свое положение
+    Пример: Если сообщение снизу от Таргета (bc), то Стрелка будет сверху (tc)
+  */
   placement?: Point
 
-  /* Дети Контента */
-  children: React.ReactNode
+  /* Ребенок Контента */
+  children: React.ReactElement<React.HTMLAttributes<HTMLElement>>
 }

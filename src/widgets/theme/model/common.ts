@@ -1,6 +1,6 @@
 import { TextInputCSSVars } from '~/ui/text-input/types/css-vars'
 
-import { ToStringable } from '../../../utils/core/types/to-stringable'
+import { ToStringable } from '../../../utils/core'
 
 // Input
 const input_height = '36px'

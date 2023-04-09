@@ -1,6 +1,6 @@
 import { Any } from '~/utils/core'
 
-import { Key } from '../../core/types/key'
+import { Key } from '../../core/key'
 import { Dictionary } from '../types/dictionary'
 import { Has } from '../types/has'
 
