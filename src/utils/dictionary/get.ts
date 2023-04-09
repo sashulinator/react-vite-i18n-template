@@ -1,6 +1,6 @@
 import { Key } from '../core'
+import { has } from '../core/is/has'
 import { BaseError } from '../error'
-import { has } from './is/has'
 import { Dictionary } from './types/dictionary'
 
 export function get<D extends Dictionary<K>, K extends Key>(dictionary?: D, key?: K): Required<D>[K] {

@@ -1,4 +1,4 @@
-import { Key } from '../core/key'
+import { Key } from '../core'
 
 /**
  * Why? Because TS force you to write `dictionary?.[key || '']` if they both undefined

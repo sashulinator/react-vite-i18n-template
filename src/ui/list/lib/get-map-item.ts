@@ -1,5 +1,5 @@
 import { assertNotUndefined } from '~/utils/core'
-import { assertNotNil } from '~/utils/core/assertions/assert-not-nil'
+import { assertNotNil } from '~/utils/core/assertions/not-nil'
 
 import { ItemState } from '../types/item-state'
 import { Key } from '../types/key'

@@ -1,5 +1,5 @@
 import { Any } from '~/utils/core'
-import { Dictionary, isDictionary, walk } from '~/utils/dictionary'
+import { Dictionary, isObject, walk } from '~/utils/dictionary'
 import { getPath } from '~/utils/dictionary/get-path'
 import { BaseError } from '~/utils/error'
 
@@ -12,7 +12,7 @@ export function assertNoExcessiveTranslation(
   }
 
   walk(currentTranslations, ({ value, path }) => {
-    if (!isDictionary(value)) {
+    if (!isObject(value)) {
       const value = getPath(dictionary, path)
       if (value === undefined) {
         throw new BaseError('Received excessive Translation from backend, it does not exist on your front', {
@@ -23,7 +23,7 @@ export function assertNoExcessiveTranslation(
     }
   })
   walk(dictionary, ({ value, path }) => {
-    if (!isDictionary(value)) {
+    if (!isObject(value)) {
       const value = getPath(currentTranslations, path)
       if (value === undefined) {
         throw new BaseError('You have excessive Translation on your front, it does not exist on backend', {

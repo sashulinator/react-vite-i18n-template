@@ -1,8 +1,8 @@
 import mitt, { Emitter } from 'mitt'
 import { RefObject } from 'react'
 
+import { isDev } from '~/utils/core/is/dev'
 import { isHTMLElement } from '~/utils/dom/is/is-htmlelement'
-import { isDev } from '~/utils/is/dev'
 import { remove } from '~/utils/key'
 
 import { EventNames } from '../types/event-names'

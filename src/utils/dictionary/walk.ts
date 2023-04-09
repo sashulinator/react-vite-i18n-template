@@ -1,5 +1,4 @@
-import { Key } from '../core/key'
-import { isDictionary } from './is/dictionary'
+import { isObject } from '../core/is/object'
 import { Dictionary } from './types/dictionary'
 
 export interface WalkResult<T> {
@@ -28,7 +27,7 @@ export function walk<T>(
       break
     }
 
-    if (isDictionary(value)) {
+    if (isObject(value)) {
       walk(value as Dictionary<T>, cb, newPath, dictionary)
     }
   }

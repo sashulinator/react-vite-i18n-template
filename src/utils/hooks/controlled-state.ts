@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 
-import { isDev } from '../is/dev'
+import { isDev } from '../core/is/dev'
 
 export function useControlledState<T>(
   defaulValue: T,

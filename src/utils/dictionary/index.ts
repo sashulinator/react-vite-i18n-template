@@ -1,10 +1,10 @@
-export * from '../core/key'
+export * from '../core'
 
 export * from './add'
 export * from './find'
 export * from './get'
-export * from './is/dictionary'
-export * from './is/has'
+export * from '../core/is/object'
+export * from '../core/is/has'
 export * from './remove'
 export * from './set-path'
 export * from './types/dictionary'
