@@ -10,14 +10,10 @@ import { setRefs } from '~/utils/react'
 import { AlignProps } from '../types/align-props'
 
 /**
- * Компонет для позиционирования Sourcе
- * относительно Target, а так же порталинга Sourcе
- * В указанный Элемент (по умолчанию body)
+ * A component for positioning an element relative to another element.
  *
- * Оперирует понятиями:
- * Source: Элемент который будет портирован и спозиционирован относительно Target
- * Target: Элемент относительно которого будет позиционироваться Source
- * Container: Элемент в который будет портирован Source
+ * @param {AlignProps} props - The props for the Align component.
+ * @return {JSX.Element} The rendered Align component.
  */
 const Align: FC<AlignProps> = (props) => {
   const { targetElement, children, containerElement, deps = [], onAligned, sourceOffset, ...config } = props

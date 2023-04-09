@@ -1,6 +1,6 @@
 export * from './assertions/not-nil'
 export * from './assertions/not-null'
-export * from './assertions/undefined'
+export * from './assertions/defined'
 
 export * from './is/null'
 export * from './is/undefined'
