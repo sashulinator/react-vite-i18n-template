@@ -30,30 +30,11 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   rules: {
-    'import/no-named-as-default-member': 'off',
-    'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': ['error'],
-    '@typescript-eslint/no-var-requires': 'off',
-    'react/prop-types': 'off',
-    'react/jsx-uses-react': 'off',
-    // 'import/no-unused-modules': [1, {"unusedExports": true}],
-    'react/react-in-jsx-scope': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'error',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-unsafe-assignment': 'off',
-    '@typescript-eslint/no-unsafe-member-access': 'off',
-    '@typescript-eslint/no-unsafe-call': 'off',
-    '@typescript-eslint/no-unsafe-argument': 'off',
-    'jsx-a11y/anchor-is-valid': 'off',
-    '@typescript-eslint/no-unsafe-return': 'off',
+    'import/no-named-as-default-member': 'off',
+    'import/namespace': [2],
+    'react/display-name': 2,
     'react-hooks/exhaustive-deps': 'off',
-    '@typescript-eslint/no-floating-promises': 'off',
-    /*  throws error if "allowComputed: false"
-        import * as a from './a'
-        function f(x) {
-          return a[x] // Unable to validate computed reference to imported namespace 'a'.
-        }
-    */
-    'import/namespace': [2, { allowComputed: true }],
-    'jsx-a11y/no-autofocus': ['off'],
   },
 }

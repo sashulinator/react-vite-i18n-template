@@ -1,11 +1,12 @@
 import { alignElement } from 'dom-align-ts'
-import React, { FC, useCallback, useLayoutEffect } from 'react'
+import React, { useCallback, useLayoutEffect } from 'react'
 import { createPortal } from 'react-dom'
 
 import { listenParentScrolls, observeResize } from '~/utils/dom'
 import { useEventListener } from '~/utils/hooks'
 import { useLatest } from '~/utils/hooks/latest'
 import { setRefs } from '~/utils/react'
+import { assertValidElement } from '~/utils/react/assertions/valid-element'
 
 import { AlignProps } from '../types/align-props'
 
@@ -15,16 +16,12 @@ import { AlignProps } from '../types/align-props'
  * @param {AlignProps} props - The props for the Align component.
  * @return {JSX.Element} The rendered Align component.
  */
-const Align: FC<AlignProps> = (props) => {
+export default function Align(props: AlignProps): JSX.Element {
   const { targetElement, children, containerElement, deps = [], onAligned, sourceOffset, ...config } = props
-  // Реф элемента который будет спозиционирован
   const [sourceElement, setSourceEl] = React.useState<null | HTMLElement>(null)
-  // Реф события запускаемого после того как елемент будет спозиционирован
   const onAlignedRef = useLatest(onAligned)
 
-  if (!React.isValidElement(children)) {
-    throw new Error('Must have one child')
-  }
+  assertValidElement(children)
 
   const align = useCallback(_align, [targetElement, sourceElement, containerElement, ...config.points, ...deps])
 
@@ -41,7 +38,7 @@ const Align: FC<AlignProps> = (props) => {
 
   // Private
 
-  function _align() {
+  function _align(): void {
     if (!targetElement || !sourceElement) return
     const ret = alignElement(sourceElement, targetElement, { ...config, offset: sourceOffset })
     onAlignedRef.current?.(ret)
@@ -49,4 +46,3 @@ const Align: FC<AlignProps> = (props) => {
 }
 
 Align.displayName = 'Align'
-export default Align

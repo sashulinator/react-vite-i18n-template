@@ -3,63 +3,71 @@ import type { Offset, Points } from 'dom-align-ts'
 
 import type { ReactElementWithRef } from '~/utils/react'
 
-/* Конфиг в случае overflow  */
-export interface Overflow {
-  /* Сдвигать Source в область видимости пользователя до тех пор пока Target видим */
-  alwaysByViewport?: boolean
+import { Overflow } from './overflow'
 
-  /* Отрегулировать по оси X */
-  adjustX?: boolean
-
-  /* Отрегулировать по оси Y */
-  adjustY?: boolean
-}
-
-/**
- * Пропсы Align компонента
- *
- * Оперирует понятиями:
- * Source: Элемент который будет портирован и спозиционирован относительно Target
- * Target: Элемент относительно которого будет позиционироваться Source
- * Container: Элемент в который будет портирован Source
- */
 export interface AlignProps {
-  /* Target Элемент */
+  /**
+   * The target element to align the child element with.
+   */
   targetElement: HTMLElement
 
-  /* Элемент внутрь которого будет портирован Source */
+  /**
+   * The container element for the component; defaults to `document.body`.
+   */
   containerElement?: HTMLElement | null | undefined
 
-  /* Source Элемент */
+  /**
+   * The child element to be positioned.
+   */
   children: ReactElementWithRef
 
-  /* Точки которыми будут соприкасаться Source и Target */
+  /**
+   * An Array that specifies the positioning of the child element relative to the target element.
+   */
   points: Points
 
-  /* Зависимости для перепозиционирования */
+  /**
+   * An optional array of dependencies used to trigger repositioning of the child element.
+   */
   deps?: unknown[] | undefined
 
-  /* Сдвиг Source по оси x y */
+  /**
+   * An optional x/y offset for the child element.
+   */
   sourceOffset?: Offset | undefined
 
-  /* Сдвиг Target по оси x y */
+  /**
+   * An optional x/y offset for the target element
+   */
   targetOffset?: Offset | undefined
 
-  /* Конфиг в случае overflow  */
+  /**
+   * An optional configuration to handle positioning when the content overflows the container.
+   */
   overflow?: Overflow | undefined
 
-  /* Использовать css свойство right вместо left  */
+  /**
+   * An optional flag to use CSS `right` property instead of `left`.
+   */
   useCssRight?: boolean | undefined
 
-  /* Использовать css свойство bottom вместо top  */
+  /**
+   * An optional flag to use CSS `bottom` property instead of `top`.
+   */
   useCssBottom?: boolean | undefined
 
-  /* Использовать css свойство transform вместо left top  */
+  /**
+   * An optional flag to use CSS `transform` property instead of `left`, `top`.
+   */
   useCssTransform?: boolean | undefined
 
-  /* Использовать css свойство transform вместо left top  */
+  /**
+   * An optional flag to ignore shaking of the child element when repositioning.
+   */
   ignoreShake?: boolean | undefined
 
-  /* Событие после позиционирования */
+  /**
+   *  An optional function to be called after the child element is positioned.
+   */
   onAligned?: ((ret: ReturnType<typeof alignElement>) => void) | undefined
 }
