@@ -10,6 +10,13 @@ export default function TextInputPage(): JSX.Element {
         style={{ borderRadius: '20px', border: '1px solid var(--input_borderColor)' }}
       >
         <h2 className='mb-2rem'>TextInput</h2>
+        <div className='mt-1rem'>
+          <label htmlFor='s' className='label ml-0.25rem'>
+            S | L
+          </label>
+          <TextInput rootProps={{ className: 'mt-0.5rem' }} id='s' autoComplete='off' height='s' />
+          <TextInput rootProps={{ className: 'mt-0.5rem' }} id='l' autoComplete='off' height='l' />
+        </div>
         <div className='mt-0.5rem'>
           <label htmlFor='default' className='label ml-0.25rem'>
             Default
