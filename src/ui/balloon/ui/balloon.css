@@ -1,18 +1,18 @@
 .ui-Baloon {
-  --arrow-size: 12px;
+  --arrow-size: 13px;
   position: relative;
   width: 100%;
 }
 
 .ui-Baloon_content {
   position: absolute;
-  background-color: yellow;
+  background-color: red;
   z-index: 2;
 }
 
 .ui-Baloon_arrow {
   position: absolute;
-  background-color: yellow;
+  background-color: red;
   width: var(--arrow-size);
   height: var(--arrow-size);
   transform: rotate(45deg);

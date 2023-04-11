@@ -1,16 +1,16 @@
 import { FC } from 'react'
 import { RouteProps } from 'react-router-dom'
 
-import Baloon from '~/pages/balloon'
-import CalloutPage from '~/pages/callout'
-import DropdownPage from '~/pages/dropdown'
-import ListPage from '~/pages/list'
 import LoginPage from '~/pages/login'
 import MainPage from '~/pages/main'
 import NotFoundPage from '~/pages/not-found'
-import PopoverPage from '~/pages/popover'
 import SettingsPage from '~/pages/settings'
-import TextInputPage from '~/pages/text-input'
+import Baloon from '~/pages/ui/balloon'
+import CalloutPage from '~/pages/ui/callout'
+import DropdownPage from '~/pages/ui/dropdown'
+import ListPage from '~/pages/ui/list'
+import PopoverPage from '~/pages/ui/popover'
+import TextInputPage from '~/pages/ui/text-input'
 import Header from '~/ui/header'
 import Nav from '~/ui/nav'
 
@@ -33,42 +33,42 @@ export const routes = {
     Header,
     Nav,
     getName: () => 'TextInput',
-    path: '/text-input',
+    path: '/ui/text-input',
     element: <TextInputPage />,
   },
   callout: {
     Header,
     Nav,
     getName: () => 'Callout',
-    path: '/callout',
+    path: '/ui/callout',
     element: <CalloutPage />,
   },
   dropdown: {
     Header,
     Nav,
     getName: () => 'Dropdown',
-    path: '/dropdown',
+    path: '/ui/dropdown',
     element: <DropdownPage />,
   },
   list: {
     Header,
     Nav,
     getName: () => 'List',
-    path: '/list',
+    path: '/ui/list',
     element: <ListPage />,
   },
   popover: {
     Header,
     Nav,
     getName: () => 'Popover',
-    path: '/popover',
+    path: '/ui/popover',
     element: <PopoverPage />,
   },
   speechBubble: {
     Header,
     Nav,
     getName: () => 'speechBubble',
-    path: '/speech-bubble',
+    path: '/ui/speech-bubble',
     element: <Baloon />,
   },
   // Other
