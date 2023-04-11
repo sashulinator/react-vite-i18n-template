@@ -1,59 +1,47 @@
-import { Point, Points } from 'dom-align-ts'
 import * as React from 'react'
 
-import Align, { AlignProps } from '~/ui/align'
+import Align from '~/ui/align'
 import { Any } from '~/utils/core'
+import { fns } from '~/utils/function'
 import { useEventListener, useOnClickOutside } from '~/utils/hooks'
-import { setRefs } from '~/utils/react'
+import { assertValidElement, setRefs } from '~/utils/react'
 
 import { toPoints } from '../lib/to-points'
+import { PopoverProps } from '../types/popover-props'
 
 /**
- * Test PopoverProps
- */
-export interface PopoverProps extends Omit<AlignProps, 'targetElement' | 'children' | 'align' | 'points'> {
-  children: React.ReactElement<React.HTMLAttributes<HTMLElement>>
-  isOpen: boolean | undefined
-  content: React.ReactElement
-  points?: Points | undefined
-  placement?: Point | undefined
-  onClose?: (() => void) | undefined
-  onClickOutside?: ((e: MouseEvent | TouchEvent) => void) | undefined
-  onEscKeyDown?: ((e: KeyboardEvent | TouchEvent) => void) | undefined
-}
-
-/**
- * @param {PopoverProps} props Смотри документацию {@link PopoverProps}
+ * The`Popover` component, which displays a content over a target element.
+ *
+ * @param {PopoverProps} props - The props for the Popover component.
  * @returns {JSX.Element | null}
  */
 export default function Popover(props: PopoverProps): JSX.Element {
-  const { isOpen, content, placement = 'bc', onClose, onClickOutside, onEscKeyDown, ...alignProps } = props
-  const points = props.placement ? toPoints(placement) : props.points ?? ['tc', 'bc']
+  const points = props.placement ? toPoints(props.placement) : props.points ?? ['tc', 'bc']
   const sourceRef = React.useRef<null | HTMLDivElement>(null)
   const [childrenEl, setChildrenEl] = React.useState<null | HTMLElement>(null)
 
-  useOnClickOutside(sourceRef, handleClickOutside)
+  useOnClickOutside(sourceRef, fns(props.onClickOutside, props.onClose))
   useEventListener('keydown', handleEscKeyDown)
 
-  if (!React.isValidElement(props.children)) {
-    throw new Error('Must have one child')
-  }
-  if (!React.isValidElement(content)) {
-    throw new Error('Param "content" Must have one child')
-  }
+  assertValidElement(props.children)
+  assertValidElement(props.content)
 
-  const clonedChildren = React.cloneElement<Any>(props.children, {
-    ref: setRefs((props.children as Any).ref, setChildrenEl),
-  })
-  const clonedContent = React.cloneElement<Any>(content, {
-    ref: setRefs((content as Any).ref, sourceRef),
-  })
+  const clonedChildren = React.cloneElement<Any>(props.children, { ref: setRefs(props.children.ref, setChildrenEl) })
+  const clonedContent = React.cloneElement<Any>(props.content, { ref: setRefs(props.content.ref, sourceRef) })
 
   return (
     <>
       {clonedChildren}
-      {isOpen && childrenEl && (
-        <Align {...alignProps} targetElement={childrenEl} points={points}>
+      {props.isOpen && childrenEl && (
+        <Align
+          targetElement={childrenEl}
+          points={points}
+          overflow={props.overflow}
+          containerElement={props.containerElement}
+          deps={props.deps}
+          sourceOffset={props.contentOffset}
+          onAligned={props.onAligned}
+        >
           {clonedContent}
         </Align>
       )}
@@ -62,15 +50,10 @@ export default function Popover(props: PopoverProps): JSX.Element {
 
   // Private
 
-  function handleClickOutside(e: MouseEvent | TouchEvent) {
-    onClickOutside?.(e)
-    onClose?.()
-  }
-
-  function handleEscKeyDown(e: KeyboardEvent) {
+  function handleEscKeyDown(e: KeyboardEvent): void {
     if (e.key === 'Escape') {
-      onEscKeyDown?.(e)
-      onClose?.()
+      props.onEscKeyDown?.(e)
+      props.onClose?.()
     }
   }
 }

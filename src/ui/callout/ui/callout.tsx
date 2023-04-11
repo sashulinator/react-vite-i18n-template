@@ -22,8 +22,9 @@ export default function Callout<IContentProp>(props: CalloutProps<IContentProp>)
     <Popover
       {...popoverProps}
       placement={placement}
-      content={content}
-      onAligned={(ret) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
+      content={content as any}
+      onAligned={(ret): void => {
         setXAdjusted(ret.isXAdjusted)
         setYAdjusted(ret.isYAdjusted)
       }}

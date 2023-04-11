@@ -34,6 +34,7 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'import/no-named-as-default-member': 'off',
     'import/namespace': [2],
+    'react/react-in-jsx-scope': 'off',
     'react/display-name': 2,
     'react-hooks/exhaustive-deps': 'off',
   },

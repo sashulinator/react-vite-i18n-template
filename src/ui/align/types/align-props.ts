@@ -19,7 +19,7 @@ export interface AlignProps {
   /**
    * The child element to be positioned.
    */
-  children: ReactElementWithRef
+  children: ReactElementWithRef<HTMLElement>
 
   /**
    * An Array that specifies the positioning of the child element relative to the target element.

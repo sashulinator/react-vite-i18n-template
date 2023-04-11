@@ -24,6 +24,7 @@ export default function Baloon(props: BaloonProps): JSX.Element {
     throw new Error('Must have one child')
   }
   const clonedChildren = React.cloneElement<Any>(props.children, {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
     ref: setRefs((props.children as Any).ref, setChildrenEl),
   })
 
@@ -45,7 +46,7 @@ export default function Baloon(props: BaloonProps): JSX.Element {
         isOpen={true}
         containerElement={contentEl}
         points={toPoints(placement)}
-        sourceOffset={calcArrowOffset(placement)}
+        contentOffset={calcArrowOffset(placement)}
         deps={[props.placement]}
       >
         <div
