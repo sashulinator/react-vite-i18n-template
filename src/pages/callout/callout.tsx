@@ -3,8 +3,8 @@ import { forwardRef } from 'react'
 
 import Baloon from '~/ui/balloon'
 import { BaloonProps } from '~/ui/balloon/types/balloon-props'
-import Callout from '~/ui/callout-new'
-import { ContentProp } from '~/ui/callout-new/types/callout-props'
+import Callout from '~/ui/callout'
+import { ContentProp } from '~/ui/callout/types/callout-props'
 import { useBoolean } from '~/utils/hooks'
 
 export default function CalloutPage(): JSX.Element {
